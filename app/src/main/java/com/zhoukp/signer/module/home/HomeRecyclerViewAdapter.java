@@ -135,6 +135,9 @@ public class HomeRecyclerViewAdapter extends RecyclerView.Adapter<HomeRecyclerVi
      */
     @Override
     public int getItemCount() {
+        if (bean == null) {
+            return 1;
+        }
         return bean.getData().size() + 1;
     }
 

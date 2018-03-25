@@ -13,6 +13,7 @@ import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
 import com.zhoukp.signer.R;
+import com.zhoukp.signer.SignApplication;
 import com.zhoukp.signer.activity.AllTestActivity;
 import com.zhoukp.signer.activity.ConventionActivity;
 import com.zhoukp.signer.activity.CotrunActivity;
@@ -72,15 +73,6 @@ public class HomePager extends BaseFragment implements HomePagerView {
         super.initData();
         presenter = new HomePagerPresenter();
         presenter.attachView(this);
-        if (UserUtil.getInstance().getUser() == null) {
-            adapter = new HomeRecyclerViewAdapter(context, null);
-            initHeaderView();
-            adapter.setHeaderView(headerView);
-            recyclerView.setAdapter(adapter);
-            return;
-        }
-        presenter.getAllSchedule(UserUtil.getInstance().getUser().getUserId());
-
         presenter.getBanners();
     }
 
@@ -184,8 +176,8 @@ public class HomePager extends BaseFragment implements HomePagerView {
     @Override
     public void getScheduleSuccess(com.zhoukp.signer.module.home.ScheduleBean bean) {
         ToastUtil.showToast(context, "获取日程成功");
-        adapter = new HomeRecyclerViewAdapter(context, bean);
         initHeaderView();
+        adapter = new HomeRecyclerViewAdapter(context, bean);
         adapter.setHeaderView(headerView);
         recyclerView.setAdapter(adapter);
     }
@@ -200,6 +192,10 @@ public class HomePager extends BaseFragment implements HomePagerView {
                 ToastUtil.showToast(context, "数据库IO错误");
                 break;
         }
+        initHeaderView();
+        adapter = new HomeRecyclerViewAdapter(context, null);
+        adapter.setHeaderView(headerView);
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -208,10 +204,19 @@ public class HomePager extends BaseFragment implements HomePagerView {
         for (int i = 0; i < bean.getData().size(); i++) {
             banners.add(Constant.BaseUrl + bean.getData().get(i).getBannerUrl());
         }
+        if (UserUtil.getInstance().getUser() == null) {
+            initHeaderView();
+            adapter = new HomeRecyclerViewAdapter(context, null);
+            adapter.setHeaderView(headerView);
+            recyclerView.setAdapter(adapter);
+            return;
+        }
+        presenter.getAllSchedule(UserUtil.getInstance().getUser().getUserId());
     }
 
     @Override
     public void getBannersError(int status) {
+        banners = SignApplication.banners;
         switch (status) {
             case 100:
                 ToastUtil.showToast(context, "获取Banner失败");
@@ -220,5 +225,15 @@ public class HomePager extends BaseFragment implements HomePagerView {
                 ToastUtil.showToast(context, "数据库IO错误");
                 break;
         }
+
+        if (UserUtil.getInstance().getUser() == null) {
+            initHeaderView();
+            adapter = new HomeRecyclerViewAdapter(context, null);
+            adapter.setHeaderView(headerView);
+            recyclerView.setAdapter(adapter);
+            return;
+        }
+
+        presenter.getAllSchedule(UserUtil.getInstance().getUser().getUserId());
     }
 }
