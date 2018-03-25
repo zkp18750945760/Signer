@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="banner">
+        <item>file:///android_asset/banner.png</item>
+        <item>file:///android_asset/banner.png</item>
+        <item>file:///android_asset/banner.png</item>
+        <item>file:///android_asset/banner.png</item>
+    </array>
+</resources>

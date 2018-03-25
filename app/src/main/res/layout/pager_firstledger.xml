@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="学年:"
+            android:textColor="@color/colorGray"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvYear"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/textview_bg_normal"
+            android:drawableRight="@drawable/icon_expand"
+            android:gravity="center"
+            android:paddingRight="3dp"
+            android:text="2014-2015学年"
+            android:textColor="@color/colorGray"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:text="学期:"
+            android:textColor="@color/colorGray"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvTerm"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/textview_bg_normal"
+            android:drawableRight="@drawable/icon_expand"
+            android:gravity="center"
+            android:paddingRight="3dp"
+            android:text="上"
+            android:textColor="@color/colorGray"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:text="周数:"
+            android:textColor="@color/colorGray"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvWeek"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/textview_bg_normal"
+            android:drawableRight="@drawable/icon_expand"
+            android:gravity="center"
+            android:paddingRight="3dp"
+            android:text="6"
+            android:textColor="@color/colorGray"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:background="@color/colorGray" />
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@color/colorGray"
+        android:dividerHeight="0.1dp" />
+
+</LinearLayout>

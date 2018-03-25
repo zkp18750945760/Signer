@@ -1,0 +1,26 @@
+{
+    "data": [
+        {
+            "course": "Java语言程序设计",
+            "date": "2018-02-04",
+			"week": "星期日",
+            "period": "2学时",
+            "signstatus": "已签到"
+        },
+		{
+            "course": "应老师开车",
+            "date": "2018-02-04",
+			"week": "星期日",
+            "period": "2学时",
+            "signstatus": "迟到"
+        },
+		{
+            "course": "应老师开车",
+            "date": "2018-02-04",
+			"week": "星期日",
+            "period": "3学时",
+            "signstatus": "旷课"
+        }
+    ],
+    "error": 0
+}

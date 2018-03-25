@@ -1,0 +1,29 @@
+﻿{
+    "data": [
+        {
+            "week": "星期一",
+            "date": 15,
+            "content": "数字媒体信息检索考试",
+            "address": "地点：D1-303"
+        },
+		{
+            "week": "星期二",
+            "date": 16,
+            "content": "应老师请吃饭",
+            "address": "地点：D1-301"
+        },
+		{
+            "week": "星期三",
+            "date": 17,
+            "content": "应老师请吃饭",
+            "address": "地点：D1-302"
+        },
+		{
+            "week": "星期四",
+            "date": 18,
+            "content": "应老师请吃饭",
+            "address": "地点：D1-304"
+        }
+    ],
+    "error": 0
+}

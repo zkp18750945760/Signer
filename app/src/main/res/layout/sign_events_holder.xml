@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="15dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvWeek"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="星期六"
+            android:textColor="@color/colorGray"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tvDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_toLeftOf="@id/tvWeek"
+            android:text="2018-03-24"
+            android:textColor="@color/colorGray"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tvTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/tvWeek"
+            android:text="21:15"
+            android:textColor="@color/colorGray"
+            android:textSize="18sp" />
+
+    </RelativeLayout>
+
+    <cn.iwgang.countdownview.CountdownView
+        android:id="@+id/countdownView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:isHideTimeBackground="false"
+        app:isShowDay="false"
+        app:isShowHour="false"
+        app:isShowMillisecond="true"
+        app:isShowMinute="true"
+        app:isShowSecond="true"
+        app:isTimeTextBold="true"
+        app:suffixGravity="center"
+        app:suffixHour="时"
+        app:suffixMillisecond="毫秒"
+        app:suffixMinute="分"
+        app:suffixSecond="秒"
+        app:suffixTextColor="#000000"
+        app:suffixTextSize="14sp"
+        app:timeBgColor="@color/colorBtnPressed"
+        app:timeBgRadius="60dp"
+        app:timeTextColor="@color/colorWhite"
+        app:timeTextSize="25sp" />
+
+    <TextView
+        android:id="@id/tvTheme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="高等数学"
+        android:textColor="@color/black"
+        android:textSize="22sp" />
+
+</LinearLayout>
