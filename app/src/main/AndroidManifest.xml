@@ -80,7 +80,7 @@
             android:name=".activity.AllTestActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.ConventionActivity"
+            android:name=".activity.MeetingActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.LedgerActivity"

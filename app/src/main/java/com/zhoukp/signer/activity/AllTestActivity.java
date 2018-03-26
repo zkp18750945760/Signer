@@ -40,6 +40,7 @@ public class AllTestActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         WindowUtils.getStatusBarHeight(this);
         WindowUtils.setTransluteWindow(this);
+
         setContentView(R.layout.activity_alltest);
 
         initViews();

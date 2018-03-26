@@ -78,7 +78,7 @@ public class DropDownListView extends LinearLayout {
         popupWindow = new PopupWindow(contentView, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         popupWindow.setBackgroundDrawable(getResources().getDrawable(R.color.transparent));
         popupWindow.setOutsideTouchable(true);
-        popupWindow.showAsDropDown(this);
+        popupWindow.showAsDropDown(this, 100, 0);
     }
 
     /**
@@ -101,8 +101,6 @@ public class DropDownListView extends LinearLayout {
 
     /**
      * 数据适配器
-     *
-     * @author caizhiming
      */
     private class DropDownListAdapter extends BaseAdapter {
 

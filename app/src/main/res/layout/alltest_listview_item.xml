@@ -7,7 +7,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:background="@drawable/alltest_item_bg">
+        android:background="@drawable/all_test_item_bg">
 
         <TextView
             android:id="@+id/tvItem"
@@ -46,10 +46,11 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tvItem"
             android:layout_marginLeft="35dp"
+            android:layout_marginRight="30dp"
             android:layout_marginTop="3dp"
             android:text="无重大过失给满分"
             android:textColor="@color/colorGray"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
         <LinearLayout
             android:layout_width="wrap_content"

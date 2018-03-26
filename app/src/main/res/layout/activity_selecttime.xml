@@ -13,13 +13,6 @@
         android:background="@android:color/white"
         android:orientation="horizontal">
 
-        <!--<com.zhoukp.signer.view.yearpicker.YearPicker-->
-        <!--android:id="@+id/yearPicker"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_gravity="center_horizontal"-->
-        <!--android:gravity="center" />-->
-
         <com.zhoukp.signer.view.picker.PickerScrollView
             android:id="@+id/pickerScrollView"
             android:layout_width="match_parent"
@@ -42,16 +35,17 @@
             android:layout_marginLeft="10dp"
             android:text="取消"
             android:textColor="@color/colorBtnPressed"
-            android:textSize="18sp" />
+            android:textSize="20sp" />
 
         <TextView
+            android:id="@+id/tvTheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginLeft="10dp"
             android:text="请选择年份"
             android:textColor="@color/colorGray"
-            android:textSize="18sp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/tvSubmit"
@@ -61,7 +55,7 @@
             android:layout_marginRight="10dp"
             android:text="确定"
             android:textColor="@color/colorBtnPressed"
-            android:textSize="18sp" />
+            android:textSize="20sp" />
 
     </RelativeLayout>
 

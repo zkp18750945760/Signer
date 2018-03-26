@@ -67,7 +67,8 @@ android {
         compile 'com.github.iwgang:countdownview:2.1.6'
         //CircleIndicatorView
         compile 'com.github.pinguo-zhouwei:CircleIndicatorView:v1.0.1'
-
+        //分段控件
+        compile 'com.github.czy1121:segmentedview:1.0.0'
 
         //Gson
         compile 'com.google.code.gson:gson:2.8.2'

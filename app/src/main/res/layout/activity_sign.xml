@@ -15,14 +15,14 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="5dp"
-            android:text="会议签到"
+            android:text="签到"
             android:textColor="@android:color/white"
-            android:textSize="20sp" />
+            android:textSize="25sp" />
 
         <ImageView
             android:id="@+id/ivSignRecord"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_marginBottom="5dp"
@@ -31,8 +31,8 @@
 
         <ImageView
             android:id="@+id/ivBack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="20dp"
+            android:layout_height="30dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_marginBottom="5dp"

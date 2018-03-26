@@ -252,6 +252,11 @@ public class SignActivity extends AppCompatActivity implements View.OnClickListe
                 return new SignEventsViewHolder();
             }
         });
+
+        SignEventsBean.DataBean dataBean = signEventsList.get(pagerEvents.getCurrentItem());
+        presenter.getSignedHeadIcons(user.getUserId(), user.getUserGrade(),
+                user.getUserMajor(), user.getUserClass(), dataBean.getType(),
+                dataBean.getTime(), dataBean.getContent());
     }
 
     @Override
@@ -285,6 +290,9 @@ public class SignActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case 102:
                 ToastUtil.showToast(this, "服务器无响应");
+                break;
+            case 103:
+                ToastUtil.showToast(this, "班长已经发起签到了哦~");
                 break;
         }
     }
@@ -322,6 +330,10 @@ public class SignActivity extends AppCompatActivity implements View.OnClickListe
     public void signSuccess() {
         rlMeetingTheme.setVisibility(View.GONE);
         rlSignSuccess.setVisibility(View.VISIBLE);
+        SignEventsBean.DataBean dataBean = signEventsList.get(pagerEvents.getCurrentItem());
+        presenter.getSignedHeadIcons(user.getUserId(), user.getUserGrade(),
+                user.getUserMajor(), user.getUserClass(), dataBean.getType(),
+                dataBean.getTime(), dataBean.getContent());
     }
 
     @Override

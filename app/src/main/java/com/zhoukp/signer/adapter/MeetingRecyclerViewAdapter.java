@@ -13,6 +13,7 @@ import com.zhoukp.signer.R;
 import com.zhoukp.signer.bean.MeetingSignBean;
 import com.zhoukp.signer.module.functions.sign.SignedHeadIconsBean;
 import com.zhoukp.signer.utils.AssetsHelper;
+import com.zhoukp.signer.utils.Constant;
 import com.zhoukp.signer.utils.ImageHelper;
 
 /**
@@ -40,7 +41,7 @@ public class MeetingRecyclerViewAdapter extends RecyclerView.Adapter<MeetingRecy
     @Override
     public void onBindViewHolder(MeetingViewHolder holder, int position) {
         SignedHeadIconsBean.DataBean dataBean = bean.getData().get(position);
-        Glide.with(context).load(dataBean.getHeadIconUrl()).into(holder.ivHead);
+        Glide.with(context).load(Constant.BaseUrl + dataBean.getHeadIconUrl()).into(holder.ivHead);
     }
 
     @Override

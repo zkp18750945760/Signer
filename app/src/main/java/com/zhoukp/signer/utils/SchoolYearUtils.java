@@ -179,13 +179,13 @@ public class SchoolYearUtils {
                 result = "08:00:00";
                 break;
             case 3:
-//                result = "10:10:00";
-                result = "15:55:00";
+                result = "10:10:00";
                 break;
             case 7:
                 result = "14:30:00";
                 break;
             case 9:
+                result = "16:40:00";
                 break;
             case 11:
                 result = "19:10:00";

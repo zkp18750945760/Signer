@@ -2,10 +2,12 @@ package com.zhoukp.signer.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.IdRes;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.widget.FrameLayout;
 import android.widget.RadioGroup;
 
@@ -18,10 +20,13 @@ import com.zhoukp.signer.module.activity.ActivityPager;
 import com.zhoukp.signer.module.home.HomePager;
 import com.zhoukp.signer.module.me.MePager;
 import com.zhoukp.signer.utils.Constant;
+import com.zhoukp.signer.utils.ToastUtil;
 import com.zhoukp.signer.utils.WindowUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.view.KeyEvent.KEYCODE_BACK;
 
 /**
  * @author zhoukp
@@ -43,16 +48,47 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
      */
     private ArrayList<BaseFragment> baseFragments;
 
+    /**
+     * 是否要退出
+     */
+    private boolean isExit = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         WindowUtils.getStatusBarHeight(this);
         WindowUtils.setTransluteWindow(this);
+
         setContentView(R.layout.activity_main);
 
         initViews();
 
         initVariates();
+    }
+
+    /**
+     * 再按一次退出应用
+     *
+     * @param keyCode
+     * @param event
+     * @return
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KEYCODE_BACK) {
+            if (!isExit) {
+                isExit = true;
+                ToastUtil.showToast(getApplicationContext(), "再按一次退出应用");
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        isExit = false;
+                    }
+                }, 2000);
+                return true;
+            }
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     private void initViews() {

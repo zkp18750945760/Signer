@@ -6,7 +6,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="130dp"
-        android:background="@drawable/alltest_item_bg"
+        android:background="@drawable/all_test_item_bg"
         android:paddingLeft="30dp">
 
         <TextView

@@ -17,49 +17,54 @@ import com.zhoukp.signer.bean.ConvertionBean;
 import com.zhoukp.signer.utils.AssetsHelper;
 import com.zhoukp.signer.utils.WindowUtils;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * @author zhoukp
  * @time 2018/2/3 19:54
  * @email 275557625@qq.com
- * @function
+ * @function 支书会议页面
  */
 
-public class ConventionActivity extends AppCompatActivity implements View.OnClickListener {
+public class MeetingActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final int YEAR = 1;
     private static final int TERM = 2;
     private static final int WEEK = 3;
 
-    private ImageView ivSearch, ivBack;
-    private TextView tvYear, tvTerm, tvWeek;
-    private ListView listView;
+    @Bind(R.id.ivSearch)
+    ImageView ivSearch;
+    @Bind(R.id.ivBack)
+    ImageView ivBack;
+    @Bind(R.id.tvYear)
+    TextView tvYear;
+    @Bind(R.id.tvTerm)
+    TextView tvTerm;
+    @Bind(R.id.tvWeek)
+    TextView tvWeek;
+    @Bind(R.id.listView)
+    ListView listView;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         WindowUtils.getStatusBarHeight(this);
         WindowUtils.setTransluteWindow(this);
+
         setContentView(R.layout.activity_convention);
 
-        initViews();
+        ButterKnife.bind(this);
 
         initVariates();
 
         initEvents();
     }
 
-    private void initViews() {
-        ivSearch = (ImageView) findViewById(R.id.ivSearch);
-        ivBack = (ImageView) findViewById(R.id.ivBack);
-        tvYear = (TextView) findViewById(R.id.tvYear);
-        tvTerm = (TextView) findViewById(R.id.tvTerm);
-        tvWeek = (TextView) findViewById(R.id.tvWeek);
-        listView = (ListView) findViewById(R.id.listView);
-    }
-
     private void initVariates() {
-        ConvertionBean bean = new Gson().fromJson(AssetsHelper.readAssetsTxt(ConventionActivity.this, "convertion_json"), ConvertionBean.class);
-        ConvertionListViewAdapter adapter = new ConvertionListViewAdapter(ConventionActivity.this, bean);
+        ConvertionBean bean = new Gson().fromJson(AssetsHelper.readAssetsTxt(MeetingActivity.this, "convertion_json"), ConvertionBean.class);
+        ConvertionListViewAdapter adapter = new ConvertionListViewAdapter(MeetingActivity.this, bean);
         listView.setAdapter(adapter);
     }
 
@@ -78,17 +83,17 @@ public class ConventionActivity extends AppCompatActivity implements View.OnClic
                 finish();
                 break;
             case R.id.tvYear:
-                intent = new Intent(ConventionActivity.this, SelectTimeActivity.class);
+                intent = new Intent(MeetingActivity.this, SelectTimeActivity.class);
                 intent.putExtra("type", "schoolYear");
                 startActivityForResult(intent, YEAR);
                 break;
             case R.id.tvTerm:
-                intent = new Intent(ConventionActivity.this, SelectTimeActivity.class);
+                intent = new Intent(MeetingActivity.this, SelectTimeActivity.class);
                 intent.putExtra("type", "term");
                 startActivityForResult(intent, TERM);
                 break;
             case R.id.tvWeek:
-                intent = new Intent(ConventionActivity.this, SelectTimeActivity.class);
+                intent = new Intent(MeetingActivity.this, SelectTimeActivity.class);
                 intent.putExtra("type", "week");
                 startActivityForResult(intent, WEEK);
                 break;

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.zhoukp.signer.R;
@@ -14,6 +15,9 @@ import com.zhoukp.signer.view.picker.Pickers;
 import com.zhoukp.signer.view.picker.YearObject;
 
 import java.util.ArrayList;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 /**
  * @author zhoukp
@@ -24,8 +28,16 @@ import java.util.ArrayList;
 
 public class SelectTimeActivity extends Activity implements View.OnClickListener, PickerScrollView.onSelectListener {
 
-    private PickerScrollView pickerScrollView;
-    private TextView tvCancel, tvSubmit;
+    @Bind(R.id.pickerScrollView)
+    PickerScrollView pickerScrollView;
+    @Bind(R.id.llYearPicker)
+    LinearLayout llYearPicker;
+    @Bind(R.id.tvCancel)
+    TextView tvCancel;
+    @Bind(R.id.tvSubmit)
+    TextView tvSubmit;
+    @Bind(R.id.tvTheme)
+    TextView tvTheme;
 
     private String type;
     private String data;
@@ -33,43 +45,43 @@ public class SelectTimeActivity extends Activity implements View.OnClickListener
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_selecttime);
 
-        initViews();
+        ButterKnife.bind(this);
 
-        initvariables();
+        initVariables();
 
         initEvents();
     }
 
-    private void initViews() {
-        pickerScrollView = findViewById(R.id.pickerScrollView);
-        tvCancel = findViewById(R.id.tvCancel);
-        tvSubmit = findViewById(R.id.tvSubmit);
-    }
-
-    private void initvariables() {
+    private void initVariables() {
         ArrayList<Pickers> datas = new ArrayList<>();
         type = getIntent().getStringExtra("type");
         if (type.equals("year")) {
+            tvTheme.setText("请选择年份");
             YearObject object = new YearObject("1425122042", "2018");
             for (int i = 0; i < object.getYears().size(); i++) {
                 datas.add(new Pickers(object.getYears().get(i), i + ""));
             }
         } else if (type.equals("month")) {
+            tvTheme.setText("请选择月份");
             YearObject object = new YearObject();
             for (int i = 0; i < object.getMonths().size(); i++) {
                 datas.add(new Pickers(object.getMonths().get(i), i + ""));
             }
         } else if (type.equals("schoolYear")) {
+            tvTheme.setText("请选择学年");
             YearObject object = new YearObject("1425122042", "2018");
             for (int i = 0; i < object.getYears().size(); i++) {
                 datas.add(new Pickers(object.getSchoolYears().get(i), i + ""));
             }
         } else if (type.equals("term")) {
+            tvTheme.setText("请选择学期");
             datas.add(new Pickers("上", 0 + ""));
             datas.add(new Pickers("下", 1 + ""));
         } else if (type.equals("week")) {
+            tvTheme.setText("请选择星期");
             for (int i = 0; i < 20; i++) {
                 datas.add(new Pickers(i + 1 + "", i + ""));
             }

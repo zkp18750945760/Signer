@@ -15,7 +15,7 @@ import com.youth.banner.Transformer;
 import com.zhoukp.signer.R;
 import com.zhoukp.signer.SignApplication;
 import com.zhoukp.signer.activity.AllTestActivity;
-import com.zhoukp.signer.activity.ConventionActivity;
+import com.zhoukp.signer.activity.MeetingActivity;
 import com.zhoukp.signer.activity.CotrunActivity;
 import com.zhoukp.signer.activity.LedgerActivity;
 import com.zhoukp.signer.fragment.BaseFragment;
@@ -132,7 +132,7 @@ public class HomePager extends BaseFragment implements HomePagerView {
                         context.startActivity(intent);
                         break;
                     case 3:
-                        intent = new Intent(context, ConventionActivity.class);
+                        intent = new Intent(context, MeetingActivity.class);
                         context.startActivity(intent);
                         break;
                     case 4:
