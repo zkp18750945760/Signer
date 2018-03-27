@@ -17,7 +17,7 @@ import com.zhoukp.signer.SignApplication;
 import com.zhoukp.signer.activity.AllTestActivity;
 import com.zhoukp.signer.activity.MeetingActivity;
 import com.zhoukp.signer.activity.CotrunActivity;
-import com.zhoukp.signer.activity.LedgerActivity;
+import com.zhoukp.signer.module.functions.ledgers.LedgerActivity;
 import com.zhoukp.signer.fragment.BaseFragment;
 import com.zhoukp.signer.imageloader.GlideImageLoader;
 import com.zhoukp.signer.module.login.LoginActivity;

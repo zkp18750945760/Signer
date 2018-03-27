@@ -253,10 +253,12 @@ public class SignActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        SignEventsBean.DataBean dataBean = signEventsList.get(pagerEvents.getCurrentItem());
-        presenter.getSignedHeadIcons(user.getUserId(), user.getUserGrade(),
-                user.getUserMajor(), user.getUserClass(), dataBean.getType(),
-                dataBean.getTime(), dataBean.getContent());
+        if (signEventsList.size() > 0) {
+            SignEventsBean.DataBean dataBean = signEventsList.get(pagerEvents.getCurrentItem());
+            presenter.getSignedHeadIcons(user.getUserId(), user.getUserGrade(),
+                    user.getUserMajor(), user.getUserClass(), dataBean.getType(),
+                    dataBean.getTime(), dataBean.getContent());
+        }
     }
 
     @Override
@@ -416,6 +418,8 @@ public class SignActivity extends AppCompatActivity implements View.OnClickListe
                 tvTime.setText(data.getTime().substring(11));
 
             }
+
+
             countdownView.setOnCountdownEndListener(new CountdownView.OnCountdownEndListener() {
                 @Override
                 public void onEnd(CountdownView countdownView) {

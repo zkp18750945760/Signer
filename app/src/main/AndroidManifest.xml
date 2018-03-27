@@ -83,13 +83,17 @@
             android:name=".activity.MeetingActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.LedgerActivity"
+            android:name=".module.functions.ledgers.LedgerActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.login.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".module.managedevice.ManageDeviceActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".module.functions.ledgers.scanxls.ScanXlsActivity"
             android:screenOrientation="portrait" />
 
 

@@ -1,5 +1,6 @@
-package com.zhoukp.signer.activity;
+package com.zhoukp.signer.module.functions.ledgers;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
@@ -13,6 +14,7 @@ import com.github.czy1121.view.SegmentedView;
 import com.zhoukp.signer.R;
 import com.zhoukp.signer.fragment.BaseFragment;
 import com.zhoukp.signer.fragment.FirstLedgerFragemnt;
+import com.zhoukp.signer.module.functions.ledgers.scanxls.ScanXlsActivity;
 import com.zhoukp.signer.utils.ToastUtil;
 import com.zhoukp.signer.utils.WindowUtils;
 
@@ -27,7 +29,6 @@ import butterknife.ButterKnife;
  * @email 275557625@qq.com
  * @function 台账页面
  */
-
 public class LedgerActivity extends AppCompatActivity implements View.OnClickListener, SegmentedView.OnItemSelectedListener {
 
 
@@ -67,6 +68,7 @@ public class LedgerActivity extends AppCompatActivity implements View.OnClickLis
 
     private void initEvents() {
         ivBack.setOnClickListener(this);
+        ivUpload.setOnClickListener(this);
         segmentView.setOnItemSelectedListener(this);
     }
 
@@ -81,6 +83,10 @@ public class LedgerActivity extends AppCompatActivity implements View.OnClickLis
         switch (view.getId()) {
             case R.id.ivBack:
                 finish();
+                break;
+            case R.id.ivUpload:
+                //上传第二台账xls表格页面
+                startActivity(new Intent(this, ScanXlsActivity.class));
                 break;
             default:
                 break;
