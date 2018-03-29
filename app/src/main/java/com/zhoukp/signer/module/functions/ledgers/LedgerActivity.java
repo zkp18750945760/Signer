@@ -13,8 +13,10 @@ import android.widget.ImageView;
 import com.github.czy1121.view.SegmentedView;
 import com.zhoukp.signer.R;
 import com.zhoukp.signer.fragment.BaseFragment;
-import com.zhoukp.signer.fragment.FirstLedgerFragemnt;
+import com.zhoukp.signer.module.functions.ledgers.first.FirstLedgerFragemnt;
 import com.zhoukp.signer.module.functions.ledgers.scanxls.ScanXlsActivity;
+import com.zhoukp.signer.module.functions.ledgers.second.SecondLedgerFragemnt;
+import com.zhoukp.signer.module.login.UserUtil;
 import com.zhoukp.signer.utils.ToastUtil;
 import com.zhoukp.signer.utils.WindowUtils;
 
@@ -63,7 +65,7 @@ public class LedgerActivity extends AppCompatActivity implements View.OnClickLis
     private void initVariates() {
         baseFragments = new ArrayList<>();
         baseFragments.add(new FirstLedgerFragemnt());
-        baseFragments.add(new FirstLedgerFragemnt());
+        baseFragments.add(new SecondLedgerFragemnt());
     }
 
     private void initEvents() {
@@ -86,7 +88,11 @@ public class LedgerActivity extends AppCompatActivity implements View.OnClickLis
                 break;
             case R.id.ivUpload:
                 //上传第二台账xls表格页面
-                startActivity(new Intent(this, ScanXlsActivity.class));
+                if (!UserUtil.getInstance().getUser().getUserDuty().equals("学生")) {
+                    startActivity(new Intent(this, ScanXlsActivity.class));
+                } else {
+                    ToastUtil.showToast(LedgerActivity.this, "你没有权限上传本班的第二台账哦");
+                }
                 break;
             default:
                 break;

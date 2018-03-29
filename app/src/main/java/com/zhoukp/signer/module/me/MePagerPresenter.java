@@ -113,11 +113,11 @@ public class MePagerPresenter {
                 new BaseApi.IResponseListener<UploadHeadIconBean>() {
                     @Override
                     public void onSuccess(final UploadHeadIconBean data) {
-                        CacheUtils.putString(context, "headIconUrl", data.getHeadIconUrl());
+                        //CacheUtils.putString(context, "headIconUrl", data.getHeadIconUrl());
                         mePagerView.refreshHeadIcon(Constant.BaseUrl + data.getHeadIconUrl());
-                        saveHeadIcon(context, Constant.BaseUrl + data.getHeadIconUrl());
+                        //saveHeadIcon(context, Constant.BaseUrl + data.getHeadIconUrl());
 
-                        mePagerView.uploadHeadIconSuccess();
+                        mePagerView.uploadHeadIconSuccess(data);
                         mePagerView.hideLoadingView();
                     }
 
@@ -136,7 +136,7 @@ public class MePagerPresenter {
      * @param url     图片链接
      * @return bitmap type
      */
-    public static void saveHeadIcon(final Context context, final String url) {
+    public void saveHeadIcon(final Context context, final String url) {
         BaseApi.request(BaseApi.createApi(IMePagerApi.class).downloadHeadIcon(url),
                 new BaseApi.IResponseListener<ResponseBody>() {
                     @Override
@@ -147,15 +147,11 @@ public class MePagerPresenter {
                         }
 
                         //将请求到的图片保存到本地，以供下次使用
-                        String imgPath = Constant.appPath + UserUtil.getInstance().getUser().getUserId() + ".jpg";
-                        File file = new File(imgPath);
+                        File file = new File(Constant.appPath, UserUtil.getInstance().getUser().getUserId() + ".jpg");
                         //如果文件已存在则先删除原先保存的头像图片
-                        if (!file.getParentFile().exists()) {
-                            file.mkdirs();
-                        }
 
-                        if (!file.exists()) {
-                            file.mkdir();
+                        if (file.exists()) {
+                            file.delete();
                         }
 
                         try {
@@ -167,12 +163,41 @@ public class MePagerPresenter {
                             e.printStackTrace();
                         }
 
-                        CacheUtils.putString(context, "headIcon", imgPath);
+                        CacheUtils.putString(context, "headIcon", file.getAbsolutePath());
                     }
 
                     @Override
                     public void onFail() {
 
+                    }
+                });
+    }
+
+    /**
+     * 获取用户头像
+     *
+     * @param userId 用户ID
+     */
+    public void getHeadIcon(String userId) {
+        mePagerView.showLoadingView();
+
+        BaseApi.request(BaseApi.createApi(IMePagerApi.class).getHeadIcon(userId),
+                new BaseApi.IResponseListener<UploadHeadIconBean>() {
+                    @Override
+                    public void onSuccess(UploadHeadIconBean data) {
+                        Log.e("zkp", "getHeadIcon==" + data.getStatus());
+                        if (data.getStatus() == 200) {
+                            mePagerView.getHeadIconSuccess(data);
+                        } else {
+                            mePagerView.getHeadIconError(data.getStatus());
+                        }
+                        mePagerView.hideLoadingView();
+                    }
+
+                    @Override
+                    public void onFail() {
+                        mePagerView.getHeadIconError(100);
+                        mePagerView.hideLoadingView();
                     }
                 });
     }

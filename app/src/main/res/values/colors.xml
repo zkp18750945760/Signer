@@ -16,4 +16,6 @@
     <color name="colorBlack">#000000</color>
 
     <color name="transparent">#00000000</color>
+    <color name="alpha_6">#66000000</color>
+    <color name="white_alpha_6">#bbdddddd</color>
 </resources>

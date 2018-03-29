@@ -13,6 +13,7 @@ public class Constant {
     //    public static final String BaseUrl = "http://120.79.157.43/";
     public static final String BaseUrl = "http://192.168.191.1:8080";
     public static final String appPath = Environment.getExternalStorageDirectory() + "/我在/img/";
+    public static final String appFilePath = Environment.getExternalStorageDirectory() + "/我在/files/";
 
     public static final int Login = 101;
     public static final int EditData = 102;

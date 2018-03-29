@@ -10,6 +10,7 @@ import java.io.Serializable;
  */
 
 public class XlsBean implements Serializable {
+
     private String id;
     private String path;
     private String size;

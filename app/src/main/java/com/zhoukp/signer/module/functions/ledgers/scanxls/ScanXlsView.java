@@ -1,6 +1,7 @@
 package com.zhoukp.signer.module.functions.ledgers.scanxls;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author zhoukp
@@ -22,4 +23,16 @@ public interface ScanXlsView {
 
     //扫描文件失败
     void scanXlsError();
+
+    //扫描qq文件下的文件成功
+    void scanXlsInQQSucccess(ArrayList<XlsBean> datas);
+
+    //扫描qq文件夹的文件失败
+    void scanXlsInQQError();
+
+    //上传文件成功
+    void uploadSuccess();
+
+    //上传文件失败
+    void uploadError(int status);
 }

@@ -40,14 +40,15 @@
         <!-- 边框 -->
         <item name="android:windowIsFloating">false</item>
         <!-- 是否浮现在activity之上 -->
-        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowIsTranslucent">false</item>
         <!-- 半透明 -->
         <item name="android:windowNoTitle">true</item>
         <!-- 无标题 -->
-        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowBackground">@color/transparent</item>
         <!-- 背景透明 -->
         <item name="android:backgroundDimEnabled">true</item>
         <!-- 模糊 -->
+        <item name="android:windowDisablePreview">true</item>
     </style>
 
     <!--默认样式 注意* 样式只可修改，不能删除任何一项 否则报错-->

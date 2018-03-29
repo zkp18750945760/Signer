@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zhoukp.signer.R;
+import com.zhoukp.signer.module.chose.SelectMonthActivity;
+import com.zhoukp.signer.module.chose.SelectYearActivity;
 import com.zhoukp.signer.utils.WindowUtils;
 
 /**
@@ -67,12 +69,12 @@ public class UploadAwardsActivity extends AppCompatActivity implements View.OnCl
                 break;
             case R.id.tvYear:
                 //年份选择器
-                intent = new Intent(UploadAwardsActivity.this, SelectTimeActivity.class);
+                intent = new Intent(UploadAwardsActivity.this, SelectYearActivity.class);
                 intent.putExtra("type", "year");
                 startActivityForResult(intent, YEAR);
                 break;
             case R.id.tvMonth:
-                intent = new Intent(UploadAwardsActivity.this, SelectTimeActivity.class);
+                intent = new Intent(UploadAwardsActivity.this, SelectMonthActivity.class);
                 intent.putExtra("type", "month");
                 startActivityForResult(intent, MONTH);
                 break;

@@ -18,8 +18,14 @@ public interface MePagerView {
     void refreshHeadIcon(String headIconPath);
 
     //上传头像成功
-    void uploadHeadIconSuccess();
+    void uploadHeadIconSuccess(UploadHeadIconBean data);
 
     //上传头像失败
     void uploadHeadIconError();
+
+    //获取用户头像成功
+    void getHeadIconSuccess(UploadHeadIconBean data);
+
+    //获取用户头像失败
+    void getHeadIconError(int status);
 }

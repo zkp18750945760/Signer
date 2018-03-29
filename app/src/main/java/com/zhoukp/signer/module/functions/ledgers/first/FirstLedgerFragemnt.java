@@ -1,4 +1,4 @@
-package com.zhoukp.signer.fragment;
+package com.zhoukp.signer.module.functions.ledgers.first;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,9 +9,13 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.zhoukp.signer.R;
-import com.zhoukp.signer.activity.SelectTimeActivity;
 import com.zhoukp.signer.adapter.FirstLedgerListViewAdapter;
 import com.zhoukp.signer.bean.FirstLedgerBean;
+import com.zhoukp.signer.fragment.BaseFragment;
+import com.zhoukp.signer.module.chose.SelectSchoolYearActivity;
+import com.zhoukp.signer.module.chose.SelectTermActivity;
+import com.zhoukp.signer.module.chose.SelectWeekActivity;
+import com.zhoukp.signer.module.login.UserUtil;
 import com.zhoukp.signer.utils.AssetsHelper;
 
 /**
@@ -62,17 +66,18 @@ public class FirstLedgerFragemnt extends BaseFragment implements View.OnClickLis
         Intent intent;
         switch (view.getId()) {
             case R.id.tvYear:
-                intent = new Intent(context, SelectTimeActivity.class);
+                intent = new Intent(context, SelectSchoolYearActivity.class);
                 intent.putExtra("type", "schoolYear");
+                intent.putExtra("userId", UserUtil.getInstance().getUser().getUserId());
                 startActivityForResult(intent, YEAR);
                 break;
             case R.id.tvTerm:
-                intent = new Intent(context, SelectTimeActivity.class);
+                intent = new Intent(context, SelectTermActivity.class);
                 intent.putExtra("type", "term");
                 startActivityForResult(intent, TERM);
                 break;
             case R.id.tvWeek:
-                intent = new Intent(context, SelectTimeActivity.class);
+                intent = new Intent(context, SelectWeekActivity.class);
                 intent.putExtra("type", "week");
                 startActivityForResult(intent, WEEK);
             default:

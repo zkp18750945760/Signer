@@ -2,7 +2,9 @@ package com.zhoukp.signer.module.me;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -14,13 +16,14 @@ import com.makeramen.roundedimageview.RoundedImageView;
 import com.zhoukp.signer.R;
 import com.zhoukp.signer.fragment.BaseFragment;
 import com.zhoukp.signer.module.managedevice.ManageDeviceActivity;
-import com.zhoukp.signer.imageloader.GlideImageLoader;
 import com.zhoukp.signer.module.login.LoginActivity;
 import com.zhoukp.signer.module.login.LoginBean;
 import com.zhoukp.signer.utils.CacheUtils;
 import com.zhoukp.signer.utils.Constant;
+import com.zhoukp.signer.utils.PermissionUtils;
 import com.zhoukp.signer.utils.ToastUtil;
 import com.zhoukp.signer.module.login.UserUtil;
+import com.zhoukp.signer.utils.lrucache.RxImageLoader;
 import com.zhoukp.signer.view.ThreePointLoadingView;
 
 
@@ -33,6 +36,15 @@ import com.zhoukp.signer.view.ThreePointLoadingView;
 
 public class MePager extends BaseFragment implements View.OnClickListener, MePagerView {
 
+    /**
+     * 请求图片成功
+     */
+    public static final int SUCCESS = 1;
+    /**
+     * 图片请求失败
+     */
+    public static final int FAIL = 2;
+
     private RoundedImageView ivHead;
     private TextView tvName, tvDuty;
     private RelativeLayout rlID, rlClass;
@@ -43,6 +55,7 @@ public class MePager extends BaseFragment implements View.OnClickListener, MePag
     private ThreePointLoadingView threePointLoadingView;
 
     public MePagerPresenter presenter;
+    private String path;
 
     @Override
     public View initView() {
@@ -75,17 +88,23 @@ public class MePager extends BaseFragment implements View.OnClickListener, MePag
         presenter.attachView(this);
 
         refreshUI();
-        String headIconPath = CacheUtils.getString(context, "headIcon", 0);
-        if (headIconPath.equals("0")) {
-            headIconPath = CacheUtils.getString(context, "headIconUrl", 0);
-            if (headIconPath.equals("0")) {
-                refreshHeadIcon(Constant.BaseUrl + "/imgs/default.jpg");
-            } else {
-                refreshHeadIcon(Constant.BaseUrl + headIconPath);
-            }
-        } else {
-            refreshHeadIcon(headIconPath);
-        }
+
+//        String headIconPath = CacheUtils.getString(context, "headIcon", 0);
+//        if (headIconPath.equals("0")) {
+//            headIconPath = CacheUtils.getString(context, "headIconUrl", 0);
+//            if (headIconPath.equals("0")) {
+//                refreshHeadIcon(Constant.BaseUrl + "/imgs/default.jpg");
+//                presenter.saveHeadIcon(context, Constant.BaseUrl + "/imgs/default.jpg");
+//            } else {
+//                refreshHeadIcon(Constant.BaseUrl + headIconPath);
+//                presenter.saveHeadIcon(context, Constant.BaseUrl + headIconPath);
+//            }
+//        } else {
+//            refreshHeadIcon(headIconPath);
+//        }
+
+        presenter.getHeadIcon(UserUtil.getInstance().getUser().getUserId());
+
         initEvent();
     }
 
@@ -154,18 +173,52 @@ public class MePager extends BaseFragment implements View.OnClickListener, MePag
     @Override
     public void refreshHeadIcon(String path) {
         Log.e("zkp", path);
-        GlideImageLoader loader = new GlideImageLoader();
-        loader.displayImage(context, path, ivHead);
+        this.path = path;
+        if (PermissionUtils.isGrantExternalRW(context, 1)) {
+//            GlideImageLoader loader = new GlideImageLoader();
+//            loader.displayImage(context, path, ivHead);
+            RxImageLoader.with(context).load(path).into(ivHead);
+        }
     }
 
     @Override
-    public void uploadHeadIconSuccess() {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case 1:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                    GlideImageLoader loader = new GlideImageLoader();
+//                    loader.displayImage(context, path, ivHead);
+
+                    RxImageLoader.with(context).load(path).into(ivHead);
+                } else {
+                    ToastUtil.showToast(context, "请开启读取手机内存权限");
+                }
+                break;
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    public void uploadHeadIconSuccess(UploadHeadIconBean data) {
         ToastUtil.showToast(context, "上传头像成功");
+        this.path = Constant.BaseUrl + data.getHeadIconUrl();
+        RxImageLoader.with(context).load(Constant.BaseUrl + data.getHeadIconUrl()).into(ivHead);
     }
 
     @Override
     public void uploadHeadIconError() {
         ToastUtil.showToast(context, "上传失败");
+    }
+
+    @Override
+    public void getHeadIconSuccess(UploadHeadIconBean data) {
+        this.path = Constant.BaseUrl + data.getHeadIconUrl();
+        RxImageLoader.with(context).load(Constant.BaseUrl + data.getHeadIconUrl()).into(ivHead);
+    }
+
+    @Override
+    public void getHeadIconError(int status) {
+        ToastUtil.showToast(context, "获取头像失败");
     }
 
     @Override

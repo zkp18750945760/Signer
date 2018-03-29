@@ -74,6 +74,26 @@
             android:screenOrientation="portrait"
             android:theme="@style/DialogStyleBottom" />
         <activity
+            android:name=".module.chose.SelectYearActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/DialogStyleBottom" />
+        <activity
+            android:name=".module.chose.SelectMonthActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/DialogStyleBottom" />
+        <activity
+            android:name=".module.chose.SelectTermActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/DialogStyleBottom" />
+        <activity
+            android:name=".module.chose.SelectWeekActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/DialogStyleBottom" />
+        <activity
+            android:name=".module.chose.SelectSchoolYearActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/DialogStyleBottom" />
+        <activity
             android:name=".module.functions.sign.SignActivity"
             android:screenOrientation="portrait" />
         <activity

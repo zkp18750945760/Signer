@@ -14,6 +14,10 @@ import com.google.gson.Gson;
 import com.zhoukp.signer.R;
 import com.zhoukp.signer.adapter.ConvertionListViewAdapter;
 import com.zhoukp.signer.bean.ConvertionBean;
+import com.zhoukp.signer.module.chose.SelectSchoolYearActivity;
+import com.zhoukp.signer.module.chose.SelectTermActivity;
+import com.zhoukp.signer.module.chose.SelectWeekActivity;
+import com.zhoukp.signer.module.login.UserUtil;
 import com.zhoukp.signer.utils.AssetsHelper;
 import com.zhoukp.signer.utils.WindowUtils;
 
@@ -83,17 +87,18 @@ public class MeetingActivity extends AppCompatActivity implements View.OnClickLi
                 finish();
                 break;
             case R.id.tvYear:
-                intent = new Intent(MeetingActivity.this, SelectTimeActivity.class);
+                intent = new Intent(MeetingActivity.this, SelectSchoolYearActivity.class);
                 intent.putExtra("type", "schoolYear");
+                intent.putExtra("userId", UserUtil.getInstance().getUser().getUserId());
                 startActivityForResult(intent, YEAR);
                 break;
             case R.id.tvTerm:
-                intent = new Intent(MeetingActivity.this, SelectTimeActivity.class);
+                intent = new Intent(MeetingActivity.this, SelectTermActivity.class);
                 intent.putExtra("type", "term");
                 startActivityForResult(intent, TERM);
                 break;
             case R.id.tvWeek:
-                intent = new Intent(MeetingActivity.this, SelectTimeActivity.class);
+                intent = new Intent(MeetingActivity.this, SelectWeekActivity.class);
                 intent.putExtra("type", "week");
                 startActivityForResult(intent, WEEK);
                 break;

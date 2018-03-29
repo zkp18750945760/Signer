@@ -4,22 +4,44 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <!--<RelativeLayout-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:background="@android:color/white">-->
+
+    <!--<com.youth.banner.Banner xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--android:id="@+id/banner"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="200dp"-->
+    <!--android:layout_marginBottom="10dp"-->
+    <!--android:padding="10dp"-->
+    <!--app:indicator_drawable_selected="@drawable/icon_dot_selected"-->
+    <!--app:indicator_drawable_unselected="@drawable/icon_dot_normal"-->
+    <!--app:indicator_height="8dp"-->
+    <!--app:indicator_margin="3dp"-->
+    <!--app:indicator_width="8dp" />-->
+
+    <!--</RelativeLayout>-->
+
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@android:color/white">
+        android:padding="10dp">
 
-        <com.youth.banner.Banner xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/banner"
+        <!--轮播图位置-->
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
+
+        <!--右下角小圆点-->
+        <LinearLayout
+            android:id="@+id/indicator"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:layout_marginBottom="10dp"
-            android:padding="10dp"
-            app:indicator_drawable_selected="@drawable/icon_dot_selected"
-            app:indicator_drawable_unselected="@drawable/icon_dot_normal"
-            app:indicator_height="8dp"
-            app:indicator_margin="3dp"
-            app:indicator_width="8dp" />
+            android:gravity="bottom|center"
+            android:paddingBottom="10dp"
+            android:orientation="horizontal" />
 
     </RelativeLayout>
 
@@ -34,9 +56,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:paddingLeft="10dp"
         android:layout_marginTop="15dp"
-        android:background="@android:color/white">
+        android:background="@android:color/white"
+        android:paddingLeft="10dp">
 
         <ImageView
             android:id="@+id/ivRoundRectangle"

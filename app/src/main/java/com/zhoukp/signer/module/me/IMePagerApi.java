@@ -33,6 +33,17 @@ public interface IMePagerApi {
     );
 
     /**
+     * 获取用户头像连接
+     *
+     * @param uesrId
+     * @return
+     */
+    @POST("GetHeadIcons?")
+    Observable<UploadHeadIconBean> getHeadIcon(
+            @Query("userId") String uesrId
+    );
+
+    /**
      * 下载头像
      *
      * @param fileUrl url

@@ -1,7 +1,5 @@
 package com.zhoukp.signer.module.functions.sign;
 
-import com.zhoukp.signer.bean.SignBean;
-import com.zhoukp.signer.bean.StartSignBean;
 
 import io.reactivex.Observable;
 import retrofit2.http.POST;
@@ -44,7 +42,7 @@ public interface ISignApi {
     );
 
     /**
-     * 发起签到
+     * 签到
      */
     @POST("Sign?")
     Observable<SponsorSignBean> sign(

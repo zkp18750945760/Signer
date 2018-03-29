@@ -1,16 +1,16 @@
-package com.zhoukp.signer.activity;
+package com.zhoukp.signer.module.chose;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.zhoukp.signer.R;
 import com.zhoukp.signer.utils.TimeUtils;
+import com.zhoukp.signer.view.CommonDialog;
 import com.zhoukp.signer.view.picker.PickerScrollView;
 import com.zhoukp.signer.view.picker.Pickers;
 import com.zhoukp.signer.view.picker.YearObject;
@@ -22,23 +22,21 @@ import butterknife.ButterKnife;
 
 /**
  * @author zhoukp
- * @time 2018/2/1 19:49
+ * @time 2018/3/29 21:54
  * @email 275557625@qq.com
- * @function 选择年份页面
+ * @function
  */
 
-public class SelectTimeActivity extends Activity implements View.OnClickListener, PickerScrollView.onSelectListener {
+public class SelectSchoolYearActivity extends Activity implements PickerScrollView.onSelectListener, View.OnClickListener {
 
     @Bind(R.id.pickerScrollView)
     PickerScrollView pickerScrollView;
-    @Bind(R.id.llYearPicker)
-    LinearLayout llYearPicker;
     @Bind(R.id.tvCancel)
     TextView tvCancel;
-    @Bind(R.id.tvSubmit)
-    TextView tvSubmit;
     @Bind(R.id.tvTheme)
     TextView tvTheme;
+    @Bind(R.id.tvSubmit)
+    TextView tvSubmit;
 
     private String type;
     private String data;
@@ -48,8 +46,7 @@ public class SelectTimeActivity extends Activity implements View.OnClickListener
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_selecttime);
-
+        setContentView(R.layout.activity_select_school_year);
         ButterKnife.bind(this);
 
         initVariables();
@@ -61,38 +58,34 @@ public class SelectTimeActivity extends Activity implements View.OnClickListener
         ArrayList<Pickers> datas = new ArrayList<>();
         type = getIntent().getStringExtra("type");
         userId = getIntent().getStringExtra("userId");
-        if (type.equals("year")) {
-            tvTheme.setText("请选择年份");
-            YearObject object = new YearObject(userId, TimeUtils.getCurrentYear());
-            for (int i = 0; i < object.getYears().size(); i++) {
-                datas.add(new Pickers(object.getYears().get(i), i + ""));
-            }
-        } else if (type.equals("month")) {
-            tvTheme.setText("请选择月份");
-            YearObject object = new YearObject();
-            for (int i = 0; i < object.getMonths().size(); i++) {
-                datas.add(new Pickers(object.getMonths().get(i), i + ""));
-            }
-        } else if (type.equals("schoolYear")) {
+
+        if (type.equals("schoolYear")) {
             tvTheme.setText("请选择学年");
-            YearObject object = new YearObject(userId, TimeUtils.getCurrentYear());
-            for (int i = 0; i < object.getYears().size(); i++) {
-                datas.add(new Pickers(object.getSchoolYears().get(i), i + ""));
-            }
-        } else if (type.equals("term")) {
-            tvTheme.setText("请选择学期");
-            datas.add(new Pickers("上", 0 + ""));
-            datas.add(new Pickers("下", 1 + ""));
-        } else if (type.equals("week")) {
-            tvTheme.setText("请选择星期");
-            for (int i = 0; i < 20; i++) {
-                datas.add(new Pickers(i + 1 + "", i + ""));
-            }
+            int entrance = Integer.parseInt("20" + userId.substring(0, 2));
+            int current = Integer.parseInt(TimeUtils.getCurrentYear());
+            datas = getSchoolYears(entrance, current);
         }
 
         //设置数据，默认选择第一条
         pickerScrollView.setData(datas);
         pickerScrollView.setSelected(0);
+    }
+
+    /**
+     * 获取学年信息
+     *
+     * @param entrance 入学年份
+     * @param current  当前年份
+     */
+    private ArrayList<Pickers> getSchoolYears(int entrance, int current) {
+        ArrayList<Pickers> datas = new ArrayList<>();
+        int i = 0;
+        while (entrance < current) {
+            datas.add(new Pickers(entrance + "-" + (entrance + 1) + "学年", i + ""));
+            i++;
+            entrance++;
+        }
+        return datas;
     }
 
     private void initEvents() {
@@ -102,11 +95,24 @@ public class SelectTimeActivity extends Activity implements View.OnClickListener
     }
 
     @Override
+    public void onSelect(Pickers pickers) {
+        data = pickers.getShowConetnt();
+    }
+
+    @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tvCancel:
                 //关闭当前页面
-                finish();
+                new CommonDialog(SelectSchoolYearActivity.this, "确认退出吗？", R.style.dialog, new CommonDialog.OnCloseListener() {
+                    @Override
+                    public void onClick(Dialog dialog, boolean confirm) {
+                        if (confirm) {
+                            finish();
+                        }
+                        dialog.dismiss();
+                    }
+                }).show();
                 break;
             case R.id.tvSubmit:
                 //点击确定，关闭当前页面并带回结果
@@ -118,11 +124,5 @@ public class SelectTimeActivity extends Activity implements View.OnClickListener
             default:
                 break;
         }
-    }
-
-    @Override
-    public void onSelect(Pickers pickers) {
-        Log.e("zkp", pickers.getShowId() + "-->" + pickers.getShowConetnt());
-        data = pickers.getShowConetnt();
     }
 }
