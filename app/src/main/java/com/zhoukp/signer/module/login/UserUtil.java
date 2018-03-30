@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
-import com.zhoukp.signer.SignApplication;
+import com.zhoukp.signer.application.SignApplication;
 
 public class UserUtil {
     private static UserUtil instance;

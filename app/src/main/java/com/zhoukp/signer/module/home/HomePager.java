@@ -16,9 +16,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.zhoukp.signer.R;
-import com.zhoukp.signer.SignApplication;
+import com.zhoukp.signer.application.SignApplication;
 import com.zhoukp.signer.activity.AllTestActivity;
-import com.zhoukp.signer.activity.MainActivity;
+import com.zhoukp.signer.module.main.MainActivity;
 import com.zhoukp.signer.activity.MeetingActivity;
 import com.zhoukp.signer.activity.CotrunActivity;
 import com.zhoukp.signer.module.functions.ledgers.LedgerActivity;

@@ -9,7 +9,7 @@ import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
 import com.luck.picture.lib.config.PictureMimeType;
 import com.zhoukp.signer.R;
-import com.zhoukp.signer.activity.MainActivity;
+import com.zhoukp.signer.module.main.MainActivity;
 import com.zhoukp.signer.module.login.LoginBean;
 import com.zhoukp.signer.utils.BaseApi;
 import com.zhoukp.signer.utils.CacheUtils;

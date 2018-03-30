@@ -2,7 +2,7 @@ package com.zhoukp.signer.utils;
 
 import android.util.Log;
 
-import com.zhoukp.signer.SignApplication;
+import com.zhoukp.signer.application.SignApplication;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;

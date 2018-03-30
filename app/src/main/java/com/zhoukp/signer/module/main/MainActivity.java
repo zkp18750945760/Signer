@@ -1,4 +1,4 @@
-package com.zhoukp.signer.activity;
+package com.zhoukp.signer.module.main;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.widget.FrameLayout;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
@@ -17,12 +18,16 @@ import com.luck.picture.lib.entity.LocalMedia;
 import com.zhoukp.signer.R;
 import com.zhoukp.signer.fragment.BaseFragment;
 import com.zhoukp.signer.module.activity.ActivityPager;
+import com.zhoukp.signer.module.functions.ledgers.scanxls.ProgressDialog;
+import com.zhoukp.signer.module.functions.ledgers.scanxls.XlsBean;
 import com.zhoukp.signer.module.home.HomePager;
 import com.zhoukp.signer.module.me.MePager;
+import com.zhoukp.signer.module.update.DownloadManager;
 import com.zhoukp.signer.utils.Constant;
 import com.zhoukp.signer.utils.ToastUtil;
 import com.zhoukp.signer.utils.WindowUtils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,12 +37,15 @@ import static android.view.KeyEvent.KEYCODE_BACK;
  * @author zhoukp
  * @time 2018/1/28 18:34
  * @email 275557625@qq.com
- * @function
+ * @function 主页面
  */
-public class MainActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener {
+public class MainActivity extends AppCompatActivity implements RadioGroup.OnCheckedChangeListener, MainView {
 
     protected RadioGroup rgTag;
     protected FrameLayout flMainContent;
+
+    private ProgressDialog dialog;
+    private MainPresenter presenter;
 
     /**
      * 选中的位置
@@ -60,6 +68,9 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
         WindowUtils.setTransluteWindow(this);
 
         setContentView(R.layout.activity_main);
+
+//        TextView textView = null;
+//        textView.setText("");
 
         initViews();
 
@@ -92,9 +103,9 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
     }
 
     private void initViews() {
-        rgTag = (RadioGroup) findViewById(R.id.rgTag);
+        rgTag = findViewById(R.id.rgTag);
         rgTag.setOnCheckedChangeListener(this);
-        flMainContent = (FrameLayout) findViewById(R.id.flMainContent);
+        flMainContent = findViewById(R.id.flMainContent);
     }
 
     private void initVariates() {
@@ -103,6 +114,19 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
         baseFragments.add(new HomePager());
         baseFragments.add(new ActivityPager());
         baseFragments.add(new MePager());
+
+        if (presenter == null) {
+            presenter = new MainPresenter();
+            presenter.attachView(this);
+            presenter.getCrashFile(Constant.appCrashPath, ".log", true);
+            presenter.getUpdateInfo();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.detachView();
     }
 
     @Override
@@ -186,5 +210,73 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
                     break;
             }
         }
+    }
+
+    @Override
+    public void showLoadingView() {
+        if (dialog == null) {
+            dialog = new ProgressDialog(this);
+            dialog.showMessage("加载中...");
+        }
+        dialog.show();
+    }
+
+    @Override
+    public void hideLoadingView() {
+        if (dialog == null) {
+            dialog = new ProgressDialog(this);
+            dialog.showMessage("加载中...");
+        }
+        dialog.dismiss();
+    }
+
+    @Override
+    public void getUpdateInfoSuccess(UpdateBean bean) {
+        //获取版本更新信息成功
+        //提示用户进行版本升级
+        DownloadManager manager = DownloadManager.getInstance(this);
+        manager.setApkName(bean.getData().get(0).getAppName())
+                .setApkUrl(Constant.BaseUrl + bean.getData().get(0).getDownloadUrl())
+                .setDownloadPath(Constant.appFilePath)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setApkVersionCode(bean.getData().get(0).getVersionCode())
+                .setApkDescription(bean.getData().get(0).getDescription())
+                .setApkVersionName(bean.getData().get(0).getVersionName())
+                .setApkSize(presenter.getSize(bean.getData().get(0).getApkSize()))
+                //可设置，可不设置
+                .setConfiguration(null)
+                .download();
+    }
+
+    @Override
+    public void getUpdateInfoError(int status) {
+        switch (status) {
+            case 100:
+                ToastUtil.showToast(this, "获取更新信息失败");
+                break;
+            case 101:
+                ToastUtil.showToast(this, "数据库IO错误");
+                break;
+        }
+    }
+
+    @Override
+    public void getCrashLogcatSuccess(XlsBean bean) {
+        presenter.uploadCrashLogcat(new File(bean.getPath()));
+    }
+
+    @Override
+    public void getCrashLogcatError() {
+        ToastUtil.showToast(this, "还没有错误日志哦");
+    }
+
+    @Override
+    public void uploadCrashSuccess() {
+        ToastUtil.showToast(this, "错误日志上传成功");
+    }
+
+    @Override
+    public void uploadCrashError() {
+        ToastUtil.showToast(this, "错误日志上传失败");
     }
 }
