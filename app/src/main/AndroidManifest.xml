@@ -173,6 +173,16 @@
             android:configChanges="keyboardHidden|screenSize|orientation|keyboard"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".module.about.AboutActivity"
+            android:configChanges="keyboardHidden|screenSize|orientation|keyboard"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".module.about.AboutMeActivity"
+            android:configChanges="keyboardHidden|screenSize|orientation|keyboard"
+            android:screenOrientation="portrait" />
+
 
         <!--services-->
         <service

@@ -12,11 +12,11 @@
         <RelativeLayout
             android:id="@+id/rlHead"
             android:layout_width="match_parent"
-            android:layout_height="150dp">
+            android:layout_height="140dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="130dp"
+                android:layout_height="120dp"
                 android:background="@drawable/me_bg" />
 
             <com.makeramen.roundedimageview.RoundedImageView
@@ -35,7 +35,7 @@
             android:layout_height="35dp"
             android:layout_below="@id/rlHead"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="3dp"
             android:gravity="center"
             android:text="周开平"
             android:textColor="@android:color/black"
@@ -48,7 +48,7 @@
             android:layout_height="25dp"
             android:layout_below="@id/tvName"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="3dp"
             android:gravity="center"
             android:text="班长"
             android:textColor="@color/colorGray"
@@ -62,77 +62,87 @@
         android:layout_height="match_parent"
         android:visibility="gone" />
 
-    <LinearLayout
-        android:id="@+id/llPersonInfo"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
-        android:orientation="vertical"
-        android:visibility="visible">
-
-        <com.zhoukp.signer.view.LSettingItem
-            android:id="@+id/itemID"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:LtextSize="16"
-            app:isShowRightText="true"
-            app:leftIcon="@drawable/icon_user"
-            app:leftText="学号"
-            app:leftTextMarginLeft="10dp"
-            app:rightText="1425122042"
-            app:rightTextSize="16" />
-
-        <com.zhoukp.signer.view.LSettingItem
-            android:id="@+id/itemClass"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:LtextSize="16"
-            app:isShowRightText="true"
-            app:leftIcon="@drawable/icon_class"
-            app:leftText="班级"
-            app:leftTextMarginLeft="10dp"
-            app:rightText="软件工程2班"
-            app:rightTextSize="16" />
-
-        <com.zhoukp.signer.view.LSettingItem
-            android:id="@+id/itemCourse"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:LtextSize="16"
-            app:leftIcon="@drawable/icon_course"
-            app:leftText="我的课表"
-            app:leftTextMarginLeft="10dp" />
-
-        <com.zhoukp.signer.view.LSettingItem
-            android:id="@+id/itemSetting"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:LtextSize="16"
-            app:leftIcon="@drawable/icon_setting"
-            app:leftText="设置"
-            app:leftTextMarginLeft="10dp" />
 
         <LinearLayout
+            android:id="@+id/llPersonInfo"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
+            android:visibility="visible">
 
-            <Button
-                android:id="@+id/btnExit"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/btnexit_bg_selector"
-                android:text="退出登录"
-                android:textColor="@color/app_red"
-                android:textSize="18sp" />
+            <com.zhoukp.signer.view.LSettingItem
+                android:id="@+id/itemID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:LtextSize="16"
+                app:isShowRightText="true"
+                app:leftIcon="@drawable/icon_user"
+                app:leftText="学号"
+                app:leftTextMarginLeft="10dp"
+                app:rightText="1425122042"
+                app:rightTextSize="16" />
+
+            <com.zhoukp.signer.view.LSettingItem
+                android:id="@+id/itemClass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:LtextSize="16"
+                app:isShowRightText="true"
+                app:leftIcon="@drawable/icon_class"
+                app:leftText="班级"
+                app:leftTextMarginLeft="10dp"
+                app:rightText="软件工程2班"
+                app:rightTextSize="16" />
+
+            <com.zhoukp.signer.view.LSettingItem
+                android:id="@+id/itemCourse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:LtextSize="16"
+                app:leftIcon="@drawable/icon_course"
+                app:leftText="我的课表"
+                app:leftTextMarginLeft="10dp" />
+
+            <com.zhoukp.signer.view.LSettingItem
+                android:id="@+id/itemSetting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:LtextSize="16"
+                app:leftIcon="@drawable/icon_setting"
+                app:leftText="设置"
+                app:leftTextMarginLeft="10dp" />
+
+            <com.zhoukp.signer.view.LSettingItem
+                android:id="@+id/itemAbout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:LtextSize="16"
+                app:leftIcon="@drawable/icon_about"
+                app:leftText="关于"
+                app:leftTextMarginLeft="10dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnExit"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/btnexit_bg_selector"
+                    android:text="退出登录"
+                    android:textColor="@color/app_red"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
 
         </LinearLayout>
-
-    </LinearLayout>
 
     <TextView
         android:id="@+id/tvGoLogin"

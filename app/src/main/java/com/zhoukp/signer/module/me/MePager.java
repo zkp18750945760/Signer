@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.zhoukp.signer.R;
 import com.zhoukp.signer.fragment.BaseFragment;
+import com.zhoukp.signer.module.about.AboutActivity;
 import com.zhoukp.signer.module.course.CourseActivity;
 import com.zhoukp.signer.module.managedevice.ManageDeviceActivity;
 import com.zhoukp.signer.module.login.LoginActivity;
@@ -57,6 +58,7 @@ public class MePager extends BaseFragment implements View.OnClickListener, MePag
     private LSettingItem itemClass;
     private LSettingItem itemCourse;
     private LSettingItem itemSetting;
+    private LSettingItem itemAbout;
 
     public MePagerPresenter presenter;
     private String path;
@@ -76,6 +78,7 @@ public class MePager extends BaseFragment implements View.OnClickListener, MePag
         itemClass = view.findViewById(R.id.itemClass);
         itemCourse = view.findViewById(R.id.itemCourse);
         itemSetting = view.findViewById(R.id.itemSetting);
+        itemAbout = view.findViewById(R.id.itemAbout);
 
         if (context.getSharedPreferences("Signer", Context.MODE_PRIVATE).getBoolean("login", false)) {
             llPersonInfo.setVisibility(View.VISIBLE);
@@ -159,6 +162,15 @@ public class MePager extends BaseFragment implements View.OnClickListener, MePag
                 public void click(boolean isChecked) {
                     //跳转到设备管理页面
                     context.startActivityForResult(new Intent(context, ManageDeviceActivity.class), Constant.EditData);
+                }
+            });
+
+            itemAbout.setLeftText("关于");
+            itemAbout.setmOnLSettingItemClick(new LSettingItem.OnLSettingItemClick() {
+                @Override
+                public void click(boolean isChecked) {
+                    //跳转到关于页面
+                    context.startActivity(new Intent(context, AboutActivity.class));
                 }
             });
         }

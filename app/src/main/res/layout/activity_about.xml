@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/sign_record_bg"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@drawable/titlebar_bg">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="5dp"
+            android:text="关于"
+            android:textColor="@android:color/white"
+            android:textSize="22sp" />
+
+        <ImageView
+            android:id="@+id/ivBack"
+            android:layout_width="20dp"
+            android:layout_height="25dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="16dp"
+            android:background="@drawable/icon_back" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp">
+
+        <ImageView
+            android:id="@+id/ivIcon"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_centerHorizontal="true"
+            android:background="@mipmap/ic_launcher" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ivIcon"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:text="@string/app_name"
+            android:textColor="@color/colorBlack"
+            android:textSize="20sp" />
+
+    </RelativeLayout>
+
+
+    <com.zhoukp.signer.view.LSettingItem
+        android:id="@+id/itemVersion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:LtextSize="16"
+        app:isShowRightText="true"
+        app:leftIcon="@drawable/icon_version"
+        app:leftText="当前版本"
+        app:leftTextMarginLeft="10dp" />
+
+    <com.zhoukp.signer.view.LSettingItem
+        android:id="@+id/itemUpdate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:LtextSize="16"
+        app:leftIcon="@drawable/icon_update"
+        app:leftText="检查更新"
+        app:leftTextMarginLeft="10dp" />
+
+    <com.zhoukp.signer.view.LSettingItem
+        android:id="@+id/itemCopyright"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:LtextSize="16"
+        app:leftIcon="@drawable/icon_copyright"
+        app:leftText="版权信息"
+        app:leftTextMarginLeft="10dp" />
+
+    <com.zhoukp.signer.view.LSettingItem
+        android:id="@+id/itemAbout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:LtextSize="16"
+        app:leftIcon="@drawable/icon_aboutme"
+        app:leftText="关于我在"
+        app:leftTextMarginLeft="10dp" />
+
+</LinearLayout>
