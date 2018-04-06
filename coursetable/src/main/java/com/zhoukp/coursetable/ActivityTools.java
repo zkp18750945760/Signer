@@ -1,0 +1,39 @@
+package com.zhoukp.coursetable;
+
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
+import android.view.WindowManager;
+/**
+ * @author zhoukp
+ * @time 2018/4/3 21:19
+ * @email 275557625@qq.com
+ * @function
+ */
+public class ActivityTools {
+    /**
+     * 设置透明状态栏
+     */
+    @SuppressLint("InlinedApi")
+    public static void setTransparent(Activity activity) {
+        if (VERSION.SDK_INT >= VERSION_CODES.KITKAT) {
+            activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        }
+    }
+
+    /**
+     * 返回Home
+     * @param context
+     */
+    public static void toHome(Context context){
+        Intent home = new Intent(Intent.ACTION_MAIN);
+        home.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        home.addCategory(Intent.CATEGORY_HOME);
+        context.startActivity(home);
+    }
+}

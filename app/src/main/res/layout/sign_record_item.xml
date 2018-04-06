@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="125dp"
+        android:background="@drawable/sign_record_item_bg">
+
+        <TextView
+            android:id="@+id/tvTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="15dp"
+            android:text="2018-04-06 13:35:00"
+            android:textColor="@color/colorBlack"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/tvContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvTime"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="8dp"
+            android:text="2014级年级大会"
+            android:textColor="@color/colorBlack"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tvStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvContent"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="8dp"
+            android:text="准时"
+            android:textColor="@color/colorBlack"
+            android:textSize="18sp" />
+
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,0 +1,24 @@
+<resources>
+    <dimen name="wel_activity_horizontal_margin">16dp</dimen>
+    <dimen name="wel_activity_vertical_margin">16dp</dimen>
+    <dimen name="wel_text_horizontal_margin">32dp</dimen>
+    <dimen name="wel_title_bottom_margin">16dp</dimen>
+    <dimen name="wel_text_top_padding">16dp</dimen>
+    <dimen name="wel_text_bottom_padding">8dp</dimen>
+    <dimen name="wel_flat_button_vertical_margin">4dp</dimen>
+    <dimen name="wel_flat_button_horizontal_margin">8dp</dimen>
+    <dimen name="wel_title_text_size">26sp</dimen>
+
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="lineItemMar1">55dp</dimen>
+    <dimen name="lineItemMar2">57dp</dimen>
+    <dimen name="weekItemHeight">37dp</dimen>
+    <dimen name="weekItemHeightTotal">55dp</dimen>
+    <dimen name="weekItemMarTop">3dp</dimen>
+    <dimen name="weekItemMarLeft">3dp</dimen>
+    <dimen name="headHeight">50dp</dimen>
+
+    <dimen name="shadow_width">2dp</dimen>
+    <dimen name="slidingmenu_offset">80dp</dimen>
+</resources>

@@ -1,6 +1,8 @@
 package com.zhoukp.signer.module.functions.sign;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -19,6 +21,7 @@ import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.zhoukp.signer.R;
 import com.zhoukp.signer.adapter.MeetingRecyclerViewAdapter;
+import com.zhoukp.signer.module.functions.sign.record.SignRecordActivity;
 import com.zhoukp.signer.module.login.LoginBean;
 import com.zhoukp.signer.utils.LocationUtils;
 import com.zhoukp.signer.utils.SchoolYearUtils;
@@ -58,6 +61,8 @@ public class SignActivity extends AppCompatActivity implements View.OnClickListe
     CommonViewPager<SignEventsBean.DataBean> pagerEvents;
     @Bind(R.id.tvSign)
     TextView tvSign;
+    @Bind(R.id.tvNoEvents)
+    TextView tvNoEvents;
     @Bind(R.id.rlMeetingTheme)
     RelativeLayout rlMeetingTheme;
     @Bind(R.id.ivSignSuccess)
@@ -79,6 +84,7 @@ public class SignActivity extends AppCompatActivity implements View.OnClickListe
 
     private MeetingRecyclerViewAdapter adapter;
 
+    @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
         public SignEventsBean.DataBean dataBean;
 
@@ -148,7 +154,7 @@ public class SignActivity extends AppCompatActivity implements View.OnClickListe
         recyclerView.setLayoutManager(manager);
         //设置recyclerView动画为默认动画
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        rlSignSuccess = (RelativeLayout) findViewById(R.id.rlSignSuccess);
+        rlSignSuccess = findViewById(R.id.rlSignSuccess);
         if (UserUtil.getInstance().getUser().getUserDuty() != null && UserUtil.getInstance().getUser().getUserDuty().equals("班长")) {
             tvStartSign.setVisibility(View.VISIBLE);
         } else {
@@ -169,6 +175,7 @@ public class SignActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initEvent() {
         ivBack.setOnClickListener(this);
+        ivSignRecord.setOnClickListener(this);
     }
 
     @Override
@@ -176,6 +183,9 @@ public class SignActivity extends AppCompatActivity implements View.OnClickListe
         switch (view.getId()) {
             case R.id.ivBack:
                 finish();
+                break;
+            case R.id.ivSignRecord:
+                startActivity(new Intent(SignActivity.this, SignRecordActivity.class));
                 break;
             default:
                 break;
@@ -241,6 +251,12 @@ public class SignActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void getSignEventsSuccess(SignEventsBean bean) {
+        if (bean.getData().size() == 0) {
+            rlMeetingTheme.setVisibility(View.GONE);
+            tvNoEvents.setVisibility(View.VISIBLE);
+            return;
+        }
+
         signEventsList = new ArrayList<>();
         for (int i = 0; i < bean.getData().size(); i++) {
             signEventsList.add(bean.getData().get(i));

@@ -84,6 +84,8 @@ public class HomePager extends BaseFragment implements HomePagerView, ViewPager.
                     MainActivity activity = mWeakReference.get();
                     if (isAutoPlay) {
                         viewPager.setCurrentItem(++currentViewPagerItem);
+                        bannerHandler.removeMessages(0);
+                        bannerHandler.sendEmptyMessageDelayed(0, VIEW_PAGER_DELAY);
                     }
                     break;
             }
@@ -243,20 +245,7 @@ public class HomePager extends BaseFragment implements HomePagerView, ViewPager.
         bannerHandler = new BannerHandler((MainActivity) context);
 
         //定时发送消息
-        new Thread() {
-            @Override
-            public void run() {
-                super.run();
-                while (true) {
-                    bannerHandler.sendEmptyMessage(0);
-                    try {
-                        Thread.sleep(VIEW_PAGER_DELAY);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }.start();
+        bannerHandler.sendEmptyMessageDelayed(0, VIEW_PAGER_DELAY);
     }
 
     @Override
@@ -303,7 +292,9 @@ public class HomePager extends BaseFragment implements HomePagerView, ViewPager.
     public void onDestroy() {
         super.onDestroy();
         isAutoPlay = false;
-
+        if (bannerHandler != null) {
+            bannerHandler.removeMessages(0);
+        }
     }
 
     @Override

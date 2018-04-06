@@ -2,9 +2,11 @@ package com.zhoukp.signer.application;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.IntentFilter;
 
 import com.zhoukp.signer.R;
 import com.zhoukp.signer.module.crash.CrashHandler;
+import com.zhoukp.signer.module.network.NetworkConnectChangedReceiver;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,20 +24,81 @@ import okhttp3.OkHttpClient;
 
 public class SignApplication extends Application {
 
+
     public static List<?> images;
     public static ArrayList<String> banners;
 
-    private static final int TIMEOUT_READ = 15;
-    private static final int TIMEOUT_CONNECTION = 15;
+    private static final int TIMEOUT_READ = 5;
+    private static final int TIMEOUT_CONNECTION = 5;
     private static OkHttpClient mOkHttpClient;
 
     private static Context context;
+
+
+    private static SignApplication instance;
+
+    private NetworkConnectChangedReceiver receiver;
+
+    public SignApplication() {
+    }
+
+    public static SignApplication getInstance() {
+        return instance;
+    }
+
+    private boolean wifi;
+    private boolean mobile;
+    private boolean connected;
+    private boolean enableWifi;
+
+    public boolean isWifi() {
+        return wifi;
+    }
+
+    public void setWifi(boolean wifi) {
+        this.wifi = wifi;
+    }
+
+    public boolean isMobile() {
+        return mobile;
+    }
+
+    public void setMobile(boolean mobile) {
+        this.mobile = mobile;
+    }
+
+    public boolean isConnected() {
+        return connected;
+    }
+
+    public void setConnected(boolean connected) {
+        this.connected = connected;
+    }
+
+    public boolean isEnableWifi() {
+        return enableWifi;
+    }
+
+    public void setEnableWifi(boolean enableWifi) {
+        this.enableWifi = enableWifi;
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
 
+        instance = this;
+
         CrashHandler.getInstance().init(this);
+
+
+        receiver = new NetworkConnectChangedReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+        filter.addAction("android.net.wifi.WIFI_STATE_CHANGED");
+        filter.addAction("android.net.wifi.STATE_CHANGE");
+        //注册广播
+        registerReceiver(receiver, filter);
 
         String[] urls = getResources().getStringArray(R.array.banner);
         List<String> list = Arrays.asList(urls);
@@ -50,6 +113,15 @@ public class SignApplication extends Application {
         context = getApplicationContext();
     }
 
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+        //取消注册广播
+        if (receiver != null) {
+            unregisterReceiver(receiver);
+        }
+    }
+
     public static OkHttpClient genericClient() {
 
         if (mOkHttpClient != null)
@@ -62,7 +134,7 @@ public class SignApplication extends Application {
                 .build();
     }
 
-    public static Context getContext(){
+    public static Context getContext() {
         return context;
     }
 }

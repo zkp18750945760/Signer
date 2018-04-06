@@ -1,0 +1,54 @@
+{
+    "data": [
+        {
+            "name": "高等数学A(一)",
+	        "location": "D1-203",
+	        "day": 2,
+	        "start": 1,
+	        "end": 2,
+			"weeks": "1-18周"
+        },
+		{
+            "name": "高等数学A(一)",
+	        "location": "D5-201",
+	        "day": 3,
+	        "start": 7,
+	        "end": 8,
+			"weeks": "1-18周"
+        },
+		{
+            "name": "Java语言程序设计",
+	        "location": "C2-203",
+	        "day": 3,
+	        "start": 3,
+	        "end": 4,
+			"weeks": "1-18周"
+        },
+		{
+            "name": "思修",
+	        "location": "C5-203",
+	        "day": 3,
+	        "start": 11,
+	        "end": 13,
+			"weeks": "1-18周"
+        },
+		{
+            "name": "毛概",
+	        "location": "D5-203",
+	        "day": 5,
+	        "start": 7,
+	        "end": 9,
+			"weeks": "1-18周"
+        },
+		{
+            "name": "应老师请吃饭",
+	        "location": "A408",
+	        "day": 4,
+	        "start": 7,
+	        "end": 9,
+			"weeks": "1-18周"
+        }
+    ],
+	"status": 200,
+	"time":"2018-03-17 10:47:50"
+}

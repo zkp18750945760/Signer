@@ -15,6 +15,7 @@ import com.zhoukp.signer.utils.BaseApi;
 import com.zhoukp.signer.utils.CacheUtils;
 import com.zhoukp.signer.utils.Constant;
 import com.zhoukp.signer.module.login.UserUtil;
+import com.zhoukp.signer.utils.TimeUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -99,11 +100,11 @@ public class MePagerPresenter {
                 .forResult(PictureConfig.CHOOSE_REQUEST);//结果回调onActivityResult code
     }
 
-    public void upLoadHeadIcon(final Context context, String compressPath) {
+    public void upLoadHeadIcon(String compressPath) {
         mePagerView.showLoadingView();
         final LoginBean.UserBean userBean = UserUtil.getInstance().getUser();
         File file = new File(compressPath);
-        String fileName = userBean.getUserId() + ".jpg";
+        String fileName = TimeUtils.getCurrenTimeMillis() + ".jpg";
 
         RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
                 .addFormDataPart("headIcon", fileName, RequestBody.create(MediaType.parse("image/*"), file))
@@ -113,9 +114,7 @@ public class MePagerPresenter {
                 new BaseApi.IResponseListener<UploadHeadIconBean>() {
                     @Override
                     public void onSuccess(final UploadHeadIconBean data) {
-                        //CacheUtils.putString(context, "headIconUrl", data.getHeadIconUrl());
                         mePagerView.refreshHeadIcon(Constant.BaseUrl + data.getHeadIconUrl());
-                        //saveHeadIcon(context, Constant.BaseUrl + data.getHeadIconUrl());
 
                         mePagerView.uploadHeadIconSuccess(data);
                         mePagerView.hideLoadingView();

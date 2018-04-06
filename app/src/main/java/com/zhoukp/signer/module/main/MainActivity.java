@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.widget.FrameLayout;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 
 import com.luck.picture.lib.PictureSelector;
 import com.luck.picture.lib.config.PictureConfig;
@@ -68,9 +67,6 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
         WindowUtils.setTransluteWindow(this);
 
         setContentView(R.layout.activity_main);
-
-//        TextView textView = null;
-//        textView.setText("");
 
         initViews();
 
@@ -204,7 +200,7 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
                     // 如果裁剪并压缩了，以取压缩路径为准，因为是先裁剪后压缩的
                     if (selectList.get(0).isCompressed()) {
                         String compressPath = selectList.get(0).getCompressPath();
-                        ((MePager) baseFragments.get(2)).presenter.upLoadHeadIcon(MainActivity.this, compressPath);
+                        ((MePager) baseFragments.get(2)).presenter.upLoadHeadIcon(compressPath);
                         rgTag.check(R.id.rbMe);
                     }
                     break;

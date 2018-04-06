@@ -48,6 +48,10 @@ public class TimeUtils {
         return System.currentTimeMillis() / 1000;
     }
 
+    public static long getCurrenTimeMillis(){
+        return System.currentTimeMillis();
+    }
+
     /**
      * 获取今天是星期几
      *

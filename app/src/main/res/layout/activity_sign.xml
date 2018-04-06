@@ -62,6 +62,16 @@
             android:background="@drawable/meeting_sign_bg"
             android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/tvNoEvents"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="暂无事项"
+                android:textColor="@color/colorBtnPressed"
+                android:textSize="22sp"
+                android:visibility="gone" />
+
             <RelativeLayout
                 android:id="@+id/rlMeetingTheme"
                 android:layout_width="wrap_content"
@@ -75,6 +85,7 @@
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp" />
 
+                <!--签到按钮-->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -118,6 +129,7 @@
 
             </RelativeLayout>
 
+            <!--已签到-->
             <RelativeLayout
                 android:id="@+id/rlSignSuccess"
                 android:layout_width="wrap_content"
