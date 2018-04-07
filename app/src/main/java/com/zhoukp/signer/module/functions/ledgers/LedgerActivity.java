@@ -3,6 +3,7 @@ package com.zhoukp.signer.module.functions.ledgers;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -44,6 +45,9 @@ public class LedgerActivity extends AppCompatActivity implements View.OnClickLis
     FrameLayout flLedgerContent;
 
     private ArrayList<BaseFragment> baseFragments;
+    private Fragment content;//记录选中的fragment
+
+    private String[] tags = new String[]{"first", "second"};
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,17 +59,26 @@ public class LedgerActivity extends AppCompatActivity implements View.OnClickLis
 
         ButterKnife.bind(this);
 
-        initVariates();
+        initVariates(savedInstanceState);
 
         initEvents();
-
-        setFragment(0);
     }
 
-    private void initVariates() {
+    private void initVariates(Bundle savedInstanceState) {
+        //1.得到FragmentManger
+        FragmentManager manager = getSupportFragmentManager();
         baseFragments = new ArrayList<>();
-        baseFragments.add(new FirstLedgerFragemnt());
-        baseFragments.add(new SecondLedgerFragemnt());
+        if (savedInstanceState != null) {
+            baseFragments.add((FirstLedgerFragemnt) manager.findFragmentByTag(tags[0]));
+            baseFragments.add((SecondLedgerFragemnt) manager.findFragmentByTag(tags[1]));
+        } else {
+            baseFragments.add(new FirstLedgerFragemnt());
+            baseFragments.add(new SecondLedgerFragemnt());
+        }
+        content = baseFragments.get(0);
+        //2.开启事务
+        FragmentTransaction ft = manager.beginTransaction();
+        ft.add(R.id.flMainContent, content).commit();
     }
 
     private void initEvents() {
@@ -77,7 +90,7 @@ public class LedgerActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onSelected(int i, String s) {
         ToastUtil.showToast(this, i + "==" + s);
-        setFragment(i);
+        switchContent(content, baseFragments.get(i), i);
     }
 
     @Override
@@ -100,16 +113,25 @@ public class LedgerActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     /**
-     * 把页面添加到Fragment中
+     * fragment 切换
+     *
+     * @param from 当前页面
+     * @param to   要显示的页面
      */
-    private void setFragment(int position) {
-        //1.得到FragmentManger
-        FragmentManager manager = getSupportFragmentManager();
-        //2.开启事务
-        FragmentTransaction ft = manager.beginTransaction();
-        //3.替换
-        ft.replace(R.id.flLedgerContent, baseFragments.get(position));
-        //4.提交事务
-        ft.commit();
+    public void switchContent(Fragment from, Fragment to, int position) {
+        if (content != to) {
+            content = to;
+            //1.得到FragmentManger
+            FragmentManager manager = getSupportFragmentManager();
+            //2.开启事务
+            FragmentTransaction ft = manager.beginTransaction();
+            if (!to.isAdded()) { // 先判断是否被add过
+                // 隐藏当前的fragment，add下一个到Activity中
+                ft.hide(from).add(R.id.flMainContent, to, tags[position]).commit();
+            } else {
+                // 隐藏当前的fragment，显示下一个
+                ft.hide(from).show(to).commit();
+            }
+        }
     }
 }

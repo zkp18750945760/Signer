@@ -35,10 +35,16 @@ public class PermissionUtils {
         return true;
     }
 
-    private static String[] PERMISSIONS_CAMERA_AND_STORAGE = {
+    public static String[] PERMISSIONS = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.CAMERA};
+            Manifest.permission.CAMERA,
+            Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.READ_PHONE_STATE
+    };
 
     /**
      * 解决安卓6.0以上版本不能读取外部存储权限的问题
@@ -55,7 +61,7 @@ public class PermissionUtils {
 
             if (storagePermission != PackageManager.PERMISSION_GRANTED ||
                     cameraPermission != PackageManager.PERMISSION_GRANTED) {
-                activity.requestPermissions(PERMISSIONS_CAMERA_AND_STORAGE, requestCode);
+                activity.requestPermissions(PERMISSIONS, requestCode);
                 return false;
             }
         }

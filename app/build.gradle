@@ -91,6 +91,9 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.2'
     //日志的拦截器，也可以自行选择
     implementation 'com.squareup.okhttp3:logging-interceptor:3.4.1'
+    //permission
+    implementation 'com.yanzhenjie:permission:2.0.0-rc4'
+    implementation 'com.yanzhenjie.alertdialog:alertdialog:1.0.1'
 
     implementation files('libs/commons-codec-1.11.jar')
     implementation files('libs/sun.misc.BASE64Decoder.jar')

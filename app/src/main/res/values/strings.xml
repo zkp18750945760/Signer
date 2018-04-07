@@ -10,4 +10,16 @@
 
 
     <string name="about_me">厦门百纳睿文化传媒有限公司是一家以奉献社会、服务学生群体为宗旨的企业。创始人吴宗达先生先后为华侨大学计算机科学与技术学院无偿捐献32英寸触控一体机、70英寸夏普wifi智能电视机各一台，获得计算机科学与技术学院师生的一致好评。</string>
+
+    <string name="setting">设置</string>
+    <string name="no">拒绝</string>
+    <string name="resume">继续</string>
+    <string name="cancel">取消</string>
+    <string name="successfully">授权成功</string>
+    <string name="failure">授权失败</string>
+    <string name="title_dialog">小贴士</string>
+    <string name="message_permission_rationale">授予以下权限以继续该程序:\n\n%1$s</string>
+    <string name="message_permission_always_failed">我们需要这些权限, 请在设置中给我们权限:\n\n%1$s</string>
+
+    <string name="permission_setting">权限设置</string>
 </resources>
