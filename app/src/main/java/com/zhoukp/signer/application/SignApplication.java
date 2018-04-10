@@ -25,11 +25,10 @@ import okhttp3.OkHttpClient;
 public class SignApplication extends Application {
 
 
-    public static List<?> images;
-    public static ArrayList<String> banners;
-
     private static final int TIMEOUT_READ = 5;
     private static final int TIMEOUT_CONNECTION = 5;
+    public static List<?> images;
+    public static ArrayList<String> banners;
     private static OkHttpClient mOkHttpClient;
 
     private static Context context;
@@ -38,6 +37,10 @@ public class SignApplication extends Application {
     private static SignApplication instance;
 
     private NetworkConnectChangedReceiver receiver;
+    private boolean wifi;
+    private boolean mobile;
+    private boolean connected;
+    private boolean enableWifi;
 
     public SignApplication() {
     }
@@ -46,10 +49,21 @@ public class SignApplication extends Application {
         return instance;
     }
 
-    private boolean wifi;
-    private boolean mobile;
-    private boolean connected;
-    private boolean enableWifi;
+    public static OkHttpClient genericClient() {
+
+        if (mOkHttpClient != null)
+            return mOkHttpClient;
+
+        return mOkHttpClient = new OkHttpClient.Builder()
+                .retryOnConnectionFailure(true)
+                .readTimeout(TIMEOUT_READ, TimeUnit.SECONDS)
+                .connectTimeout(TIMEOUT_CONNECTION, TimeUnit.SECONDS)
+                .build();
+    }
+
+    public static Context getContext() {
+        return context;
+    }
 
     public boolean isWifi() {
         return wifi;
@@ -120,21 +134,5 @@ public class SignApplication extends Application {
         if (receiver != null) {
             unregisterReceiver(receiver);
         }
-    }
-
-    public static OkHttpClient genericClient() {
-
-        if (mOkHttpClient != null)
-            return mOkHttpClient;
-
-        return mOkHttpClient = new OkHttpClient.Builder()
-                .retryOnConnectionFailure(true)
-                .readTimeout(TIMEOUT_READ, TimeUnit.SECONDS)
-                .connectTimeout(TIMEOUT_CONNECTION, TimeUnit.SECONDS)
-                .build();
-    }
-
-    public static Context getContext() {
-        return context;
     }
 }

@@ -26,6 +26,8 @@ import com.zhoukp.signer.module.activity.ActivityPager;
 import com.zhoukp.signer.module.functions.ledgers.scanxls.ProgressDialog;
 import com.zhoukp.signer.module.functions.ledgers.scanxls.XlsBean;
 import com.zhoukp.signer.module.home.HomePager;
+import com.zhoukp.signer.module.login.LoginActivity;
+import com.zhoukp.signer.module.login.UserUtil;
 import com.zhoukp.signer.module.me.MePager;
 import com.zhoukp.signer.module.update.DownloadManager;
 import com.zhoukp.signer.utils.Constant;
@@ -88,31 +90,6 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
         initVariates(savedInstanceState);
     }
 
-    /**
-     * 再按一次退出应用
-     *
-     * @param keyCode keyCode
-     * @param event   event
-     * @return boolean
-     */
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KEYCODE_BACK) {
-            if (!isExit) {
-                isExit = true;
-                ToastUtil.showToast(getApplicationContext(), "再按一次退出应用");
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        isExit = false;
-                    }
-                }, 2000);
-                return true;
-            }
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-
     private void initViews() {
         rgTag = findViewById(R.id.rgTag);
         rgTag.setOnCheckedChangeListener(this);
@@ -173,9 +150,45 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        rgTag.check(R.id.rbHome);
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         presenter.detachView();
+    }
+
+    @SuppressLint("MissingSuperCall")
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+    }
+
+    /**
+     * 再按一次退出应用
+     *
+     * @param keyCode keyCode
+     * @param event   event
+     * @return boolean
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KEYCODE_BACK) {
+            if (!isExit) {
+                isExit = true;
+                ToastUtil.showToast(getApplicationContext(), "再按一次退出应用");
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        isExit = false;
+                    }
+                }, 2000);
+                return true;
+            }
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override
@@ -193,7 +206,11 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
             default:
                 break;
         }
-        switchContent(content, baseFragments.get(position), position);
+        if (UserUtil.getInstance().getUser() == null) {
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+        } else {
+            switchContent(content, baseFragments.get(position), position);
+        }
     }
 
     /**
@@ -219,12 +236,6 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
         }
     }
 
-    @SuppressLint("MissingSuperCall")
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-    }
-
-
     /**
      * 根据位置得到对应的页面
      *
@@ -233,18 +244,6 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
     private BaseFragment getFragment() {
         return baseFragments.get(position);
     }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        rgTag.check(R.id.rbHome);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -273,6 +272,11 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
                     break;
             }
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
     }
 
     @Override

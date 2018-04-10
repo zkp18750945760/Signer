@@ -1,17 +1,15 @@
 package com.zhoukp.signer.module.crash;
 
 import android.annotation.SuppressLint;
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.os.Environment;
 import android.os.Looper;
 import android.os.SystemClock;
 import android.util.Log;
 
-import com.zhoukp.signer.module.functions.sign.SponsorSignBean;
-import com.zhoukp.signer.utils.BaseApi;
 import com.zhoukp.signer.utils.Constant;
 import com.zhoukp.signer.utils.TimeUtils;
 import com.zhoukp.signer.utils.ToastUtil;
@@ -25,13 +23,11 @@ import java.io.Writer;
 import java.lang.reflect.Field;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
+import static android.content.Context.ACTIVITY_SERVICE;
+
 
 /**
  * @author zhoukp
@@ -42,12 +38,11 @@ import okhttp3.RequestBody;
 public class CrashHandler implements Thread.UncaughtExceptionHandler {
 
     public static String TAG = "Crash";
+    private static CrashHandler instance = new CrashHandler();
     /**
      * 系统默认的UncaughtException处理类
      */
     private Thread.UncaughtExceptionHandler defaultHandler;
-
-    private static CrashHandler instance = new CrashHandler();
     private Context context;
 
     /**
@@ -74,10 +69,14 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
         return instance;
     }
 
+    public static void setTag(String tag) {
+        TAG = tag;
+    }
+
     /**
      * 初始化
      *
-     * @param context
+     * @param context context
      */
     public void init(Context context) {
         this.context = context;
@@ -89,25 +88,49 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
     }
 
     /**
+     * 文件删除
+     *
+     * @param autoClearDay 文件保存天数
+     */
+    public void autoClear(final int autoClearDay) {
+        FileUtil.delete(getGlobalpath(), new FilenameFilter() {
+
+            @Override
+            public boolean accept(File file, String filename) {
+                String s = FileUtil.getFileNameWithoutExtension(filename);
+                int day = autoClearDay < 0 ? autoClearDay : -1 * autoClearDay;
+                String date = "crash-" + DateUtil.getOtherDay(day);
+                return date.compareTo(s) >= 0;
+            }
+        });
+    }
+
+    public static String getGlobalpath() {
+        return Constant.appCrashPath;
+    }
+
+    /**
      * 当UncaughtException发生时会转入该函数来处理
      */
     @Override
     public void uncaughtException(Thread thread, Throwable ex) {
-        if (!handleException(ex) && defaultHandler != null) {
-            // 如果用户没有处理则让系统默认的异常处理器来处理
-            defaultHandler.uncaughtException(thread, ex);
-        } else {
-            SystemClock.sleep(3000);
-            // 退出程序
-            android.os.Process.killProcess(android.os.Process.myPid());
-            System.exit(1);
-        }
+//        if (!handleException(ex) && defaultHandler != null) {
+//            // 如果用户没有处理则让系统默认的异常处理器来处理
+//            defaultHandler.uncaughtException(thread, ex);
+//        } else {
+//            SystemClock.sleep(3000);
+//            // 退出程序
+//            android.os.Process.killProcess(android.os.Process.myPid());
+//            System.exit(1);
+//        }
+        ActivityManager manager = (ActivityManager) context.getSystemService(ACTIVITY_SERVICE);
+        manager.killBackgroundProcesses(context.getPackageName());
     }
 
     /**
      * 自定义错误处理,收集错误信息 发送错误报告等操作均在此完成
      *
-     * @param ex
+     * @param ex ex
      * @return true:如果处理了该异常信息; 否则返回false.
      */
     private boolean handleException(Throwable ex) {
@@ -138,7 +161,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
     /**
      * 收集设备参数信息
      *
-     * @param ctx
+     * @param ctx context
      */
     public void collectDeviceInfo(Context ctx) {
         try {
@@ -167,7 +190,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
     /**
      * 保存错误信息到文件中
      *
-     * @param ex
+     * @param ex ex
      * @return 返回文件名称, 便于将文件传送到服务器
      * @throws Exception
      */
@@ -220,32 +243,5 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
             fos.close();
         }
         return fileName;
-    }
-
-    public static String getGlobalpath() {
-        return Constant.appCrashPath;
-    }
-
-    public static void setTag(String tag) {
-        TAG = tag;
-    }
-
-    /**
-     * 文件删除
-     *
-     * @param autoClearDay 文件保存天数
-     */
-    public void autoClear(final int autoClearDay) {
-        FileUtil.delete(getGlobalpath(), new FilenameFilter() {
-
-            @Override
-            public boolean accept(File file, String filename) {
-                String s = FileUtil.getFileNameWithoutExtension(filename);
-                int day = autoClearDay < 0 ? autoClearDay : -1 * autoClearDay;
-                String date = "crash-" + DateUtil.getOtherDay(day);
-                return date.compareTo(s) >= 0;
-            }
-        });
-
     }
 }

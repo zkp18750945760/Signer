@@ -94,35 +94,6 @@ public class SignRecordActivity extends AppCompatActivity implements View.OnClic
         dialog.dismiss();
     }
 
-    /**
-     * 对时间做排序，越接近现在的越靠前
-     *
-     * @param list list
-     */
-    private static void listSort(List<SignRecordBean.DataBean> list) {
-        Collections.sort(list, new Comparator<SignRecordBean.DataBean>() {
-            @Override
-            public int compare(SignRecordBean.DataBean o1, SignRecordBean.DataBean o2) {
-                @SuppressLint("SimpleDateFormat")
-                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                try {
-                    Date dt1 = format.parse(o1.getTime());
-                    Date dt2 = format.parse(o2.getTime());
-                    if (dt1.getTime() < dt2.getTime()) {
-                        return 1;
-                    } else if (dt1.getTime() > dt2.getTime()) {
-                        return -1;
-                    } else {
-                        return 0;
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                return 0;
-            }
-        });
-    }
-
     @Override
     public void getRecordSuccess(final SignRecordBean bean) {
         if (bean.getData().size() == 0) {
@@ -131,6 +102,7 @@ public class SignRecordActivity extends AppCompatActivity implements View.OnClic
         }
 
         listSort(bean.getData());
+        dataBeans.clear();
 
         if (bean.getData().size() <= 10) {
             for (SignRecordBean.DataBean dataBean : bean.getData()) {
@@ -181,6 +153,35 @@ public class SignRecordActivity extends AppCompatActivity implements View.OnClic
                 if (bean.getData().size() > 30) {
                     listView.setLoadAll();
                 }
+            }
+        });
+    }
+
+    /**
+     * 对时间做排序，越接近现在的越靠前
+     *
+     * @param list list
+     */
+    private static void listSort(List<SignRecordBean.DataBean> list) {
+        Collections.sort(list, new Comparator<SignRecordBean.DataBean>() {
+            @Override
+            public int compare(SignRecordBean.DataBean o1, SignRecordBean.DataBean o2) {
+                @SuppressLint("SimpleDateFormat")
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                try {
+                    Date dt1 = format.parse(o1.getTime());
+                    Date dt2 = format.parse(o2.getTime());
+                    if (dt1.getTime() < dt2.getTime()) {
+                        return 1;
+                    } else if (dt1.getTime() > dt2.getTime()) {
+                        return -1;
+                    } else {
+                        return 0;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return 0;
             }
         });
     }

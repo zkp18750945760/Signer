@@ -5,6 +5,7 @@
 
     <!--permissions-->
     <!--读取磁盘的权限-->
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <!--拍照权限-->
     <uses-permission android:name="android.permission.CAMERA" />
@@ -33,6 +34,8 @@
     <!--允许 弹出系统级别的Dialog-->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
+    <!--关闭应用权限-->
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
 
     <application
         android:name=".application.SignApplication"
@@ -142,7 +145,7 @@
             android:configChanges="keyboardHidden|screenSize|orientation|keyboard"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.MeetingActivity"
+            android:name=".module.functions.meetings.MeetingActivity"
             android:configChanges="keyboardHidden|screenSize|orientation|keyboard"
             android:screenOrientation="portrait" />
         <activity
@@ -183,12 +186,18 @@
             android:configChanges="keyboardHidden|screenSize|orientation|keyboard"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".module.functions.meetings.pdf.ReadPdfActivity"
+            android:configChanges="keyboardHidden|screenSize|orientation|keyboard"
+            android:screenOrientation="portrait" />
 
         <!--services-->
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote" />
+
+        <service android:name=".module.functions.meetings.pdf.download.DownloadService" />
 
     </application>
 

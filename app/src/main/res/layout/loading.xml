@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/ll_loading_background">
+
+    <LinearLayout
+        android:id="@+id/rl_speed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/tvContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:text="玩命下载中"
+            android:textColor="#ffffff"
+            android:textSize="18sp" />
+
+        <ProgressBar
+            android:layout_width="33dp"
+            android:layout_height="35dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/tvContent"
+            android:indeterminateDrawable="@drawable/loadingxml" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvNetspeed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rl_speed"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="3dp"
+        android:textColor="#ffffff"
+        android:textSize="20sp" />
+
+</RelativeLayout>

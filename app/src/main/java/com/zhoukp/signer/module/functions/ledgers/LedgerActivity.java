@@ -78,7 +78,7 @@ public class LedgerActivity extends AppCompatActivity implements View.OnClickLis
         content = baseFragments.get(0);
         //2.开启事务
         FragmentTransaction ft = manager.beginTransaction();
-        ft.add(R.id.flMainContent, content).commit();
+        ft.add(R.id.flLedgerContent, content).commit();
     }
 
     private void initEvents() {
@@ -127,7 +127,7 @@ public class LedgerActivity extends AppCompatActivity implements View.OnClickLis
             FragmentTransaction ft = manager.beginTransaction();
             if (!to.isAdded()) { // 先判断是否被add过
                 // 隐藏当前的fragment，add下一个到Activity中
-                ft.hide(from).add(R.id.flMainContent, to, tags[position]).commit();
+                ft.hide(from).add(R.id.flLedgerContent, to, tags[position]).commit();
             } else {
                 // 隐藏当前的fragment，显示下一个
                 ft.hide(from).show(to).commit();

@@ -5,6 +5,7 @@
     android:background="@android:color/white"
     android:orientation="vertical">
 
+    <!--selectors-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
@@ -79,11 +80,16 @@
         android:layout_height="0.1dp"
         android:background="@color/colorGray" />
 
-    <ListView
-        android:id="@+id/listView"
+    <!--<ListView-->
+    <!--android:id="@+id/listView"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:divider="@color/colorGray"-->
+    <!--android:dividerHeight="0.1dp" />-->
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:divider="@color/colorGray"
-        android:dividerHeight="0.1dp" />
+        android:layout_height="match_parent" />
 
 </LinearLayout>

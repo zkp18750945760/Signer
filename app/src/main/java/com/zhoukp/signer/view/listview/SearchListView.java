@@ -273,6 +273,7 @@ public class SearchListView extends ListView implements OnScrollListener, Adapte
 
     @Override
     public void setOnItemClickListener(OnItemClickListener listener) {
+        isEnableRefresh = false;
         this.onItemClickListener = listener;
     }
 
@@ -372,7 +373,6 @@ public class SearchListView extends ListView implements OnScrollListener, Adapte
     @SuppressLint("ClickableViewAccessibility")
     public boolean onTouchEvent(MotionEvent ev) {
         final int action = ev.getAction();
-
         cancelLongPress();
         switch (action) {
             case MotionEvent.ACTION_DOWN: // 按下的时候

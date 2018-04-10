@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:background="@drawable/all_test_item_bg"
+        android:paddingLeft="30dp">
+
+        <TextView
+            android:id="@+id/tvTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="关于综测评分工作的总结会议"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tvDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvTheme"
+            android:layout_marginTop="3dp"
+            android:text="2018-02-03"
+            android:textColor="@color/colorBtnPressed"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tvAbstract"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvDate"
+            android:layout_marginRight="115dp"
+            android:layout_marginTop="3dp"
+            android:ellipsize="end"
+            android:lines="1"
+            android:text="本次综测评分过程中存在有些班级没有落实到位"
+            android:textColor="@color/colorGray"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/tvBrowse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvAbstract"
+            android:layout_marginTop="10dp"
+            android:drawableLeft="@drawable/icon_browse"
+            android:drawablePadding="5dp"
+            android:text="45"
+            android:textColor="@color/colorGray"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/btnMark"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/btneditdata_bg_selector"
+            android:text="标记已读"
+            android:textColor="@android:color/white"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/ivBrowsed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="55dp"
+            android:background="@drawable/icon_browsed"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+</RelativeLayout>
