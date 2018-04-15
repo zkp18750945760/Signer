@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.zhoukp.signer.R;
+import com.zhoukp.signer.utils.DensityUtil;
 import com.zhouwei.indicatorview.CircleIndicatorView;
 
 import java.util.List;
@@ -57,12 +58,12 @@ public class CommonViewPager<T> extends RelativeLayout {
         circleIndicatorView.setUpWithViewPager(viewPager);
     }
 
-    public void setCurrentItem(int currentItem) {
-        viewPager.setCurrentItem(currentItem);
-    }
-
     public int getCurrentItem() {
         return viewPager.getCurrentItem();
+    }
+
+    public void setCurrentItem(int currentItem) {
+        viewPager.setCurrentItem(currentItem);
     }
 
     public void setOffscreenPageLimit(int limit) {
@@ -99,6 +100,14 @@ public class CommonViewPager<T> extends RelativeLayout {
         } else {
             circleIndicatorView.setVisibility(GONE);
         }
+    }
+
+    public void setIndicatorAlignTop(int marginTop) {
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) circleIndicatorView.getLayoutParams();
+        params.addRule(RelativeLayout.ALIGN_TOP, R.id.viewPagerIndicator);
+        //设置控件的位置
+        params.setMargins(0, DensityUtil.dip2px(getContext(), marginTop), 0, 0);//左上右下
+        circleIndicatorView.setLayoutParams(params);
     }
 
     public ViewPager getViewPager() {

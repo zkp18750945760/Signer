@@ -26,6 +26,8 @@ public class ViewPagerAdapter<T> extends PagerAdapter {
      */
     private ViewPagerHolderCreator creator;
 
+    private int mChildCount = 0;
+
     public ViewPagerAdapter(List<T> datas, ViewPagerHolderCreator creator) {
         this.datas = datas;
         this.creator = creator;
@@ -51,6 +53,21 @@ public class ViewPagerAdapter<T> extends PagerAdapter {
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((View) object);
+    }
+
+    @Override
+    public void notifyDataSetChanged() {
+        mChildCount = getCount();
+        super.notifyDataSetChanged();
+    }
+
+    @Override
+    public int getItemPosition(Object object) {
+        if (mChildCount > 0) {
+            mChildCount--;
+            return POSITION_NONE;
+        }
+        return super.getItemPosition(object);
     }
 
     /**

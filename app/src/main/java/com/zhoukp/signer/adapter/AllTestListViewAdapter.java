@@ -52,7 +52,6 @@ public class AllTestListViewAdapter extends BaseAdapter {
             holder.tvFull = convertView.findViewById(R.id.tvFull);
             holder.tvScore = convertView.findViewById(R.id.tvScore);
             holder.tvAbstract = convertView.findViewById(R.id.tvAbstract);
-            holder.btnBrowse = convertView.findViewById(R.id.btnBrowse);
             holder.btnSubmit = convertView.findViewById(R.id.btnSubmit);
             convertView.setTag(holder);
         } else {
@@ -69,6 +68,6 @@ public class AllTestListViewAdapter extends BaseAdapter {
 
     private class ViewHolder {
         TextView tvItem, tvFull, tvScore, tvAbstract;
-        Button btnBrowse, btnSubmit;
+        Button btnSubmit;
     }
 }

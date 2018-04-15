@@ -136,12 +136,19 @@
             android:configChanges="keyboardHidden|screenSize|orientation|keyboard"
             android:screenOrientation="portrait"
             android:theme="@style/DialogStyleBottom" />
+
+        <activity
+            android:name=".module.chose.SelectLevelActivity"
+            android:configChanges="keyboardHidden|screenSize|orientation|keyboard"
+            android:screenOrientation="portrait"
+            android:theme="@style/DialogStyleBottom" />
+
         <activity
             android:name=".module.functions.sign.SignActivity"
             android:configChanges="keyboardHidden|screenSize|orientation|keyboard"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.AllTestActivity"
+            android:name=".module.functions.ascq.AllTextActivity"
             android:configChanges="keyboardHidden|screenSize|orientation|keyboard"
             android:screenOrientation="portrait" />
         <activity
@@ -191,13 +198,21 @@
             android:configChanges="keyboardHidden|screenSize|orientation|keyboard"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".module.functions.ascq.ASCQActivity"
+            android:configChanges="keyboardHidden|screenSize|orientation|keyboard"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".module.functions.ascq.ASCQFragmentManager"
+            android:configChanges="keyboardHidden|screenSize|orientation|keyboard"
+            android:screenOrientation="portrait" />
+
         <!--services-->
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote" />
-
-        <service android:name=".module.functions.meetings.pdf.download.DownloadService" />
 
     </application>
 

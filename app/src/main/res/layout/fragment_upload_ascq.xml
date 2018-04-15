@@ -1,0 +1,1212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:zkp="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/tvYear"
+                    android:layout_width="150dp"
+                    android:layout_height="30dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="10dp"
+                    android:background="@drawable/text_view_bg_normal"
+                    android:drawableRight="@drawable/icon_expand"
+                    android:gravity="center"
+                    android:paddingRight="3dp"
+                    android:text="2014-2015学年"
+                    android:textColor="@color/colorGray"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_toLeftOf="@id/tvYear"
+                    android:gravity="center"
+                    android:text="学年:"
+                    android:textColor="@color/colorGray"
+                    android:textSize="16sp" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/gray" />
+
+            <com.zhoukp.signer.view.linearLayout.ExpandableLinearLayout
+                android:id="@+id/llMoral"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="vertical"
+                zkp:expandText="查看更多"
+                zkp:hideText="收起">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="1.德育素质"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="16sp" />
+
+
+                <com.zhoukp.signer.view.ExpandableTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/moral"
+                        android:textSize="14sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:padding="10dp"
+                        android:src="@drawable/ic_expand_less_black_12dp" />
+
+                </com.zhoukp.signer.view.ExpandableTextView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/moralDes"
+                    android:textColor="@color/theme_dark"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/moral1" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/etMoral1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="3dp"
+                    android:hint="输入扣分"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:background="@drawable/text_view_bg_normal"
+                        android:digits="0123456789."
+                        android:maxLength="3"
+                        android:maxLines="1"
+                        android:paddingLeft="10dp" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/moral2" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/etMoral2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="3dp"
+                    android:hint="输入扣分"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:background="@drawable/text_view_bg_normal"
+                        android:digits="0123456789."
+                        android:maxLength="3"
+                        android:maxLines="1"
+                        android:paddingLeft="10dp" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/moral3" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/etMoral3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="3dp"
+                    android:hint="输入扣分"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:background="@drawable/text_view_bg_normal"
+                        android:digits="0123456789."
+                        android:maxLength="3"
+                        android:maxLines="1"
+                        android:paddingLeft="10dp" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/moral4" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/etMoral4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="3dp"
+                    android:hint="输入扣分"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:background="@drawable/text_view_bg_normal"
+                        android:digits="0123456789."
+                        android:maxLength="3"
+                        android:maxLines="1"
+                        android:paddingLeft="10dp" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/moral5" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/etMoral5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="3dp"
+                    android:hint="输入扣分"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:background="@drawable/text_view_bg_normal"
+                        android:digits="0123456789."
+                        android:maxLength="3"
+                        android:maxLines="1"
+                        android:paddingLeft="10dp" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/moral6" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/etMoral6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="3dp"
+                    android:hint="输入扣分"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:background="@drawable/text_view_bg_normal"
+                        android:digits="0123456789."
+                        android:maxLength="3"
+                        android:maxLines="1"
+                        android:paddingLeft="10dp" />
+
+                </android.support.design.widget.TextInputLayout>
+
+            </com.zhoukp.signer.view.linearLayout.ExpandableLinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/gray" />
+
+            <com.zhoukp.signer.view.linearLayout.ExpandableLinearLayout
+                android:id="@+id/llWit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="vertical"
+                zkp:expandText="查看更多"
+                zkp:hideText="收起">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="2.智育素质"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/wit"
+                    android:textSize="14sp" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/etWit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="3dp"
+                    android:hint="输入学年绩点"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:background="@drawable/text_view_bg_normal"
+                        android:digits="0123456789."
+                        android:maxLength="4"
+                        android:maxLines="1"
+                        android:paddingLeft="10dp" />
+
+                </android.support.design.widget.TextInputLayout>
+
+            </com.zhoukp.signer.view.linearLayout.ExpandableLinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/gray" />
+
+            <com.zhoukp.signer.view.linearLayout.ExpandableLinearLayout
+                android:id="@+id/llSports"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="vertical"
+                zkp:expandText="查看更多"
+                zkp:hideText="收起">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="3.体育素质"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="16sp" />
+
+                <com.zhoukp.signer.view.ExpandableTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/sports"
+                        android:textSize="14sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:padding="10dp"
+                        android:src="@drawable/ic_expand_less_black_12dp" />
+
+                </com.zhoukp.signer.view.ExpandableTextView>
+
+                <TextView
+                    android:id="@+id/tvSports"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/text_view_bg_normal"
+                    android:drawablePadding="10dp"
+                    android:drawableRight="@drawable/icon_expand"
+                    android:gravity="center"
+                    android:paddingRight="20dp"
+                    android:textSize="16sp" />
+
+            </com.zhoukp.signer.view.linearLayout.ExpandableLinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/gray" />
+
+            <com.zhoukp.signer.view.linearLayout.ExpandableLinearLayout
+                android:id="@+id/llPractice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="vertical"
+                zkp:expandText="查看更多"
+                zkp:hideText="收起">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="4.科技创新与社会实践"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/practice"
+                    android:textSize="14sp" />
+
+                <CheckBox
+                    android:id="@+id/practiceBasic1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/practiceBasic1" />
+
+                <CheckBox
+                    android:id="@+id/practiceBasic2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/practiceBasic2" />
+
+                <CheckBox
+                    android:id="@+id/practiceBasic3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/practiceBasic3" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/practiceDes"
+                    android:textColor="@color/theme_dark"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/practice1" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/etPractice1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="3dp"
+                    android:hint="输入得分"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:background="@drawable/text_view_bg_normal"
+                        android:digits="0123456789."
+                        android:maxLength="3"
+                        android:maxLines="1"
+                        android:paddingLeft="10dp" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/practice2" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/etPractice2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="3dp"
+                    android:hint="输入得分"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:background="@drawable/text_view_bg_normal"
+                        android:digits="0123456789."
+                        android:maxLength="3"
+                        android:maxLines="1"
+                        android:paddingLeft="10dp" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/practice3" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/etPractice3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="3dp"
+                    android:hint="输入得分"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:background="@drawable/text_view_bg_normal"
+                        android:digits="0123456789."
+                        android:maxLength="3"
+                        android:maxLines="1"
+                        android:paddingLeft="10dp" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/practice4" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/etPractice4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="3dp"
+                    android:hint="输入得分"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:background="@drawable/text_view_bg_normal"
+                        android:digits="0123456789."
+                        android:maxLength="3"
+                        android:maxLines="1"
+                        android:paddingLeft="10dp" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/practice5" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/etPractice5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="3dp"
+                    android:hint="输入得分"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:background="@drawable/text_view_bg_normal"
+                        android:digits="0123456789."
+                        android:maxLength="3"
+                        android:maxLines="1"
+                        android:paddingLeft="10dp" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/practice6" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/etPractice6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="3dp"
+                    android:hint="输入得分"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:background="@drawable/text_view_bg_normal"
+                        android:digits="0123456789."
+                        android:maxLength="3"
+                        android:maxLines="1"
+                        android:paddingLeft="10dp" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/practice7" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/etPractice7"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="3dp"
+                    android:hint="输入得分"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:background="@drawable/text_view_bg_normal"
+                        android:digits="0123456789."
+                        android:maxLength="3"
+                        android:maxLines="1"
+                        android:paddingLeft="10dp" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/practice8" />
+
+            </com.zhoukp.signer.view.linearLayout.ExpandableLinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/gray" />
+
+            <com.zhoukp.signer.view.linearLayout.ExpandableLinearLayout
+                android:id="@+id/llGenres"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="vertical"
+                zkp:expandText="查看更多"
+                zkp:hideText="收起">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="5.文体艺术与身心发展"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/genres"
+                    android:textSize="14sp" />
+
+                <CheckBox
+                    android:id="@+id/genresBasic1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/genresBasic1" />
+
+                <CheckBox
+                    android:id="@+id/genresBasic2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/genresBasic2" />
+
+                <CheckBox
+                    android:id="@+id/genresBasic3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/genresBasic3" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/genresDes"
+                    android:textColor="@color/theme_dark"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/genres1" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/etGenres1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="3dp"
+                    android:hint="输入得分"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:background="@drawable/text_view_bg_normal"
+                        android:digits="0123456789."
+                        android:maxLength="3"
+                        android:maxLines="1"
+                        android:paddingLeft="10dp" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/genres2" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/etGenres2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="3dp"
+                    android:hint="输入得分"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:background="@drawable/text_view_bg_normal"
+                        android:digits="0123456789."
+                        android:maxLength="3"
+                        android:maxLines="1"
+                        android:paddingLeft="10dp" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/genres3" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/etGenres3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="3dp"
+                    android:hint="输入得分"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:background="@drawable/text_view_bg_normal"
+                        android:digits="0123456789."
+                        android:maxLength="3"
+                        android:maxLines="1"
+                        android:paddingLeft="10dp" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/genres4" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/etGenres4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="3dp"
+                    android:hint="输入得分"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:background="@drawable/text_view_bg_normal"
+                        android:digits="0123456789."
+                        android:maxLength="3"
+                        android:maxLines="1"
+                        android:paddingLeft="10dp" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/genres5" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/etGenres5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="3dp"
+                    android:hint="输入得分"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:background="@drawable/text_view_bg_normal"
+                        android:digits="0123456789."
+                        android:maxLength="3"
+                        android:maxLines="1"
+                        android:paddingLeft="10dp" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/genres6" />
+
+            </com.zhoukp.signer.view.linearLayout.ExpandableLinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/gray" />
+
+            <com.zhoukp.signer.view.linearLayout.ExpandableLinearLayout
+                android:id="@+id/llTeam"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="vertical"
+                zkp:expandText="查看更多"
+                zkp:hideText="收起">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="6.团体活动与社会工作"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/team"
+                    android:textSize="14sp" />
+
+                <CheckBox
+                    android:id="@+id/teamBasic1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/teamBasic1" />
+
+                <CheckBox
+                    android:id="@+id/teamBasic2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/teamBasic2" />
+
+                <CheckBox
+                    android:id="@+id/teamBasic3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/teamBasic3" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/teamDes"
+                    android:textColor="@color/theme_dark"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/team1" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/etTeam1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="3dp"
+                    android:hint="输入得分"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:background="@drawable/text_view_bg_normal"
+                        android:digits="0123456789."
+                        android:maxLength="3"
+                        android:maxLines="1"
+                        android:paddingLeft="10dp" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/team2" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/etTeam2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="3dp"
+                    android:hint="输入得分"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:background="@drawable/text_view_bg_normal"
+                        android:digits="0123456789."
+                        android:maxLength="3"
+                        android:maxLines="1"
+                        android:paddingLeft="10dp" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/team3" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/etTeam3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="3dp"
+                    android:hint="输入得分"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:background="@drawable/text_view_bg_normal"
+                        android:digits="0123456789."
+                        android:maxLength="3"
+                        android:maxLines="1"
+                        android:paddingLeft="10dp" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/team4" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/etTeam4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="3dp"
+                    android:hint="输入得分"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:background="@drawable/text_view_bg_normal"
+                        android:digits="0123456789."
+                        android:maxLength="3"
+                        android:maxLines="1"
+                        android:paddingLeft="10dp" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/team5" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/etTeam5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="3dp"
+                    android:hint="输入得分"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:background="@drawable/text_view_bg_normal"
+                        android:digits="0123456789."
+                        android:maxLength="3"
+                        android:maxLines="1"
+                        android:paddingLeft="10dp" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/team6" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/etTeam6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="3dp"
+                    android:hint="输入得分"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:background="@drawable/text_view_bg_normal"
+                        android:digits="0123456789."
+                        android:maxLength="3"
+                        android:maxLines="1"
+                        android:paddingLeft="10dp" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/team7" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/etTeam7"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="3dp"
+                    android:hint="输入得分"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:background="@drawable/text_view_bg_normal"
+                        android:digits="0123456789."
+                        android:maxLength="3"
+                        android:maxLines="1"
+                        android:paddingLeft="10dp" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/team8" />
+
+            </com.zhoukp.signer.view.linearLayout.ExpandableLinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/gray" />
+
+            <com.zhoukp.signer.view.linearLayout.ExpandableLinearLayout
+                android:id="@+id/llExtra"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="vertical"
+                zkp:expandText="查看更多"
+                zkp:hideText="收起">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="7.附加分"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/extra"
+                    android:textSize="14sp" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/etExtra"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="3dp"
+                    android:hint="输入附加分"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="5dp">
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:background="@drawable/text_view_bg_normal"
+                        android:digits="0123456789."
+                        android:maxLength="3"
+                        android:maxLines="1"
+                        android:paddingLeft="10dp" />
+
+                </android.support.design.widget.TextInputLayout>
+
+            </com.zhoukp.signer.view.linearLayout.ExpandableLinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/gray" />
+
+            <Button
+                android:id="@+id/btnHideAll"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/btneditdata_bg_selector"
+                android:text="全部折叠"
+                android:textColor="@color/colorWhite"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/btnSubmit"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/btneditdata_bg_selector"
+                android:text="提交"
+                android:textColor="@color/colorWhite"
+                android:textSize="18sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/colorWhite" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

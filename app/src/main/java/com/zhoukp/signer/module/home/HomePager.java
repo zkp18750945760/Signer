@@ -17,7 +17,7 @@ import android.widget.LinearLayout;
 
 import com.zhoukp.signer.R;
 import com.zhoukp.signer.application.SignApplication;
-import com.zhoukp.signer.activity.AllTestActivity;
+import com.zhoukp.signer.module.functions.ascq.ASCQActivity;
 import com.zhoukp.signer.module.main.MainActivity;
 import com.zhoukp.signer.module.functions.meetings.MeetingActivity;
 import com.zhoukp.signer.activity.CotrunActivity;
@@ -174,7 +174,7 @@ public class HomePager extends BaseFragment implements HomePagerView, ViewPager.
                             context.startActivity(intent);
                             return;
                         }
-                        intent = new Intent(context, AllTestActivity.class);
+                        intent = new Intent(context, ASCQActivity.class);
                         context.startActivity(intent);
                         break;
                     case 3:

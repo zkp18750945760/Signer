@@ -77,8 +77,6 @@ public class AboutActivity extends AppCompatActivity implements View.OnClickList
                 }
             }
         });
-
-
     }
 
     @Override
@@ -111,7 +109,7 @@ public class AboutActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void getUpdateInfoSuccess(UpdateBean bean) {
-//获取版本更新信息成功
+        //获取版本更新信息成功
         //提示用户进行版本升级
         DownloadManager manager = DownloadManager.getInstance(this);
         manager.setApkName(bean.getData().get(0).getAppName())
