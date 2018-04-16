@@ -115,7 +115,7 @@ public class ASCQFragmentManager extends AppCompatActivity implements View.OnCli
                 switch (actionIndex) {
                     case 0:
                         //弹出对话框
-                        new CommonDialog(ASCQFragmentManager.this, "确认退出成绩上报吗？数据不会保留。", R.style.dialog, new CommonDialog.OnCloseListener() {
+                        new CommonDialog(ASCQFragmentManager.this, "确认退出成绩上报吗？\n数据不会保留哦！", R.style.dialog, new CommonDialog.OnCloseListener() {
                             @Override
                             public void onClick(Dialog dialog, boolean confirm) {
                                 if (confirm) {

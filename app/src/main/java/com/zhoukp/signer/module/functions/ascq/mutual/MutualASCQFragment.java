@@ -276,7 +276,7 @@ public class MutualASCQFragment extends BaseFragment implements MutualASCQView, 
             case R.id.btnPageUp:
                 //上一页
                 if (commonViewPager.getCurrentItem() == 0) {
-                    new CommonDialog(context, "确认退出互评吗？没有提交的数据不会保存哦。", R.style.dialog, new CommonDialog.OnCloseListener() {
+                    new CommonDialog(context, "确认退出互评吗？\n没有提交的数据不会保存哦。", R.style.dialog, new CommonDialog.OnCloseListener() {
                         @Override
                         public void onClick(Dialog dialog, boolean confirm) {
                             if (confirm) {
@@ -646,7 +646,7 @@ public class MutualASCQFragment extends BaseFragment implements MutualASCQView, 
             btnSubmit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new CommonDialog(context, "确认上传互评成绩吗？提交后不可更改哦。", R.style.dialog, new CommonDialog.OnCloseListener() {
+                    new CommonDialog(context, "确认上传互评成绩吗？\n上传后只能更改一次哦!", R.style.dialog, new CommonDialog.OnCloseListener() {
                         @Override
                         public void onClick(Dialog dialog, boolean confirm) {
                             if (confirm) {

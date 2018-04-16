@@ -67,31 +67,6 @@ public class HomePager extends BaseFragment implements HomePagerView, ViewPager.
     private boolean isAutoPlay;
     private BannerHandler bannerHandler;
 
-    //为防止内存泄漏, 声明自己的Handler并弱引用Activity
-    private class BannerHandler extends Handler {
-
-        private WeakReference<MainActivity> mWeakReference;
-
-        public BannerHandler(MainActivity activity) {
-            mWeakReference = new WeakReference<>(activity);
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case 0:
-                    MainActivity activity = mWeakReference.get();
-                    if (isAutoPlay) {
-                        viewPager.setCurrentItem(++currentViewPagerItem);
-                        bannerHandler.removeMessages(0);
-                        bannerHandler.sendEmptyMessageDelayed(0, VIEW_PAGER_DELAY);
-                    }
-                    break;
-            }
-        }
-    }
-
     @Override
     public View initView() {
         View view = View.inflate(context, R.layout.fragment_home_scroll, null);
@@ -112,6 +87,98 @@ public class HomePager extends BaseFragment implements HomePagerView, ViewPager.
         presenter = new HomePagerPresenter();
         presenter.attachView(this);
         presenter.getBanners();
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        currentViewPagerItem = position;
+        if (imageViews != null) {
+            position %= indicators.length;
+            int total = indicators.length;
+
+            for (int i = 0; i < total; i++) {
+                if (i == position) {
+                    indicators[i].setImageResource(R.drawable.icon_dot_selected);
+                } else {
+                    indicators[i].setImageResource(R.drawable.icon_dot_normal);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                isAutoPlay = false;
+                break;
+            case MotionEvent.ACTION_UP:
+                isAutoPlay = true;
+                break;
+        }
+        return false;
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (hidden) {
+            //不可见
+            isAutoPlay = false;
+            if (bannerHandler != null) {
+                bannerHandler.removeMessages(0);
+            }
+        } else {
+            //可见
+            isAutoPlay = true;
+            if (UserUtil.getInstance().getUser() != null){
+                presenter.getAllSchedule(UserUtil.getInstance().getUser().getUserId());
+            }
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        isAutoPlay = true;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        isAutoPlay = false;
+        if (bannerHandler != null) {
+            bannerHandler.removeMessages(0);
+        }
+    }
+
+    @Override
+    public void showLoadingView() {
+        threePointLoadingView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideLoadingView() {
+        threePointLoadingView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void getScheduleSuccess(com.zhoukp.signer.module.home.ScheduleBean bean) {
+        ToastUtil.showToast(context, "获取日程成功");
+        initHeaderView();
+        adapter = new HomeRecyclerViewAdapter(context, bean);
+        adapter.setHeaderView(headerView);
+        recyclerView.setAdapter(adapter);
     }
 
     /**
@@ -249,80 +316,6 @@ public class HomePager extends BaseFragment implements HomePagerView, ViewPager.
     }
 
     @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-    }
-
-    @Override
-    public void onPageSelected(int position) {
-        currentViewPagerItem = position;
-        if (imageViews != null) {
-            position %= indicators.length;
-            int total = indicators.length;
-
-            for (int i = 0; i < total; i++) {
-                if (i == position) {
-                    indicators[i].setImageResource(R.drawable.icon_dot_selected);
-                } else {
-                    indicators[i].setImageResource(R.drawable.icon_dot_normal);
-                }
-            }
-        }
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
-
-    }
-
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                isAutoPlay = false;
-                break;
-            case MotionEvent.ACTION_UP:
-                isAutoPlay = true;
-                break;
-        }
-        return false;
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        isAutoPlay = false;
-        if (bannerHandler != null) {
-            bannerHandler.removeMessages(0);
-        }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        isAutoPlay = true;
-    }
-
-    @Override
-    public void showLoadingView() {
-        threePointLoadingView.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void hideLoadingView() {
-        threePointLoadingView.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void getScheduleSuccess(com.zhoukp.signer.module.home.ScheduleBean bean) {
-        ToastUtil.showToast(context, "获取日程成功");
-        initHeaderView();
-        adapter = new HomeRecyclerViewAdapter(context, bean);
-        adapter.setHeaderView(headerView);
-        recyclerView.setAdapter(adapter);
-    }
-
-    @Override
     public void getScheduleError(int status) {
         switch (status) {
             case 100:
@@ -375,5 +368,30 @@ public class HomePager extends BaseFragment implements HomePagerView, ViewPager.
         }
 
         presenter.getAllSchedule(UserUtil.getInstance().getUser().getUserId());
+    }
+
+    //为防止内存泄漏, 声明自己的Handler并弱引用Activity
+    private class BannerHandler extends Handler {
+
+        private WeakReference<MainActivity> mWeakReference;
+
+        public BannerHandler(MainActivity activity) {
+            mWeakReference = new WeakReference<>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 0:
+                    MainActivity activity = mWeakReference.get();
+                    if (isAutoPlay) {
+                        viewPager.setCurrentItem(++currentViewPagerItem);
+                        bannerHandler.removeMessages(0);
+                        bannerHandler.sendEmptyMessageDelayed(0, VIEW_PAGER_DELAY);
+                    }
+                    break;
+            }
+        }
     }
 }

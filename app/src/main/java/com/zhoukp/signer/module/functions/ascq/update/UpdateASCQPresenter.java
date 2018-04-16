@@ -3,6 +3,7 @@ package com.zhoukp.signer.module.functions.ascq.update;
 import android.util.Log;
 
 import com.zhoukp.signer.module.functions.ascq.mutual.IsMutualMemberBean;
+import com.zhoukp.signer.module.managedevice.DeviceBean;
 import com.zhoukp.signer.utils.BaseApi;
 
 /**
@@ -116,6 +117,38 @@ public class UpdateASCQPresenter {
                     @Override
                     public void onFail() {
                         updateASCQView.getASCQError(100);
+                        updateASCQView.hideLoadingView();
+                    }
+                });
+
+    }
+
+    /**
+     * 更新某个学年某个学生的综测成绩
+     *
+     * @param ASCQ ASCQ
+     */
+    public void updateASCQ(String ASCQ) {
+
+        updateASCQView.showLoadingView();
+
+        BaseApi.request(BaseApi.createApi(IUpdateASCQApi.class).updateASCQ(ASCQ),
+                new BaseApi.IResponseListener<DeviceBean>() {
+                    @Override
+                    public void onSuccess(DeviceBean data) {
+                        Log.e("zkp", "updateASCQ==" + data.getStatus());
+
+                        if (data.getStatus() == 200) {
+                            updateASCQView.updateSuccess();
+                        } else {
+                            updateASCQView.updateError(data.getStatus());
+                        }
+                        updateASCQView.hideLoadingView();
+                    }
+
+                    @Override
+                    public void onFail() {
+                        updateASCQView.updateError(100);
                         updateASCQView.hideLoadingView();
                     }
                 });

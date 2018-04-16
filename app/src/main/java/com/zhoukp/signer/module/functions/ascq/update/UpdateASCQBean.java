@@ -127,6 +127,7 @@ public class UpdateASCQBean {
 
         private TeamBean team;
         private String time;
+        private String mutualCode;
         /**
          * moral2 : 0
          * moral1 : 0
@@ -211,6 +212,14 @@ public class UpdateASCQBean {
 
         public void setTime(String time) {
             this.time = time;
+        }
+
+        public String getMutualCode() {
+            return mutualCode == null ? "" : mutualCode;
+        }
+
+        public void setMutualCode(String mutualCode) {
+            this.mutualCode = mutualCode;
         }
 
         public MoralBean getMoral() {

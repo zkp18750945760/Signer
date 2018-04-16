@@ -25,4 +25,8 @@ public interface UpdateASCQView {
     void getASCQSuccess(UpdateASCQBean bean);
 
     void getASCQError(int status);
+
+    void updateSuccess();
+
+    void updateError(int status);
 }

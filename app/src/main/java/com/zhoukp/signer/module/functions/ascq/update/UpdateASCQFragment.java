@@ -20,6 +20,7 @@ import com.zhoukp.signer.module.functions.ascq.mutual.IsMutualMemberBean;
 import com.zhoukp.signer.module.functions.ledgers.scanxls.ProgressDialog;
 import com.zhoukp.signer.module.login.LoginBean;
 import com.zhoukp.signer.module.login.UserUtil;
+import com.zhoukp.signer.utils.TimeUtils;
 import com.zhoukp.signer.utils.ToastUtil;
 import com.zhoukp.signer.view.CommonDialog;
 import com.zhoukp.signer.view.SelectDataDialog;
@@ -30,6 +31,7 @@ import com.zhoukp.signer.viewpager.CommonViewPager2;
 import com.zhoukp.signer.viewpager.ViewPagerHolder;
 import com.zhoukp.signer.viewpager.ViewPagerHolderCreator;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -173,6 +175,7 @@ public class UpdateASCQFragment extends BaseFragment implements UpdateASCQView {
                     public void onClick(Dialog dialog, boolean confirm, String data) {
                         if (confirm) {
                             schoolYear = data;
+                            presenter.getMutualIDs(userBean.getUserId(), schoolYear);
                         }
                         dialog.dismiss();
                     }
@@ -219,14 +222,55 @@ public class UpdateASCQFragment extends BaseFragment implements UpdateASCQView {
     }
 
     @Override
+    public void updateSuccess() {
+        //修改成功
+        ToastUtil.showToast(context, "修改成功");
+
+        commonViewPager.setPages(null, new ViewPagerHolderCreator<ViewHolder>() {
+            @Override
+            public ViewHolder createViewHolder() {
+                // 返回ViewPagerHolder
+                return new ViewHolder();
+            }
+        });
+
+        new SelectSchoolYearDialog(context, "请选择学年", R.style.dialog, new SelectSchoolYearDialog.OnCloseListener() {
+            @Override
+            public void onClick(Dialog dialog, boolean confirm, String data) {
+                if (confirm) {
+                    schoolYear = data;
+                    presenter.getMutualIDs(userBean.getUserId(), schoolYear);
+                }
+                dialog.dismiss();
+            }
+        }).show();
+    }
+
+    @Override
+    public void updateError(int status) {
+        switch (status) {
+            case 100:
+                ToastUtil.showToast(context, "获取" + stuID + "同学" + schoolYear + "学年的互评成绩失败");
+                break;
+            case 101:
+                ToastUtil.showToast(context, "还没有审核记录");
+                break;
+            case 102:
+                ToastUtil.showToast(context, "该条记录不存在数据库中");
+                break;
+            case 103:
+                ToastUtil.showToast(context, "数据库IO错误");
+                break;
+        }
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
 
     class ViewHolder implements ViewPagerHolder<UpdateASCQBean.DataBean>, View.OnClickListener {
-
-        private static final int LEVEL = 2;
 
         @Bind(R.id.tvYear)
         TextView tvYear;
@@ -567,7 +611,7 @@ public class UpdateASCQFragment extends BaseFragment implements UpdateASCQView {
             btnSubmit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new CommonDialog(context, "确认上传互评成绩吗？提交后不可更改哦。", R.style.dialog, new CommonDialog.OnCloseListener() {
+                    new CommonDialog(context, "确认更新互评成绩吗？\n更新后不可更改哦！", R.style.dialog, new CommonDialog.OnCloseListener() {
                         @Override
                         public void onClick(Dialog dialog, boolean confirm) {
                             if (confirm) {
@@ -825,15 +869,20 @@ public class UpdateASCQFragment extends BaseFragment implements UpdateASCQView {
                 hashMap.put("extra", map);
             }
 
-            hashMap.put("status", 200);
-            hashMap.put("time", data.getTime());
-            hashMap.put("userId", data.getStuId());
+            hashMap.put("checkedStuId", userBean.getUserId());
+            hashMap.put("mutualCode", data.getMutualCode());
+            hashMap.put("stuId", data.getStuId());
             hashMap.put("schoolYear", data.getSchoolYear());
+            hashMap.put("time", data.getTime());
 
-            System.out.println(JSON.toJSONString(hashMap));
-
+            ArrayList<HashMap> jsonObjects = new ArrayList<>();
+            HashMap<String, Object> itemMap = new HashMap<>();
+            jsonObjects.add(hashMap);
+            itemMap.put("data", jsonObjects);
+            itemMap.put("time", TimeUtils.getCurrentTime());
+            itemMap.put("status", 200);
             //上传综测成绩
-
+            presenter.updateASCQ(JSON.toJSONString(itemMap));
         }
 
         private int getSportsLevel(String level) {

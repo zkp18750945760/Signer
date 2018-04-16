@@ -88,6 +88,19 @@ public class MePager extends BaseFragment implements View.OnClickListener, MePag
     }
 
     @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (hidden) {
+            //不可见
+
+        } else {
+            //可见
+
+        }
+        refreshUI();
+    }
+
+    @Override
     public void initData() {
         super.initData();
 

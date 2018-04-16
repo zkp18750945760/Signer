@@ -33,13 +33,13 @@ public class SplashActivity extends WelcomeActivity {
                 )
                 .page(new BasicPage(R.drawable.logo,
                         "综测上报",
-                        "手机上报、审核综测")
-                        .background(R.color.page2)
+                        "手机上报、审核综测、记录可查、排名统计")
+                        .background(R.color.page3)
                 )
                 .page(new BasicPage(R.drawable.logo,
                         "科创统计",
                         "科创立项、获奖情况一览无余")
-                        .background(R.color.page3)
+                        .background(R.color.page2)
                 )
                 .page(new BasicPage(R.drawable.logo,
                         "出勤签到",
@@ -69,6 +69,7 @@ public class SplashActivity extends WelcomeActivity {
         if (!TextUtils.isEmpty(isSplash)) {
             startActivity(new Intent(this, MainActivity.class));
             finish();
+            return;
         }
     }
 }

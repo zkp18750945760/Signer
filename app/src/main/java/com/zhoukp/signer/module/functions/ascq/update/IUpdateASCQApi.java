@@ -1,6 +1,7 @@
 package com.zhoukp.signer.module.functions.ascq.update;
 
 import com.zhoukp.signer.module.functions.ascq.mutual.IsMutualMemberBean;
+import com.zhoukp.signer.module.managedevice.DeviceBean;
 
 import io.reactivex.Observable;
 import retrofit2.http.POST;
@@ -55,6 +56,17 @@ public interface IUpdateASCQApi {
     Observable<UpdateASCQBean> getModifyASCQ(
             @Query("userId") String userId,
             @Query("schoolYear") String schoolYear
+    );
+
+    /**
+     * 更新某个学年某个学生的综测成绩
+     *
+     * @param ASCQ ASCQ
+     * @return 200->成功 101->还没有审核记录 102->该条记录不存在数据库中 103->数据库IO错误
+     */
+    @POST("UpdateASCQ?")
+    Observable<DeviceBean> updateASCQ(
+            @Query("ASCQ") String ASCQ
     );
 
 }

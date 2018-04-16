@@ -87,6 +87,7 @@ public class SelectLevelDialog extends Dialog implements View.OnClickListener, P
         datas.add(new Pickers("不及格", 3 + ""));
 
         //设置数据，默认选择第一条
+        data = datas.get(0).getShowConetnt();
         pickerScrollView.setData(datas);
         pickerScrollView.setSelected(0);
     }
