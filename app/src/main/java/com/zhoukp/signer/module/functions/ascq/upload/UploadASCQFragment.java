@@ -14,7 +14,7 @@ import com.zhoukp.signer.R;
 import com.zhoukp.signer.fragment.BaseFragment;
 import com.zhoukp.signer.module.chose.SelectLevelActivity;
 import com.zhoukp.signer.module.chose.SelectSchoolYearActivity;
-import com.zhoukp.signer.module.functions.ledgers.scanxls.ProgressDialog;
+import com.zhoukp.signer.view.dialog.ProgressDialog;
 import com.zhoukp.signer.module.login.LoginBean;
 import com.zhoukp.signer.module.login.UserUtil;
 import com.zhoukp.signer.module.managedevice.DeviceBean;
@@ -28,7 +28,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -42,99 +42,99 @@ public class UploadASCQFragment extends BaseFragment implements View.OnClickList
     private static final int YEAR = 1;
     private static final int LEVEL = 2;
 
-    @Bind(R.id.tvYear)
+    @BindView(R.id.tvYear)
     TextView tvYear;
-    @Bind(R.id.etMoral1)
+    @BindView(R.id.etMoral1)
     TextInputLayout etMoral1;
-    @Bind(R.id.etMoral2)
+    @BindView(R.id.etMoral2)
     TextInputLayout etMoral2;
-    @Bind(R.id.etMoral3)
+    @BindView(R.id.etMoral3)
     TextInputLayout etMoral3;
-    @Bind(R.id.etMoral4)
+    @BindView(R.id.etMoral4)
     TextInputLayout etMoral4;
-    @Bind(R.id.etMoral5)
+    @BindView(R.id.etMoral5)
     TextInputLayout etMoral5;
-    @Bind(R.id.etMoral6)
+    @BindView(R.id.etMoral6)
     TextInputLayout etMoral6;
-    @Bind(R.id.llMoral)
+    @BindView(R.id.llMoral)
     ExpandableLinearLayout llMoral;
-    @Bind(R.id.etWit)
+    @BindView(R.id.etWit)
     TextInputLayout etWit;
-    @Bind(R.id.llWit)
+    @BindView(R.id.llWit)
     ExpandableLinearLayout llWit;
-    @Bind(R.id.tvSports)
+    @BindView(R.id.tvSports)
     TextView tvSports;
-    @Bind(R.id.llSports)
+    @BindView(R.id.llSports)
     ExpandableLinearLayout llSports;
-    @Bind(R.id.practiceBasic1)
+    @BindView(R.id.practiceBasic1)
     CheckBox practiceBasic1;
-    @Bind(R.id.practiceBasic2)
+    @BindView(R.id.practiceBasic2)
     CheckBox practiceBasic2;
-    @Bind(R.id.practiceBasic3)
+    @BindView(R.id.practiceBasic3)
     CheckBox practiceBasic3;
-    @Bind(R.id.etPractice1)
+    @BindView(R.id.etPractice1)
     TextInputLayout etPractice1;
-    @Bind(R.id.etPractice2)
+    @BindView(R.id.etPractice2)
     TextInputLayout etPractice2;
-    @Bind(R.id.etPractice3)
+    @BindView(R.id.etPractice3)
     TextInputLayout etPractice3;
-    @Bind(R.id.etPractice4)
+    @BindView(R.id.etPractice4)
     TextInputLayout etPractice4;
-    @Bind(R.id.etPractice5)
+    @BindView(R.id.etPractice5)
     TextInputLayout etPractice5;
-    @Bind(R.id.etPractice6)
+    @BindView(R.id.etPractice6)
     TextInputLayout etPractice6;
-    @Bind(R.id.etPractice7)
+    @BindView(R.id.etPractice7)
     TextInputLayout etPractice7;
-    @Bind(R.id.llPractice)
+    @BindView(R.id.llPractice)
     ExpandableLinearLayout llPractice;
-    @Bind(R.id.genresBasic1)
+    @BindView(R.id.genresBasic1)
     CheckBox genresBasic1;
-    @Bind(R.id.genresBasic2)
+    @BindView(R.id.genresBasic2)
     CheckBox genresBasic2;
-    @Bind(R.id.genresBasic3)
+    @BindView(R.id.genresBasic3)
     CheckBox genresBasic3;
-    @Bind(R.id.etGenres1)
+    @BindView(R.id.etGenres1)
     TextInputLayout etGenres1;
-    @Bind(R.id.etGenres2)
+    @BindView(R.id.etGenres2)
     TextInputLayout etGenres2;
-    @Bind(R.id.etGenres3)
+    @BindView(R.id.etGenres3)
     TextInputLayout etGenres3;
-    @Bind(R.id.etGenres4)
+    @BindView(R.id.etGenres4)
     TextInputLayout etGenres4;
-    @Bind(R.id.etGenres5)
+    @BindView(R.id.etGenres5)
     TextInputLayout etGenres5;
-    @Bind(R.id.llGenres)
+    @BindView(R.id.llGenres)
     ExpandableLinearLayout llGenres;
-    @Bind(R.id.teamBasic1)
+    @BindView(R.id.teamBasic1)
     CheckBox teamBasic1;
-    @Bind(R.id.teamBasic2)
+    @BindView(R.id.teamBasic2)
     CheckBox teamBasic2;
-    @Bind(R.id.teamBasic3)
+    @BindView(R.id.teamBasic3)
     CheckBox teamBasic3;
-    @Bind(R.id.etTeam1)
+    @BindView(R.id.etTeam1)
     TextInputLayout etTeam1;
-    @Bind(R.id.etTeam2)
+    @BindView(R.id.etTeam2)
     TextInputLayout etTeam2;
-    @Bind(R.id.etTeam3)
+    @BindView(R.id.etTeam3)
     TextInputLayout etTeam3;
-    @Bind(R.id.etTeam4)
+    @BindView(R.id.etTeam4)
     TextInputLayout etTeam4;
-    @Bind(R.id.etTeam5)
+    @BindView(R.id.etTeam5)
     TextInputLayout etTeam5;
-    @Bind(R.id.etTeam6)
+    @BindView(R.id.etTeam6)
     TextInputLayout etTeam6;
-    @Bind(R.id.etTeam7)
+    @BindView(R.id.etTeam7)
     TextInputLayout etTeam7;
-    @Bind(R.id.llTeam)
+    @BindView(R.id.llTeam)
     ExpandableLinearLayout llTeam;
-    @Bind(R.id.etExtra)
+    @BindView(R.id.etExtra)
     TextInputLayout etExtra;
-    @Bind(R.id.llExtra)
+    @BindView(R.id.llExtra)
     ExpandableLinearLayout llExtra;
-    @Bind(R.id.btnHideAll)
+    @BindView(R.id.btnHideAll)
     Button btnHideAll;
-    @Bind(R.id.btnSubmit)
+    @BindView(R.id.btnSubmit)
     Button btnSubmit;
 
     private UploadASCQPresenter presenter;
@@ -589,7 +589,6 @@ public class UploadASCQFragment extends BaseFragment implements View.OnClickList
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
     }
 
     @Override

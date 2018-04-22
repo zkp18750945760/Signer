@@ -23,7 +23,7 @@ import com.zhoukp.signer.utils.WindowUtils;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -35,13 +35,13 @@ import butterknife.ButterKnife;
 public class LedgerActivity extends AppCompatActivity implements View.OnClickListener, SegmentedView.OnItemSelectedListener {
 
 
-    @Bind(R.id.ivUpload)
+    @BindView(R.id.ivUpload)
     ImageView ivUpload;
-    @Bind(R.id.ivBack)
+    @BindView(R.id.ivBack)
     ImageView ivBack;
-    @Bind(R.id.segmentView)
+    @BindView(R.id.segmentView)
     SegmentedView segmentView;
-    @Bind(R.id.flLedgerContent)
+    @BindView(R.id.flLedgerContent)
     FrameLayout flLedgerContent;
 
     private ArrayList<BaseFragment> baseFragments;

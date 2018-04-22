@@ -73,19 +73,20 @@ public class MeetAdapter extends BaseAdapter {
             viewHoleder.ivBrowsed.setVisibility(View.VISIBLE);
             viewHoleder.btnMark.setVisibility(View.GONE);
 
+        } else {
+            viewHoleder.ivBrowsed.setVisibility(View.GONE);
+            viewHoleder.btnMark.setVisibility(View.VISIBLE);
+
             viewHoleder.btnMark.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //标记已读
                     presenter.updateDiscussionRead(UserUtil.getInstance().getUser().getUserId(),
                             getItem(position).getTheme(),
-                            getItem(position).getDate(), position);
+                            getItem(position).getDate(),
+                            position);
                 }
             });
-
-        } else {
-            viewHoleder.ivBrowsed.setVisibility(View.GONE);
-            viewHoleder.btnMark.setVisibility(View.VISIBLE);
         }
 
         return convertView;

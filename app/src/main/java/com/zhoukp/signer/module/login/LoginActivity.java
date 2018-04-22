@@ -15,21 +15,21 @@ import com.zhoukp.signer.utils.aes.AesUtil;
 import com.zhoukp.signer.utils.aes.MD5;
 import com.zhoukp.signer.view.ThreePointLoadingView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class LoginActivity extends AppCompatActivity implements LoginView {
 
-    @Bind(R.id.ivHead)
+    @BindView(R.id.ivHead)
     RoundedImageView ivHead;
-    @Bind(R.id.etUsername)
+    @BindView(R.id.etUsername)
     TextInputLayout etUsername;
-    @Bind(R.id.etPassword)
+    @BindView(R.id.etPassword)
     TextInputLayout etPassword;
-    @Bind(R.id.btnLogin)
+    @BindView(R.id.btnLogin)
     Button btnLogin;
-    @Bind(R.id.ThreePointLoadingView)
+    @BindView(R.id.ThreePointLoadingView)
     ThreePointLoadingView threePointLoadingView;
 
     private EditText username;

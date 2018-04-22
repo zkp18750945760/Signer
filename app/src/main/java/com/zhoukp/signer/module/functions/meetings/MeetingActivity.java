@@ -1,11 +1,12 @@
 package com.zhoukp.signer.module.functions.meetings;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,23 +18,27 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.handmark.pulltorefresh.library.extras.SoundPullEventListener;
 import com.zhoukp.signer.R;
-import com.zhoukp.signer.module.chose.SelectSchoolYearActivity;
-import com.zhoukp.signer.module.chose.SelectTermActivity;
-import com.zhoukp.signer.module.chose.SelectWeekActivity;
-import com.zhoukp.signer.module.functions.ledgers.scanxls.ProgressDialog;
+import com.zhoukp.signer.view.dialog.ProgressDialog;
 import com.zhoukp.signer.module.functions.meetings.pdf.ReadPdfActivity;
+import com.zhoukp.signer.module.functions.meetings.upload.UploadPdfActivity;
+import com.zhoukp.signer.module.login.LoginBean;
 import com.zhoukp.signer.module.login.UserUtil;
+import com.zhoukp.signer.utils.SchoolYearUtils;
+import com.zhoukp.signer.utils.TimeUtils;
 import com.zhoukp.signer.utils.ToastUtil;
 import com.zhoukp.signer.utils.WindowUtils;
+import com.zhoukp.signer.view.dialog.SelectSchoolYearDialog;
+import com.zhoukp.signer.view.dialog.SelectTermDialog;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -49,17 +54,15 @@ public class MeetingActivity extends AppCompatActivity implements View.OnClickLi
     private static final int TERM = 2;
     private static final int WEEK = 3;
 
-    @Bind(R.id.ivSearch)
-    ImageView ivSearch;
-    @Bind(R.id.ivBack)
+    @BindView(R.id.ivUpload)
+    ImageView ivUpload;
+    @BindView(R.id.ivBack)
     ImageView ivBack;
-    @Bind(R.id.tvYear)
+    @BindView(R.id.tvYear)
     TextView tvYear;
-    @Bind(R.id.tvTerm)
+    @BindView(R.id.tvTerm)
     TextView tvTerm;
-    @Bind(R.id.tvWeek)
-    TextView tvWeek;
-    @Bind(R.id.listView)
+    @BindView(R.id.listView)
     PullToRefreshListView listView;
 
     private MeetPresenter presenter;
@@ -67,6 +70,18 @@ public class MeetingActivity extends AppCompatActivity implements View.OnClickLi
     private ProgressDialog dialog;
 
     private ArrayList<MeetBean.DataBean> dataBeans;
+    private LoginBean.UserBean userBean;
+    private String schoolYear;
+    private String term;
+
+    private Handler handler = new Handler();
+
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            refreshComplete();
+        }
+    };
 
 
     @Override
@@ -92,18 +107,32 @@ public class MeetingActivity extends AppCompatActivity implements View.OnClickLi
 
     private void initVariates() {
 
+        userBean = UserUtil.getInstance().getUser();
+
+        String termCode = SchoolYearUtils.getTermCodeByMonth(userBean.getUserId(),
+                Integer.parseInt(TimeUtils.getCurrentYear()), TimeUtils.getMonthOfYear());
+
+        HashMap map = SchoolYearUtils.getSchoolYear(SchoolYearUtils.getGradeCode(userBean.getUserGrade()), termCode);
+
+        schoolYear = (String) map.get("schoolYear");
+        term = (String) map.get("term");
+
+        tvYear.setText(schoolYear);
+        tvTerm.setText(getTerm(term));
+
         dataBeans = new ArrayList<>();
 
         presenter = new MeetPresenter();
         presenter.attachView(this);
-        presenter.getDiscussion(UserUtil.getInstance().getUser().getUserId());
+        presenter.getDiscussion(userBean.getUserId(), userBean.getUserGrade(), userBean.getUserMajor(),
+                userBean.getUserClass(), schoolYear, term);
     }
 
     private void initEvents() {
         ivBack.setOnClickListener(this);
+        ivUpload.setOnClickListener(this);
         tvYear.setOnClickListener(this);
         tvTerm.setOnClickListener(this);
-        tvWeek.setOnClickListener(this);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -123,6 +152,25 @@ public class MeetingActivity extends AppCompatActivity implements View.OnClickLi
         });
     }
 
+    private String getTerm(String term) {
+        String result = "1";
+        switch (term) {
+            case "上":
+                result = "1";
+                break;
+            case "下":
+                result = "2";
+                break;
+            case "1":
+                result = "上";
+                break;
+            case "2":
+                result = "下";
+                break;
+        }
+        return result;
+    }
+
     @Override
     public void onClick(View view) {
         Intent intent;
@@ -130,53 +178,41 @@ public class MeetingActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.ivBack:
                 finish();
                 break;
+            case R.id.ivUpload:
+                //上传手机中特定文件到服务器
+                if (userBean.getUserDuty().equals("学生")){
+                    ToastUtil.showToast(MeetingActivity.this, "你没有权限上传会议记录");
+                    return;
+                }
+                intent = new Intent(MeetingActivity.this, UploadPdfActivity.class);
+                startActivity(intent);
+                break;
             case R.id.tvYear:
-                intent = new Intent(MeetingActivity.this, SelectSchoolYearActivity.class);
-                intent.putExtra("type", "schoolYear");
-                intent.putExtra("userId", UserUtil.getInstance().getUser().getUserId());
-                startActivityForResult(intent, YEAR);
+                new SelectSchoolYearDialog(MeetingActivity.this, "请选择学年", R.style.dialog, new SelectSchoolYearDialog.OnCloseListener() {
+                    @Override
+                    public void onClick(Dialog dialog, boolean confirm, String data) {
+                        if (confirm) {
+                            schoolYear = data;
+                            tvYear.setText(schoolYear);
+                        }
+                        dialog.dismiss();
+                    }
+                }).show();
                 break;
             case R.id.tvTerm:
-                intent = new Intent(MeetingActivity.this, SelectTermActivity.class);
-                intent.putExtra("type", "term");
-                startActivityForResult(intent, TERM);
-                break;
-            case R.id.tvWeek:
-                intent = new Intent(MeetingActivity.this, SelectWeekActivity.class);
-                intent.putExtra("type", "week");
-                startActivityForResult(intent, WEEK);
+                new SelectTermDialog(MeetingActivity.this, "请选择学期", R.style.dialog, new SelectTermDialog.OnCloseListener() {
+                    @Override
+                    public void onClick(Dialog dialog, boolean confirm, String data) {
+                        if (confirm) {
+                            term = getTerm(data);
+                            tvTerm.setText(data);
+                        }
+                        dialog.dismiss();
+                    }
+                }).show();
                 break;
             default:
                 break;
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && data != null) {
-            switch (requestCode) {
-                case YEAR:
-                    String schoolYear = data.getStringExtra("schoolYear");
-                    if (!TextUtils.isEmpty(schoolYear)) {
-                        tvYear.setText(schoolYear);
-                    }
-                    break;
-                case TERM:
-                    String term = data.getStringExtra("term");
-                    if (!TextUtils.isEmpty(term)) {
-                        tvTerm.setText(term);
-                    }
-                    break;
-                case WEEK:
-                    String week = data.getStringExtra("week");
-                    if (!TextUtils.isEmpty(week)) {
-                        tvWeek.setText(week);
-                    }
-                    break;
-                default:
-                    break;
-            }
         }
     }
 
@@ -228,7 +264,8 @@ public class MeetingActivity extends AppCompatActivity implements View.OnClickLi
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 Log.e("zkp", "onPullDownToRefresh");
                 //下拉刷新
-                presenter.getDiscussion(UserUtil.getInstance().getUser().getUserId());
+                presenter.getDiscussion(userBean.getUserId(), userBean.getUserGrade(), userBean.getUserMajor(),
+                        userBean.getUserClass(), schoolYear, term);
             }
 
             @Override
@@ -245,8 +282,8 @@ public class MeetingActivity extends AppCompatActivity implements View.OnClickLi
                 for (int i = start; i < end; i++) {
                     dataBeans.add(bean.getData().get(i));
                 }
-                listView.onRefreshComplete();
                 adapter.notifyDataSetChanged();
+                handler.postDelayed(runnable, 1500);
             }
         });
     }

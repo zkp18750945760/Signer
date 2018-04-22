@@ -21,7 +21,7 @@ import com.zhoukp.signer.utils.WindowUtils;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -34,15 +34,15 @@ import butterknife.ButterKnife;
 public class CotrunActivity extends AppCompatActivity implements View.OnClickListener, SegmentedView.OnItemSelectedListener {
 
 
-    @Bind(R.id.ivUpload)
+    @BindView(R.id.ivUpload)
     ImageView ivUpload;
-    @Bind(R.id.ivBack)
+    @BindView(R.id.ivBack)
     ImageView ivBack;
-    @Bind(R.id.rl_title)
+    @BindView(R.id.rl_title)
     RelativeLayout rlTitle;
-    @Bind(R.id.segmentView)
+    @BindView(R.id.segmentView)
     SegmentedView segmentView;
-    @Bind(R.id.flCotrunContent)
+    @BindView(R.id.flCotrunContent)
     FrameLayout flCotrunContent;
 
     private ArrayList<BasePager> basePagers;

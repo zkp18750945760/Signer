@@ -2,4 +2,6 @@
 <resources>
     <item name="commonViewPagerItemTag" type="id" />
     <item name="item_divider" type="id" />
+    <item name="visible" type="id" />
+    <item name="masked" type="id" />
 </resources>

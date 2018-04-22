@@ -2,16 +2,16 @@ package com.zhoukp.signer.module.functions.ledgers.second;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.zhoukp.signer.R;
-import com.zhoukp.signer.activity.SelectTimeActivity;
 import com.zhoukp.signer.fragment.BaseFragment;
 import com.zhoukp.signer.module.chose.SelectYearActivity;
-import com.zhoukp.signer.module.functions.ledgers.scanxls.ProgressDialog;
+import com.zhoukp.signer.view.dialog.ProgressDialog;
 import com.zhoukp.signer.module.login.UserUtil;
 import com.zhoukp.signer.utils.TimeUtils;
 import com.zhoukp.signer.utils.ToastUtil;
@@ -23,21 +23,27 @@ import com.zhoukp.signer.utils.ToastUtil;
  * @function 第一台账页面
  */
 
-public class SecondLedgerFragemnt extends BaseFragment implements View.OnClickListener, SecondLedgerView {
+public class SecondLedgerFragemnt extends BaseFragment implements View.OnClickListener, SecondLedgerView, SwipeRefreshLayout.OnRefreshListener {
 
     private static final int YEAR = 1;
 
     private TextView tvYear;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private ListView listView;
 
     private ProgressDialog dialog;
     private ListViewAdapter adapter;
     private SecondLedgerPresenter presenter;
+    private String year;
 
     @Override
     public View initView() {
         View view = View.inflate(context, R.layout.pager_secondledger, null);
         tvYear = view.findViewById(R.id.tvYear);
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
+        //设置颜色
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorBtnPressed);
+
         tvYear.setText(TimeUtils.getCurrentYear() + "年");
         listView = view.findViewById(R.id.listView);
         return view;
@@ -46,6 +52,10 @@ public class SecondLedgerFragemnt extends BaseFragment implements View.OnClickLi
     @Override
     public void initData() {
         super.initData();
+
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setRefreshing(true);
+
         presenter = new SecondLedgerPresenter();
         presenter.attachView(this);
 
@@ -90,7 +100,7 @@ public class SecondLedgerFragemnt extends BaseFragment implements View.OnClickLi
         if (resultCode == Activity.RESULT_OK && data != null) {
             switch (requestCode) {
                 case YEAR:
-                    String year = data.getStringExtra("year");
+                    year = data.getStringExtra("year");
                     if (!TextUtils.isEmpty(year)) {
                         tvYear.setText(year + "年");
                         presenter.getSecondLedger(UserUtil.getInstance().getUser().getUserId(),
@@ -123,6 +133,7 @@ public class SecondLedgerFragemnt extends BaseFragment implements View.OnClickLi
     public void getLedgerSuccess(SecondLedgerBean bean) {
         adapter = new ListViewAdapter(context, bean);
         listView.setAdapter(adapter);
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -138,5 +149,12 @@ public class SecondLedgerFragemnt extends BaseFragment implements View.OnClickLi
                 ToastUtil.showToast(context, "数据库IO错误");
                 break;
         }
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void onRefresh() {
+        presenter.getSecondLedger(UserUtil.getInstance().getUser().getUserId(),
+                Integer.parseInt(tvYear.getText().toString().replace("年", "")));
     }
 }

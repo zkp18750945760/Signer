@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
@@ -14,6 +13,7 @@ import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -26,12 +26,13 @@ import com.zhoukp.signer.utils.PermissionUtils;
 import com.zhoukp.signer.utils.TimeUtils;
 import com.zhoukp.signer.utils.ToastUtil;
 import com.zhoukp.signer.utils.WindowUtils;
-import com.zhoukp.signer.view.CommonDialog;
+import com.zhoukp.signer.view.dialog.CommonDialog;
+import com.zhoukp.signer.view.dialog.ProgressDialog;
 
 import java.io.File;
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -41,13 +42,15 @@ import butterknife.ButterKnife;
  * @function 扫描手机上的xls文件
  */
 
-public class ScanXlsActivity extends AppCompatActivity implements ScanXlsView, View.OnClickListener, AdapterView.OnItemClickListener {
+public class ScanXlsActivity extends AppCompatActivity implements ScanXlsView, View.OnClickListener, AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
 
-    @Bind(R.id.listView)
+    @BindView(R.id.listView)
     ListView listView;
-    @Bind(R.id.ivBack)
+    @BindView(R.id.swipeRefreshLayout)
+    SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.ivBack)
     ImageView ivBack;
-    @Bind(R.id.ivSearch)
+    @BindView(R.id.ivSearch)
     ImageView ivSearch;
 
     private ProgressDialog dialog;
@@ -64,13 +67,12 @@ public class ScanXlsActivity extends AppCompatActivity implements ScanXlsView, V
 
         ButterKnife.bind(this);
 
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setRefreshing(true);
+
         prestener = new ScanXlsPrestener();
         prestener.attachView(this);
-
-        if (PermissionUtils.isGrantExternalRW(this, 1)) {
-            //登陆
-            prestener.queryFiles(this, new String[]{"%.xls", "%.xlsx"});
-        }
+        prestener.queryFiles(this, new String[]{"%.xls"});
 
         initEvents();
     }
@@ -141,19 +143,6 @@ public class ScanXlsActivity extends AppCompatActivity implements ScanXlsView, V
         }
     }
 
-    public String getRealPathFromURI(Uri contentUri) {
-        String res = null;
-        String[] proj = {MediaStore.Images.Media.DATA};
-        Cursor cursor = getContentResolver().query(contentUri, proj, null, null, null);
-        if (null != cursor && cursor.moveToFirst()) {
-            ;
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            res = cursor.getString(column_index);
-            cursor.close();
-        }
-        return res;
-    }
-
     /**
      * 专为Android4.4设计的从Uri获取文件绝对路径，以前的方法已不好使
      */
@@ -202,6 +191,35 @@ public class ScanXlsActivity extends AppCompatActivity implements ScanXlsView, V
         return null;
     }
 
+    public String getRealPathFromURI(Uri contentUri) {
+        String res = null;
+        String[] proj = {MediaStore.Images.Media.DATA};
+        Cursor cursor = getContentResolver().query(contentUri, proj, null, null, null);
+        if (null != cursor && cursor.moveToFirst()) {
+            ;
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            res = cursor.getString(column_index);
+            cursor.close();
+        }
+        return res;
+    }
+
+    /**
+     * @param uri uri
+     * @return Whether the Uri authority is ExternalStorageProvider.
+     */
+    public boolean isExternalStorageDocument(Uri uri) {
+        return "com.android.externalstorage.documents".equals(uri.getAuthority());
+    }
+
+    /**
+     * @param uri uri
+     * @return Whether the Uri authority is DownloadsProvider.
+     */
+    public boolean isDownloadsDocument(Uri uri) {
+        return "com.android.providers.downloads.documents".equals(uri.getAuthority());
+    }
+
     /**
      * 获取此 Uri 的数据列的值。这对于 MediaStore uri 和其他基于文件的 ContentProviders 很有用
      *
@@ -233,22 +251,6 @@ public class ScanXlsActivity extends AppCompatActivity implements ScanXlsView, V
 
     /**
      * @param uri uri
-     * @return Whether the Uri authority is ExternalStorageProvider.
-     */
-    public boolean isExternalStorageDocument(Uri uri) {
-        return "com.android.externalstorage.documents".equals(uri.getAuthority());
-    }
-
-    /**
-     * @param uri uri
-     * @return Whether the Uri authority is DownloadsProvider.
-     */
-    public boolean isDownloadsDocument(Uri uri) {
-        return "com.android.providers.downloads.documents".equals(uri.getAuthority());
-    }
-
-    /**
-     * @param uri uri
      * @return Whether the Uri authority is MediaProvider.
      */
     public boolean isMediaDocument(Uri uri) {
@@ -259,28 +261,6 @@ public class ScanXlsActivity extends AppCompatActivity implements ScanXlsView, V
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Log.e("zkp", adapter.getItem(position).getName());
         prestener.uploadLedger(TimeUtils.getMonthOfYear(), adapter.getItem(position).getPath());
-    }
-
-    //权限请求回调
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        switch (requestCode) {
-            case 1:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    prestener.queryFiles(this, new String[]{"%.xls", "%.xlsx"});
-                } else {
-                    ToastUtil.showToast(getApplicationContext(), "请开启读取手机内存权限");
-                }
-                break;
-            case 2:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    prestener.GetFiles("/storage/emulated/0/tencent/QQfile_recv/", ".xls", true);
-                } else {
-                    ToastUtil.showToast(getApplicationContext(), "请开启读取手机内存权限");
-                }
-                break;
-        }
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override
@@ -309,6 +289,7 @@ public class ScanXlsActivity extends AppCompatActivity implements ScanXlsView, V
         }
         adapter = new XlsAdapter(this, datas);
         listView.setAdapter(adapter);
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -317,17 +298,20 @@ public class ScanXlsActivity extends AppCompatActivity implements ScanXlsView, V
         if (PermissionUtils.isGrantExternalRW(this, 2)) {
             prestener.GetFiles("/storage/emulated/0/tencent/QQfile_recv/", ".xls", true);
         }
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
     public void scanXlsInQQSucccess(ArrayList<XlsBean> datas) {
         adapter = new XlsAdapter(this, datas);
         listView.setAdapter(adapter);
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
     public void scanXlsInQQError() {
         ToastUtil.showToast(this, "扫描失败");
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -351,5 +335,10 @@ public class ScanXlsActivity extends AppCompatActivity implements ScanXlsView, V
                 ToastUtil.showToast(this, "数据库IO错误");
                 break;
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        prestener.queryFiles(this, new String[]{"%.xls", "%.xlsx"});
     }
 }

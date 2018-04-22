@@ -56,7 +56,7 @@ public class ScanXlsPrestener {
                 Uri.parse("content://media/external/file"),
                 projection,
                 MediaStore.Files.FileColumns.DATA + " like ?",
-                new String[]{"%.xlsx"},
+                suffix,
                 null);
 
         ArrayList<XlsBean> xlsBeanList = new ArrayList<>();
@@ -143,7 +143,7 @@ public class ScanXlsPrestener {
         scanXlsView.showDialog();
         File file = new File(xls);
         RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                .addFormDataPart("xls", file.getName(), RequestBody.create(MediaType.parse("application/otcet-stream"), file))
+                .addFormDataPart("uploadFile", file.getName(), RequestBody.create(MediaType.parse("multipart/form-data"), file))
                 .build();
 
         BaseApi.request(BaseApi.createApi(IScanXlsApi.class).uploadLedger(month, requestBody),

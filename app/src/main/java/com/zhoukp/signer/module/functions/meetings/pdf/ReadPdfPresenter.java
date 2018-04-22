@@ -37,9 +37,6 @@ public class ReadPdfPresenter {
                         InputStream inputStream = data.byteStream();
 
                         try {
-                            if (!file.getParentFile().exists()) {
-                                file.mkdirs();
-                            }
                             byte[] buf = new byte[128];
                             FileOutputStream fileOutputStream = new FileOutputStream(file);
                             int len;

@@ -4,11 +4,11 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.content.res.ResourcesCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
@@ -18,10 +18,11 @@ import com.zhoukp.signer.R;
 import com.zhoukp.signer.fragment.BaseFragment;
 import com.zhoukp.signer.module.chose.SelectSchoolYearActivity;
 import com.zhoukp.signer.module.chose.SelectTermActivity;
-import com.zhoukp.signer.module.chose.SelectWeekActivity;
-import com.zhoukp.signer.module.functions.ledgers.scanxls.ProgressDialog;
+import com.zhoukp.signer.view.dialog.ProgressDialog;
 import com.zhoukp.signer.module.login.LoginBean;
 import com.zhoukp.signer.module.login.UserUtil;
+import com.zhoukp.signer.utils.SchoolYearUtils;
+import com.zhoukp.signer.utils.TimeUtils;
 import com.zhoukp.signer.utils.ToastUtil;
 
 import java.text.SimpleDateFormat;
@@ -29,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -38,26 +40,33 @@ import java.util.List;
  * @function 第一台账页面
  */
 
-public class FirstLedgerFragemnt extends BaseFragment implements View.OnClickListener, FirstLedgerView {
+public class FirstLedgerFragemnt extends BaseFragment implements View.OnClickListener, FirstLedgerView, SwipeRefreshLayout.OnRefreshListener {
 
     private static final int YEAR = 1;
     private static final int TERM = 2;
-    private static final int WEEK = 3;
 
-    private TextView tvYear, tvTerm, tvWeek;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private TextView tvYear, tvTerm;
     private RecyclerView recyclerView;
     private NoFooterAdapter adapter;
     private ArrayList<GroupEntity> groups;
 
     private FirstLedgerPresenter presenter;
     private ProgressDialog dialog;
+    private LoginBean.UserBean user;
+    private GroupItemDecoration decoration;
+    private String schoolYear;
+    private String term;
 
     @Override
     public View initView() {
         View view = View.inflate(context, R.layout.pager_firstledger, null);
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
+        //设置颜色
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorBtnPressed);
+
         tvYear = view.findViewById(R.id.tvYear);
         tvTerm = view.findViewById(R.id.tvTerm);
-        tvWeek = view.findViewById(R.id.tvWeek);
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         return view;
@@ -67,18 +76,58 @@ public class FirstLedgerFragemnt extends BaseFragment implements View.OnClickLis
     public void initData() {
         super.initData();
 
+        user = UserUtil.getInstance().getUser();
+
+        String termCode = SchoolYearUtils.getTermCodeByMonth(user.getUserId(),
+                Integer.parseInt(TimeUtils.getCurrentYear()), TimeUtils.getMonthOfYear());
+
+        HashMap map = SchoolYearUtils.getSchoolYear(SchoolYearUtils.getGradeCode(user.getUserGrade()), termCode);
+
+        schoolYear = (String) map.get("schoolYear");
+        term = (String) map.get("term");
+
+        tvYear.setText(schoolYear);
+        tvTerm.setText(getTerm(term));
+
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setRefreshing(true);
+
         presenter = new FirstLedgerPresenter();
         presenter.attachView(this);
-        LoginBean.UserBean user = UserUtil.getInstance().getUser();
-        presenter.getFirstLedger(user.getUserId(), user.getUserGrade(), user.getUserMajor(), user.getUserClass());
+        presenter.getFirstLedger(user.getUserId(), user.getUserGrade(), user.getUserMajor(),
+                user.getUserClass(), schoolYear, term);
 
         initEvents();
+    }
+
+    /**
+     * 根据学期返回汉字
+     *
+     * @param termCode termCode
+     * @return 上/下
+     */
+    private String getTerm(String termCode) {
+        String result = "上";
+        switch (termCode) {
+            case "1":
+                result = "上";
+                break;
+            case "2":
+                result = "下";
+                break;
+            case "上":
+                result = "1";
+                break;
+            case "下":
+                result = "2";
+                break;
+        }
+        return result;
     }
 
     private void initEvents() {
         tvYear.setOnClickListener(this);
         tvTerm.setOnClickListener(this);
-        tvWeek.setOnClickListener(this);
     }
 
     @Override
@@ -96,10 +145,6 @@ public class FirstLedgerFragemnt extends BaseFragment implements View.OnClickLis
                 intent.putExtra("type", "term");
                 startActivityForResult(intent, TERM);
                 break;
-            case R.id.tvWeek:
-                intent = new Intent(context, SelectWeekActivity.class);
-                intent.putExtra("type", "week");
-                startActivityForResult(intent, WEEK);
             default:
                 break;
         }
@@ -111,21 +156,22 @@ public class FirstLedgerFragemnt extends BaseFragment implements View.OnClickLis
         if (resultCode == Activity.RESULT_OK && data != null) {
             switch (requestCode) {
                 case YEAR:
-                    String schoolYear = data.getStringExtra("schoolYear");
+                    schoolYear = data.getStringExtra("schoolYear");
                     if (!TextUtils.isEmpty(schoolYear)) {
                         tvYear.setText(schoolYear);
+
+                        presenter.getFirstLedger(user.getUserId(), user.getUserGrade(),
+                                user.getUserMajor(), user.getUserClass(), schoolYear, term);
                     }
                     break;
                 case TERM:
-                    String term = data.getStringExtra("term");
+                    term = data.getStringExtra("term");
                     if (!TextUtils.isEmpty(term)) {
                         tvTerm.setText(term);
-                    }
-                    break;
-                case WEEK:
-                    String week = data.getStringExtra("week");
-                    if (!TextUtils.isEmpty(week)) {
-                        tvWeek.setText(week);
+                        term = getTerm(term);
+
+                        presenter.getFirstLedger(user.getUserId(), user.getUserGrade(),
+                                user.getUserMajor(), user.getUserClass(), schoolYear, term);
                     }
                     break;
                 default:
@@ -154,8 +200,12 @@ public class FirstLedgerFragemnt extends BaseFragment implements View.OnClickLis
 
     @Override
     public void getFirstLedgerSuccess(FirstLedgerBean bean) {
-        final LayoutInflater layoutInflater = LayoutInflater.from(context);
-        groups = new ArrayList<>();
+
+        if (groups == null){
+            groups = new ArrayList<>();
+        }else {
+            groups.clear();
+        }
 
         listSort(bean.getData());
 
@@ -206,11 +256,13 @@ public class FirstLedgerFragemnt extends BaseFragment implements View.OnClickLis
 
         adapter = new NoFooterAdapter(context, groups);
 
-        GroupItemDecoration decoration = new GroupItemDecoration(adapter);
-        decoration.setGroupDivider(ResourcesCompat.getDrawable(getResources(), R.drawable.divider_height_16_dp, null));
-        decoration.setTitleDivider(ResourcesCompat.getDrawable(getResources(), R.drawable.divider_height_1_px, null));
-        decoration.setChildDivider(ResourcesCompat.getDrawable(getResources(), R.drawable.divider_white_header, null));
-        recyclerView.addItemDecoration(decoration);
+        if (decoration == null) {
+            decoration = new GroupItemDecoration(adapter);
+            decoration.setGroupDivider(ResourcesCompat.getDrawable(getResources(), R.drawable.divider_height_16_dp, null));
+            decoration.setTitleDivider(ResourcesCompat.getDrawable(getResources(), R.drawable.divider_height_1_px, null));
+            decoration.setChildDivider(ResourcesCompat.getDrawable(getResources(), R.drawable.divider_white_header, null));
+            recyclerView.addItemDecoration(decoration);
+        }
 
         adapter.setOnHeaderClickListener(new GroupedRecyclerViewAdapter.OnHeaderClickListener() {
             @Override
@@ -229,6 +281,7 @@ public class FirstLedgerFragemnt extends BaseFragment implements View.OnClickLis
 
         recyclerView.setAdapter(adapter);
 
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     /**
@@ -273,5 +326,17 @@ public class FirstLedgerFragemnt extends BaseFragment implements View.OnClickLis
                 ToastUtil.showToast(context, "数据库IO错误");
                 break;
         }
+        if (adapter != null){
+            groups.clear();
+            decoration = null;
+            adapter.notifyDataSetChanged();
+        }
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void onRefresh() {
+        presenter.getFirstLedger(user.getUserId(), user.getUserGrade(),
+                user.getUserMajor(), user.getUserClass(), schoolYear, term);
     }
 }

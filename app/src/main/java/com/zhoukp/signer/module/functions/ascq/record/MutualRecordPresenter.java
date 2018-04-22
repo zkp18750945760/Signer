@@ -2,6 +2,8 @@ package com.zhoukp.signer.module.functions.ascq.record;
 
 import android.util.Log;
 
+import com.zhoukp.signer.module.functions.ascq.mutual.IMutualASCQApi;
+import com.zhoukp.signer.module.functions.ascq.mutual.IsMutualMemberBean;
 import com.zhoukp.signer.utils.BaseApi;
 
 /**
@@ -18,6 +20,40 @@ public class MutualRecordPresenter {
         if (this.mutualRecordView == null) {
             this.mutualRecordView = mutualRecordView;
         }
+    }
+
+    /**
+     * 判断当前用户是不是互评小组成员
+     *
+     * @param userId    用户ID
+     * @param userGrade 年级
+     * @param userMajor 专业
+     * @param userClazz 班级
+     */
+    public void isMutualMembers(String userId, String userGrade, String userMajor, String userClazz) {
+
+        mutualRecordView.showLoadingView();
+
+        BaseApi.request(BaseApi.createApi(IMutualASCQApi.class).isMutualMembers(userId, userGrade, userMajor, userClazz),
+                new BaseApi.IResponseListener<IsMutualMemberBean>() {
+                    @Override
+                    public void onSuccess(IsMutualMemberBean data) {
+                        Log.e("zkp", "isMutualMembers==" + data.getStatus());
+                        if (data.getStatus() == 200) {
+                            mutualRecordView.isMemberSuccess(data);
+                        } else {
+                            mutualRecordView.isMemberError(data.getStatus());
+                        }
+                        mutualRecordView.hideLoadingView();
+                    }
+
+                    @Override
+                    public void onFail() {
+                        mutualRecordView.isMemberError(100);
+                        mutualRecordView.hideLoadingView();
+                    }
+                });
+
     }
 
     /**

@@ -19,13 +19,12 @@ import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
 import com.zhoukp.signer.R;
 import com.zhoukp.signer.utils.Constant;
-import com.zhoukp.signer.utils.StringUtils;
 import com.zhoukp.signer.utils.ToastUtil;
 import com.zhoukp.signer.utils.WindowUtils;
 
 import java.io.File;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
@@ -41,17 +40,18 @@ public class ReadPdfActivity extends AppCompatActivity implements View.OnClickLi
      * 显示网络速度
      */
     private static final int SHOW_SPEED = 1;
-    @Bind(R.id.ivBack)
+
+    @BindView(R.id.ivBack)
     ImageView ivBack;
-    @Bind(R.id.tvContent)
+    @BindView(R.id.tvContent)
     TextView tvContent;
-    @Bind(R.id.pdfView)
+    @BindView(R.id.pdfView)
     PDFView pdfView;
-    @Bind(R.id.ll_loading)
+    @BindView(R.id.ll_loading)
     RelativeLayout loading;
-    @Bind(R.id.rl_speed)
+    @BindView(R.id.rl_speed)
     LinearLayout rlSpeed;
-    @Bind(R.id.tvNetspeed)
+    @BindView(R.id.tvNetspeed)
     TextView tvNetspeed;
 
 

@@ -37,7 +37,7 @@ import com.zhoukp.signer.viewpager.ViewPagerHolderCreator;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.iwgang.countdownview.CountdownView;
@@ -51,27 +51,27 @@ import cn.iwgang.countdownview.CountdownView;
 
 public class SignActivity extends AppCompatActivity implements View.OnClickListener, SignView {
 
-    @Bind(R.id.tvStartSign)
+    @BindView(R.id.tvStartSign)
     TextView tvStartSign;
-    @Bind(R.id.ivSignRecord)
+    @BindView(R.id.ivSignRecord)
     ImageView ivSignRecord;
-    @Bind(R.id.ivBack)
+    @BindView(R.id.ivBack)
     ImageView ivBack;
-    @Bind(R.id.pagerEvents)
+    @BindView(R.id.pagerEvents)
     CommonViewPager<SignEventsBean.DataBean> pagerEvents;
-    @Bind(R.id.tvSign)
+    @BindView(R.id.tvSign)
     TextView tvSign;
-    @Bind(R.id.tvNoEvents)
+    @BindView(R.id.tvNoEvents)
     TextView tvNoEvents;
-    @Bind(R.id.rlMeetingTheme)
+    @BindView(R.id.rlMeetingTheme)
     RelativeLayout rlMeetingTheme;
-    @Bind(R.id.ivSignSuccess)
+    @BindView(R.id.ivSignSuccess)
     ImageView ivSignSuccess;
-    @Bind(R.id.rlSignSuccess)
+    @BindView(R.id.rlSignSuccess)
     RelativeLayout rlSignSuccess;
-    @Bind(R.id.recyclerView)
+    @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
-    @Bind(R.id.threePointLoadingView)
+    @BindView(R.id.threePointLoadingView)
     ThreePointLoadingView threePointLoadingView;
 
     private LoginBean.UserBean user;

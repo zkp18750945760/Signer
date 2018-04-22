@@ -27,11 +27,13 @@ public class FirstLedgerPresenter {
      * @param major  专业
      * @param clazz  班级
      */
-    public void getFirstLedger(String userId, String grade, String major, String clazz) {
+    public void getFirstLedger(String userId, String grade, String major, String clazz, String schoolYear, String term) {
 
         firstLedgerView.showLoadingView();
 
-        BaseApi.request(BaseApi.createApi(IFirstLedgerApi.class).getFirstLedger(userId, grade, major, clazz),
+        System.out.println("schoolYear==" + schoolYear + ", term==" + term);
+
+        BaseApi.request(BaseApi.createApi(IFirstLedgerApi.class).getFirstLedger(userId, grade, major, clazz, schoolYear, term),
                 new BaseApi.IResponseListener<FirstLedgerBean>() {
                     @Override
                     public void onSuccess(FirstLedgerBean data) {

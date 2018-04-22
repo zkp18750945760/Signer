@@ -12,53 +12,53 @@
     </declare-styleable>
 
     <declare-styleable name="SimpleViewPagerIndicator">
-        <attr name="currentPageColor" format="color"/>
-        <attr name="indicatorColor" format="color"/>
+        <attr name="currentPageColor" format="color" />
+        <attr name="indicatorColor" format="color" />
         <attr name="animation" format="enum">
-            <enum name="none" value="0"/>
-            <enum name="slide" value="1"/>
-            <enum name="fade" value="2"/>
+            <enum name="none" value="0" />
+            <enum name="slide" value="1" />
+            <enum name="fade" value="2" />
         </attr>
     </declare-styleable>
 
     <declare-styleable name="Theme">
-        <attr name="welcomeButtonBackground" format="reference"/>
-        <attr name="welcomeButtonNextStyle" format="reference"/>
-        <attr name="welcomeButtonPrevStyle" format="reference"/>
-        <attr name="welcomeButtonSkipStyle" format="reference"/>
-        <attr name="welcomeButtonDoneStyle" format="reference"/>
-        <attr name="welcomeButtonDoneText" format="string"/>
-        <attr name="welcomeButtonSkipText" format="string"/>
-        <attr name="welcomeButtonBarFirstStyle" format="reference"/>
-        <attr name="welcomeButtonBarSecondStyle" format="reference"/>
-        <attr name="welcomeIndicatorStyle" format="reference"/>
-        <attr name="welcomeDividerStyle" format="reference"/>
-        <attr name="welcomeNormalTextStyle" format="reference"/>
-        <attr name="welcomeLargeTextStyle" format="reference"/>
-        <attr name="welcomeTitleTextStyle" format="reference"/>
-        <attr name="welcomeLayoutFitsSystemWindows" format="boolean"/>
-        <attr name="welcomeButtonBarBackground" format="color"/>
+        <attr name="welcomeButtonBackground" format="reference" />
+        <attr name="welcomeButtonNextStyle" format="reference" />
+        <attr name="welcomeButtonPrevStyle" format="reference" />
+        <attr name="welcomeButtonSkipStyle" format="reference" />
+        <attr name="welcomeButtonDoneStyle" format="reference" />
+        <attr name="welcomeButtonDoneText" format="string" />
+        <attr name="welcomeButtonSkipText" format="string" />
+        <attr name="welcomeButtonBarFirstStyle" format="reference" />
+        <attr name="welcomeButtonBarSecondStyle" format="reference" />
+        <attr name="welcomeIndicatorStyle" format="reference" />
+        <attr name="welcomeDividerStyle" format="reference" />
+        <attr name="welcomeNormalTextStyle" format="reference" />
+        <attr name="welcomeLargeTextStyle" format="reference" />
+        <attr name="welcomeTitleTextStyle" format="reference" />
+        <attr name="welcomeLayoutFitsSystemWindows" format="boolean" />
+        <attr name="welcomeButtonBarBackground" format="color" />
     </declare-styleable>
 
     <declare-styleable name="LSettingView">
-        <attr name="leftText" format="string"/>
-        <attr name="leftIcon" format="integer"/>
-        <attr name="rightIcon" format="integer"/>
-        <attr name="LtextSize" format="float"/>
-        <attr name="LtextColor" format="color"/>
-        <attr name="isShowUnderLine" format="boolean"/>
-        <attr name="leftIconSize" format="dimension"/>
-        <attr name="leftTextMarginLeft" format="dimension"/>
+        <attr name="leftText" format="string" />
+        <attr name="leftIcon" format="integer" />
+        <attr name="rightIcon" format="integer" />
+        <attr name="LtextSize" format="float" />
+        <attr name="LtextColor" format="color" />
+        <attr name="isShowUnderLine" format="boolean" />
+        <attr name="leftIconSize" format="dimension" />
+        <attr name="leftTextMarginLeft" format="dimension" />
         <attr name="rightStyle" format="enum">
-            <enum name="iconShow" value="0"/>
-            <enum name="iconHide" value="1"/>
-            <enum name="iconCheck" value="2"/>
-            <enum name="iconSwitch" value="3"/>
+            <enum name="iconShow" value="0" />
+            <enum name="iconHide" value="1" />
+            <enum name="iconCheck" value="2" />
+            <enum name="iconSwitch" value="3" />
         </attr>
-        <attr name="isShowRightText" format="boolean"/>
-        <attr name="rightText" format="string"/>
-        <attr name="rightTextSize" format="float"/>
-        <attr name="rightTextColor" format="color"/>
+        <attr name="isShowRightText" format="boolean" />
+        <attr name="rightText" format="string" />
+        <attr name="rightTextSize" format="float" />
+        <attr name="rightTextColor" format="color" />
     </declare-styleable>
 
     <declare-styleable name="ExpandableLinearLayout">
@@ -67,7 +67,7 @@
         <!--提示文字的大小-->
         <attr name="tipTextSize" format="dimension" />
         <!--字体颜色-->
-        <attr name="tipTextColor" format="color"/>
+        <attr name="tipTextColor" format="color" />
         <!--待展开的文字提示-->
         <attr name="expandText" format="string" />
         <!--待收起时的文字提示-->
@@ -76,6 +76,32 @@
         <attr name="arrowDownImg" format="reference" />
         <!--是否使用默认的底部-->
         <attr name="useDefaultBottom" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="MenuItem">
+        <attr name="menu_title" format="string" />
+        <attr name="icon" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="Captcha">
+        <attr name="src" format="reference" />
+        <attr name="progressDrawable" format="reference" />
+        <attr name="thumbDrawable" format="reference" />
+        <attr name="mode" format="enum">
+            <enum name="mode_bar" value="1" />
+            <enum name="mode_nonbar" value="2" />
+        </attr>
+        <attr name="max_fail_count" format="integer" />
+        <attr name="blockSize" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="BezierRoundView">
+        <attr name="color_bez" format="color" />
+        <attr name="color_touch" format="color" />
+        <attr name="color_stroke" format="color" />
+        <attr name="time_animator" format="integer" />
+        <attr name="round_count" format="integer" />
+        <attr name="radius" format="dimension" />
     </declare-styleable>
 
 </resources>

@@ -47,12 +47,14 @@ public class HoneycombView extends View {
     private Point point;
     //每个六边形的颜色
     private int[] colorS = {
-            Color.parseColor("#00204A"),
-            Color.parseColor("#005792"),
-            Color.parseColor("#005792"),
+            Color.parseColor("#0960BD"),
             Color.parseColor("#005792"),
             Color.parseColor("#0960BD"),
-            Color.parseColor("#0960BD")};
+            Color.parseColor("#005792"),
+            Color.parseColor("#0960BD"),
+            Color.parseColor("#005792"),
+            Color.parseColor("#00204A")
+    };
 
     private String[] tittles = {
             "成绩上报",
@@ -60,7 +62,8 @@ public class HoneycombView extends View {
             "互评小组",
             "开始互评",
             "互评记录",
-            "成绩修改"};
+            "成绩修改",
+            "综测"};
 
     private int curClick = -1;
     //各个六边形的中心点
@@ -139,7 +142,7 @@ public class HoneycombView extends View {
             switch (i) {
                 case 0:
                     point.x = width / 2;
-                    point.y = height / 2;
+                    point.y = (float) (height / 2 - Math.sqrt(3) * side);
                     paint.setColor(colorS[0]);
                     break;
                 case 1:
@@ -148,24 +151,29 @@ public class HoneycombView extends View {
                     paint.setColor(colorS[1]);
                     break;
                 case 2:
-                    point.x = width / 2;
-                    point.y = (float) (height / 2 + Math.sqrt(3) * side);
+                    point.x = width / 2 + 3.0f / 2 * side;
+                    point.y = (float) (height / 2 + Math.sqrt(3) / 2 * side);
                     paint.setColor(colorS[2]);
                     break;
                 case 3:
-                    point.x = width / 2 - 3.0f / 2 * side;
-                    point.y = (float) (height / 2 - Math.sqrt(3) / 2 * side);
+                    point.x = width / 2;
+                    point.y = (float) (height / 2 + Math.sqrt(3) * side);
                     paint.setColor(colorS[3]);
                     break;
                 case 4:
-                    point.x = width / 2 + 3.0f / 2 * side;
+                    point.x = width / 2 - 3.0f / 2 * side;
                     point.y = (float) (height / 2 + Math.sqrt(3) / 2 * side);
                     paint.setColor(colorS[4]);
                     break;
                 case 5:
                     point.x = width / 2 - 3.0f / 2 * side;
-                    point.y = (float) (height / 2 + Math.sqrt(3) / 2 * side);
+                    point.y = (float) (height / 2 - Math.sqrt(3) / 2 * side);
                     paint.setColor(colorS[5]);
+                    break;
+                case 6:
+                    point.x = width / 2;
+                    point.y = height / 2;
+                    paint.setColor(colorS[6]);
                     break;
                 default:
                     break;

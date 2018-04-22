@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.zhoukp.signer.R;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -25,9 +25,9 @@ import butterknife.ButterKnife;
  */
 public class LauncherActivity extends AppCompatActivity implements View.OnClickListener {
 
-    @Bind(R.id.ivLogo)
+    @BindView(R.id.ivLogo)
     ImageView ivLogo;
-    @Bind(R.id.tvSkip)
+    @BindView(R.id.tvSkip)
     TextView tvSkip;
 
     private AdCountDownTimer timer;

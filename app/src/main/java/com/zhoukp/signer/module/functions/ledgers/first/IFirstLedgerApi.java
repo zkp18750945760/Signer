@@ -25,6 +25,9 @@ public interface IFirstLedgerApi {
             @Query("userId") String userId,
             @Query("userGrade") String userGrade,
             @Query("userMajor") String userMajor,
-            @Query("userClazz") String userClazz
+            @Query("userClazz") String userClazz,
+            @Query("schoolYear") String schoolYear,
+            @Query("term") String term
+
     );
 }

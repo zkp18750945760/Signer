@@ -10,14 +10,13 @@ import android.widget.TextView;
 
 import com.zhoukp.signer.R;
 import com.zhoukp.signer.utils.TimeUtils;
-import com.zhoukp.signer.view.CommonDialog;
+import com.zhoukp.signer.view.dialog.CommonDialog;
 import com.zhoukp.signer.view.picker.PickerScrollView;
 import com.zhoukp.signer.view.picker.Pickers;
-import com.zhoukp.signer.view.picker.YearObject;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -29,13 +28,13 @@ import butterknife.ButterKnife;
 
 public class SelectSchoolYearActivity extends Activity implements PickerScrollView.onSelectListener, View.OnClickListener {
 
-    @Bind(R.id.pickerScrollView)
+    @BindView(R.id.pickerScrollView)
     PickerScrollView pickerScrollView;
-    @Bind(R.id.tvCancel)
+    @BindView(R.id.tvCancel)
     TextView tvCancel;
-    @Bind(R.id.tvTheme)
+    @BindView(R.id.tvTheme)
     TextView tvTheme;
-    @Bind(R.id.tvSubmit)
+    @BindView(R.id.tvSubmit)
     TextView tvSubmit;
 
     private String type;
@@ -67,6 +66,7 @@ public class SelectSchoolYearActivity extends Activity implements PickerScrollVi
         }
 
         //设置数据，默认选择第一条
+        data = datas.get(0).getShowConetnt();
         pickerScrollView.setData(datas);
         pickerScrollView.setSelected(0);
     }

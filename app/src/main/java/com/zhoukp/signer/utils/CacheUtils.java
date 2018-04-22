@@ -42,6 +42,31 @@ public class CacheUtils {
     }
 
     /**
+     * 存储整数值
+     *
+     * @param context context
+     * @param key     key
+     * @param value   value
+     */
+    public static void putInteger(Context context, String key, int value) {
+        SharedPreferences sp = context.getSharedPreferences("HQUZkP", Context.MODE_PRIVATE);
+        sp.edit().putInt(key, value).apply();
+    }
+
+    /**
+     * 获取存储的整数值
+     *
+     * @param context      context
+     * @param key          key
+     * @param defaultValue value
+     * @return int
+     */
+    public static int getInteger(Context context, String key, int defaultValue) {
+        SharedPreferences sp = context.getSharedPreferences("HQUZkP", Context.MODE_PRIVATE);
+        return sp.getInt(key, defaultValue);
+    }
+
+    /**
      * 缓存文本数据
      *
      * @param context context

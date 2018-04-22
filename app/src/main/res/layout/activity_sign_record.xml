@@ -22,23 +22,14 @@
 
         <ImageView
             android:id="@+id/ivBack"
-            android:layout_width="20dp"
-            android:layout_height="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
-            android:layout_marginBottom="5dp"
             android:layout_marginLeft="16dp"
             android:background="@drawable/icon_back" />
 
     </RelativeLayout>
-
-    <!--<ListView-->
-    <!--android:id="@+id/listView"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:animationCache="false"-->
-    <!--android:divider="@null"-->
-    <!--android:scrollingCache="false" />-->
 
     <com.zhoukp.signer.view.listview.SearchListView
         android:id="@+id/listView"

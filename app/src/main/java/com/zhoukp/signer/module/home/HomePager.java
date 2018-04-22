@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -45,11 +46,12 @@ import java.util.List;
  * @function 首页
  */
 
-public class HomePager extends BaseFragment implements HomePagerView, ViewPager.OnPageChangeListener, View.OnTouchListener {
+public class HomePager extends BaseFragment implements HomePagerView, ViewPager.OnPageChangeListener, View.OnTouchListener, SwipeRefreshLayout.OnRefreshListener {
 
     public static final int VIEW_PAGER_DELAY = 4000;
 
     private RecyclerView recyclerView;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private ThreePointLoadingView threePointLoadingView;
     private View headerView;
     private ViewPager viewPager;
@@ -70,6 +72,10 @@ public class HomePager extends BaseFragment implements HomePagerView, ViewPager.
     @Override
     public View initView() {
         View view = View.inflate(context, R.layout.fragment_home_scroll, null);
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
+        //设置颜色
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorBtnPressed);
+
         recyclerView = view.findViewById(R.id.recyclerView);
         //设置recyclerView布局方式
         recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayout.VERTICAL, false));
@@ -84,6 +90,10 @@ public class HomePager extends BaseFragment implements HomePagerView, ViewPager.
     @Override
     public void initData() {
         super.initData();
+
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setRefreshing(true);
+
         presenter = new HomePagerPresenter();
         presenter.attachView(this);
         presenter.getBanners();
@@ -141,8 +151,8 @@ public class HomePager extends BaseFragment implements HomePagerView, ViewPager.
         } else {
             //可见
             isAutoPlay = true;
-            if (UserUtil.getInstance().getUser() != null){
-                presenter.getAllSchedule(UserUtil.getInstance().getUser().getUserId());
+            if (bannerHandler != null){
+                bannerHandler.sendEmptyMessageDelayed(0, VIEW_PAGER_DELAY);
             }
         }
     }
@@ -151,6 +161,9 @@ public class HomePager extends BaseFragment implements HomePagerView, ViewPager.
     public void onResume() {
         super.onResume();
         isAutoPlay = true;
+        if (bannerHandler != null){
+            bannerHandler.sendEmptyMessageDelayed(0, VIEW_PAGER_DELAY);
+        }
     }
 
     @Override
@@ -179,6 +192,8 @@ public class HomePager extends BaseFragment implements HomePagerView, ViewPager.
         adapter = new HomeRecyclerViewAdapter(context, bean);
         adapter.setHeaderView(headerView);
         recyclerView.setAdapter(adapter);
+
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     /**
@@ -218,51 +233,51 @@ public class HomePager extends BaseFragment implements HomePagerView, ViewPager.
                         if (UserUtil.getInstance().getUser() == null) {
                             ToastUtil.showToast(context, "请先登录");
                             intent = new Intent(context, LoginActivity.class);
-                            context.startActivity(intent);
+                            startActivity(intent);
                             return;
                         }
                         intent = new Intent(context, CotrunActivity.class);
-                        context.startActivity(intent);
+                        startActivity(intent);
                         break;
                     case 1:
                         if (UserUtil.getInstance().getUser() == null) {
                             ToastUtil.showToast(context, "请先登录");
                             intent = new Intent(context, LoginActivity.class);
-                            context.startActivity(intent);
+                            startActivity(intent);
                             return;
                         }
                         intent = new Intent(context, SignActivity.class);
-                        context.startActivity(intent);
+                        startActivity(intent);
                         break;
                     case 2:
                         if (UserUtil.getInstance().getUser() == null) {
                             ToastUtil.showToast(context, "请先登录");
                             intent = new Intent(context, LoginActivity.class);
-                            context.startActivity(intent);
+                            startActivity(intent);
                             return;
                         }
                         intent = new Intent(context, ASCQActivity.class);
-                        context.startActivity(intent);
+                        startActivity(intent);
                         break;
                     case 3:
                         if (UserUtil.getInstance().getUser() == null) {
                             ToastUtil.showToast(context, "请先登录");
                             intent = new Intent(context, LoginActivity.class);
-                            context.startActivity(intent);
+                            startActivity(intent);
                             return;
                         }
                         intent = new Intent(context, MeetingActivity.class);
-                        context.startActivity(intent);
+                        startActivity(intent);
                         break;
                     case 4:
                         if (UserUtil.getInstance().getUser() == null) {
                             ToastUtil.showToast(context, "请先登录");
                             intent = new Intent(context, LoginActivity.class);
-                            context.startActivity(intent);
+                            startActivity(intent);
                             return;
                         }
                         intent = new Intent(context, LedgerActivity.class);
-                        context.startActivity(intent);
+                        startActivity(intent);
                         break;
                     default:
                         break;
@@ -329,6 +344,8 @@ public class HomePager extends BaseFragment implements HomePagerView, ViewPager.
         adapter = new HomeRecyclerViewAdapter(context, null);
         adapter.setHeaderView(headerView);
         recyclerView.setAdapter(adapter);
+
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -342,6 +359,7 @@ public class HomePager extends BaseFragment implements HomePagerView, ViewPager.
             adapter = new HomeRecyclerViewAdapter(context, null);
             adapter.setHeaderView(headerView);
             recyclerView.setAdapter(adapter);
+            swipeRefreshLayout.setRefreshing(false);
             return;
         }
         presenter.getAllSchedule(UserUtil.getInstance().getUser().getUserId());
@@ -364,10 +382,16 @@ public class HomePager extends BaseFragment implements HomePagerView, ViewPager.
             adapter = new HomeRecyclerViewAdapter(context, null);
             adapter.setHeaderView(headerView);
             recyclerView.setAdapter(adapter);
+            swipeRefreshLayout.setRefreshing(false);
             return;
         }
 
         presenter.getAllSchedule(UserUtil.getInstance().getUser().getUserId());
+    }
+
+    @Override
+    public void onRefresh() {
+        presenter.getBanners();
     }
 
     //为防止内存泄漏, 声明自己的Handler并弱引用Activity

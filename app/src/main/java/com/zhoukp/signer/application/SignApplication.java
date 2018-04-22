@@ -3,7 +3,9 @@ package com.zhoukp.signer.application;
 import android.app.Application;
 import android.content.Context;
 import android.content.IntentFilter;
+import android.util.Log;
 
+import com.tencent.smtt.sdk.QbSdk;
 import com.zhoukp.signer.R;
 import com.zhoukp.signer.module.crash.CrashHandler;
 import com.zhoukp.signer.module.network.NetworkConnectChangedReceiver;
@@ -25,8 +27,8 @@ import okhttp3.OkHttpClient;
 public class SignApplication extends Application {
 
 
-    private static final int TIMEOUT_READ = 5;
-    private static final int TIMEOUT_CONNECTION = 5;
+    private static final int TIMEOUT_READ = 15;
+    private static final int TIMEOUT_CONNECTION = 15;
     public static List<?> images;
     public static ArrayList<String> banners;
     private static OkHttpClient mOkHttpClient;
@@ -103,8 +105,23 @@ public class SignApplication extends Application {
 
         instance = this;
 
-        CrashHandler.getInstance().init(this);
+        //增加这句话
+        //初始化X5内核
+        QbSdk.initX5Environment(this, new QbSdk.PreInitCallback() {
+            @Override
+            public void onCoreInitFinished() {
+                //x5内核初始化完成回调接口，此接口回调并表示已经加载起来了x5，有可能特殊情况下x5内核加载失败，切换到系统内核。
 
+            }
+
+            @Override
+            public void onViewInitFinished(boolean b) {
+                //x5內核初始化完成的回调，为true表示x5内核加载成功，否则表示x5内核加载失败，会自动切换到系统内核。
+                Log.e("zkp", "加载内核是否成功:" + b);
+            }
+        });
+
+        CrashHandler.getInstance().init(this);
 
         receiver = new NetworkConnectChangedReceiver();
         IntentFilter filter = new IntentFilter();

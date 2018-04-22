@@ -7,8 +7,9 @@
 
     <!--selectors-->
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="60dp"
+        android:layout_gravity="center"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingLeft="20dp"
@@ -23,8 +24,9 @@
 
         <TextView
             android:id="@+id/tvYear"
-            android:layout_width="120dp"
+            android:layout_width="130dp"
             android:layout_height="30dp"
+            android:layout_marginLeft="5dp"
             android:background="@drawable/text_view_bg_normal"
             android:drawableRight="@drawable/icon_expand"
             android:gravity="center"
@@ -36,40 +38,20 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
+            android:layout_marginLeft="15dp"
             android:text="学期:"
             android:textColor="@color/colorGray"
             android:textSize="15sp" />
 
         <TextView
             android:id="@+id/tvTerm"
-            android:layout_width="40dp"
+            android:layout_width="50dp"
             android:layout_height="30dp"
+            android:layout_marginLeft="5dp"
             android:background="@drawable/text_view_bg_normal"
             android:drawableRight="@drawable/icon_expand"
             android:gravity="center"
-            android:paddingRight="3dp"
             android:text="上"
-            android:textColor="@color/colorGray"
-            android:textSize="15sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:text="周数:"
-            android:textColor="@color/colorGray"
-            android:textSize="15sp" />
-
-        <TextView
-            android:id="@+id/tvWeek"
-            android:layout_width="40dp"
-            android:layout_height="30dp"
-            android:background="@drawable/text_view_bg_normal"
-            android:drawableRight="@drawable/icon_expand"
-            android:gravity="center"
-            android:paddingRight="3dp"
-            android:text="6"
             android:textColor="@color/colorGray"
             android:textSize="15sp" />
 
@@ -80,16 +62,17 @@
         android:layout_height="0.1dp"
         android:background="@color/colorGray" />
 
-    <!--<ListView-->
-    <!--android:id="@+id/listView"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:divider="@color/colorGray"-->
-    <!--android:dividerHeight="0.1dp" />-->
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
 
 </LinearLayout>

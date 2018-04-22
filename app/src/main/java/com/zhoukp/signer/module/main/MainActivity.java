@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.FrameLayout;
 import android.widget.RadioGroup;
@@ -23,13 +24,12 @@ import com.yanzhenjie.permission.Rationale;
 import com.zhoukp.signer.R;
 import com.zhoukp.signer.fragment.BaseFragment;
 import com.zhoukp.signer.module.activity.ActivityPager;
-import com.zhoukp.signer.module.functions.ledgers.scanxls.ProgressDialog;
+import com.zhoukp.signer.view.dialog.ProgressDialog;
 import com.zhoukp.signer.module.functions.ledgers.scanxls.XlsBean;
 import com.zhoukp.signer.module.home.HomePager;
-import com.zhoukp.signer.module.login.LoginActivity;
-import com.zhoukp.signer.module.login.UserUtil;
 import com.zhoukp.signer.module.me.MePager;
 import com.zhoukp.signer.module.update.DownloadManager;
+import com.zhoukp.signer.utils.CacheUtils;
 import com.zhoukp.signer.utils.Constant;
 import com.zhoukp.signer.utils.PermissionUtils;
 import com.zhoukp.signer.utils.ToastUtil;
@@ -99,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
     private void initVariates(Bundle savedInstanceState) {
         setting = new PermissionSetting(this);
         rationale = new DefaultRationale();
+
         requestPermission(PermissionUtils.PERMISSIONS);
 
         //1.得到FragmentManger
@@ -114,7 +115,9 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
             baseFragments.add(new ActivityPager());
             baseFragments.add(new MePager());
         }
-        content = baseFragments.get(0);
+        position = CacheUtils.getInteger(MainActivity.this, "homePosition", 0);
+        CacheUtils.putInteger(MainActivity.this, "homePosition", position);
+        content = baseFragments.get(position);
         //2.开启事务
         FragmentTransaction ft = manager.beginTransaction();
         ft.add(R.id.flMainContent, content).commit();
@@ -127,6 +130,11 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
         }
     }
 
+    /**
+     * 请求权限
+     *
+     * @param permissions 权限列表
+     */
     private void requestPermission(String... permissions) {
         AndPermission.with(this)
                 .permission(permissions)
@@ -152,7 +160,14 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
     @Override
     protected void onStart() {
         super.onStart();
-        rgTag.check(R.id.rbHome);
+        Log.e("zkp", "homePosition == " + position);
+        if (position == 0) {
+            rgTag.check(R.id.rbHome);
+        } else if (position == 1) {
+            rgTag.check(R.id.rbActivity);
+        } else {
+            rgTag.check(R.id.rbMe);
+        }
     }
 
     @Override
@@ -206,11 +221,8 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
             default:
                 break;
         }
-        if (UserUtil.getInstance().getUser() == null) {
-            startActivity(new Intent(MainActivity.this, LoginActivity.class));
-        } else {
-            switchContent(content, baseFragments.get(position), position);
-        }
+        CacheUtils.putInteger(MainActivity.this, "homePosition", position);
+        switchContent(content, baseFragments.get(position), position);
     }
 
     /**
@@ -270,13 +282,11 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
                         rgTag.check(R.id.rbMe);
                     }
                     break;
+                default:
+                    position = CacheUtils.getInteger(MainActivity.this, "homePosition", 0);
+                    break;
             }
         }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
     }
 
     @Override
@@ -307,7 +317,7 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
                 .setDownloadPath(Constant.appFilePath)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setApkVersionCode(bean.getData().get(0).getVersionCode())
-                .setApkDescription(bean.getData().get(0).getDescription())
+                .setApkDescription("发布时间：" + bean.getData().get(0).getUpdateTime() + "\n" + bean.getData().get(0).getDescription())
                 .setApkVersionName(bean.getData().get(0).getVersionName())
                 .setApkSize(presenter.getSize(bean.getData().get(0).getApkSize()))
                 //可设置，可不设置

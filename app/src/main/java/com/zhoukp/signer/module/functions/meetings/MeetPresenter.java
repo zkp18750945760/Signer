@@ -20,35 +20,41 @@ public class MeetPresenter {
     }
 
     /**
-     * 获取支书会议记录
+     * 获取支书会议列表
      *
-     * @param userId 用户ID
+     * @param userId     用户ID
+     * @param userGrade  年级
+     * @param userMajor  专业
+     * @param userClazz  班级
+     * @param schoolYear 学年
+     * @param term       学期
      */
-    public void getDiscussion(String userId) {
+    public void getDiscussion(String userId, String userGrade, String userMajor,
+                              String userClazz, String schoolYear, String term) {
 
         meetView.showLoadingView();
 
-        BaseApi.request(BaseApi.createApi(IMeetApi.class).getDiscussion(userId),
-                new BaseApi.IResponseListener<MeetBean>() {
-                    @Override
-                    public void onSuccess(MeetBean data) {
-                        Log.e("zkp", "getDiscussion==" + data.getStatus());
-                        if (data.getStatus() == 200) {
-                            meetView.getDisscussionSuccess(data);
-                        } else {
-                            meetView.getDiscyssionError(data.getStatus());
-                        }
-                        meetView.refreshComplete();
-                        meetView.hideLoadingView();
-                    }
+        BaseApi.request(BaseApi.createApi(IMeetApi.class).getDiscussion(userId, userGrade, userMajor,
+                userClazz, schoolYear, term), new BaseApi.IResponseListener<MeetBean>() {
+            @Override
+            public void onSuccess(MeetBean data) {
+                Log.e("zkp", "getDiscussion==" + data.getStatus());
+                if (data.getStatus() == 200) {
+                    meetView.getDisscussionSuccess(data);
+                } else {
+                    meetView.getDiscyssionError(data.getStatus());
+                }
+                meetView.refreshComplete();
+                meetView.hideLoadingView();
+            }
 
-                    @Override
-                    public void onFail() {
-                        meetView.getDiscyssionError(100);
-                        meetView.refreshComplete();
-                        meetView.hideLoadingView();
-                    }
-                });
+            @Override
+            public void onFail() {
+                meetView.getDiscyssionError(100);
+                meetView.refreshComplete();
+                meetView.hideLoadingView();
+            }
+        });
 
     }
 

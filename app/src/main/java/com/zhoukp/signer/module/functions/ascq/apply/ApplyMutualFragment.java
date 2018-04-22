@@ -8,11 +8,11 @@ import android.widget.RelativeLayout;
 
 import com.zhoukp.signer.R;
 import com.zhoukp.signer.fragment.BaseFragment;
-import com.zhoukp.signer.module.functions.ledgers.scanxls.ProgressDialog;
+import com.zhoukp.signer.view.dialog.ProgressDialog;
 import com.zhoukp.signer.module.login.LoginBean;
 import com.zhoukp.signer.module.login.UserUtil;
 import com.zhoukp.signer.utils.ToastUtil;
-import com.zhoukp.signer.view.CommonDialog;
+import com.zhoukp.signer.view.dialog.CommonDialog;
 
 /**
  * @author zhoukp

@@ -94,6 +94,7 @@
         <activity
             android:name=".module.main.MainActivity"
             android:configChanges="keyboardHidden|screenSize|orientation"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait">
 
         </activity>
@@ -147,10 +148,7 @@
             android:name=".module.functions.sign.SignActivity"
             android:configChanges="keyboardHidden|screenSize|orientation|keyboard"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.functions.ascq.AllTextActivity"
-            android:configChanges="keyboardHidden|screenSize|orientation|keyboard"
-            android:screenOrientation="portrait" />
+
         <activity
             android:name=".module.functions.meetings.MeetingActivity"
             android:configChanges="keyboardHidden|screenSize|orientation|keyboard"
@@ -205,6 +203,26 @@
 
         <activity
             android:name=".module.functions.ascq.ASCQFragmentManager"
+            android:configChanges="keyboardHidden|screenSize|orientation|keyboard"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".module.functions.meetings.upload.UploadPdfActivity"
+            android:configChanges="keyboardHidden|screenSize|orientation|keyboard"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".module.functions.meetings.read.ReadPdfActivity"
+            android:configChanges="keyboardHidden|screenSize|orientation|keyboard"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".module.functions.meetings.upload.UploadActivity"
+            android:configChanges="keyboardHidden|screenSize|orientation|keyboard"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".activity.TestActivity"
             android:configChanges="keyboardHidden|screenSize|orientation|keyboard"
             android:screenOrientation="portrait" />
 

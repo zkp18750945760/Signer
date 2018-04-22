@@ -17,7 +17,7 @@ import com.zhoukp.signer.view.picker.YearObject;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -29,15 +29,15 @@ import butterknife.ButterKnife;
 
 public class SelectTimeActivity extends Activity implements View.OnClickListener, PickerScrollView.onSelectListener {
 
-    @Bind(R.id.pickerScrollView)
+    @BindView(R.id.pickerScrollView)
     PickerScrollView pickerScrollView;
-    @Bind(R.id.llYearPicker)
+    @BindView(R.id.llYearPicker)
     LinearLayout llYearPicker;
-    @Bind(R.id.tvCancel)
+    @BindView(R.id.tvCancel)
     TextView tvCancel;
-    @Bind(R.id.tvSubmit)
+    @BindView(R.id.tvSubmit)
     TextView tvSubmit;
-    @Bind(R.id.tvTheme)
+    @BindView(R.id.tvTheme)
     TextView tvTheme;
 
     private String type;

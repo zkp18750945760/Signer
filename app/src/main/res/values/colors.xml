@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="colorBezier">#FFFE626D</color>
+
 
     <color name="colorOrange">#F49F61</color>
     <color name="colorDarkOrange">#F03C11</color>
@@ -137,7 +139,6 @@
     <color name="color_33">#FFD2B48C</color>
     <color name="color_34">#FFCD9B9B</color>
     <color name="color_35">#FF5F9EA0</color>
-
 
 
     <color name="useless">#E6E6E6</color>

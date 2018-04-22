@@ -21,8 +21,9 @@ import com.zhoukp.signer.utils.WindowUtils;
 import com.zhoukp.signer.utils.aes.AesUtil;
 import com.zhoukp.signer.utils.aes.MD5;
 import com.zhoukp.signer.view.ThreePointLoadingView;
+import com.zhoukp.signer.view.captcha.Captcha;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -34,30 +35,34 @@ import butterknife.ButterKnife;
 
 public class ManageDeviceActivity extends AppCompatActivity implements View.OnClickListener, ManageDeviceView {
 
-    @Bind(R.id.ivBack)
+    @BindView(R.id.ivBack)
     ImageView ivBack;
-    @Bind(R.id.btnUnBind)
+    @BindView(R.id.btnUnBind)
     Button btnUnBind;
-    @Bind(R.id.btnBind)
+    @BindView(R.id.btnBind)
     Button btnBind;
-    @Bind(R.id.btnModifyPsd)
+    @BindView(R.id.btnModifyPsd)
     Button btnModifyPsd;
-    @Bind(R.id.threePointLoadingView)
+    @BindView(R.id.threePointLoadingView)
     ThreePointLoadingView threePointLoadingView;
-    @Bind(R.id.etPassword)
+    @BindView(R.id.etPassword)
     EditText etPassword;
-    @Bind(R.id.ivShowPassword)
+    @BindView(R.id.ivShowPassword)
     ImageView ivShowPassword;
-    @Bind(R.id.etNewPassword)
+    @BindView(R.id.etNewPassword)
     EditText etNewPassword;
-    @Bind(R.id.ivShowNewPassword)
+    @BindView(R.id.ivShowNewPassword)
     ImageView ivShowNewPassword;
-    @Bind(R.id.btnSubmit)
+    @BindView(R.id.btnSubmit)
     Button btnSubmit;
-    @Bind(R.id.rlManageDevice)
+    @BindView(R.id.rlManageDevice)
     LinearLayout rlManageDevice;
-    @Bind(R.id.rlModifyPassword)
+    @BindView(R.id.rlModifyPassword)
     LinearLayout rlModifyPassword;
+    @BindView(R.id.captCha)
+    Captcha captCha;
+    @BindView(R.id.llModifyPassword)
+    LinearLayout llModifyPassword;
 
     private ManagerDevicePresenter presenter;
     //默认不显示密码
@@ -90,6 +95,35 @@ public class ManageDeviceActivity extends AppCompatActivity implements View.OnCl
         ivShowPassword.setOnClickListener(this);
         ivShowNewPassword.setOnClickListener(this);
         btnSubmit.setOnClickListener(this);
+
+        captCha.setCaptchaListener(new Captcha.CaptchaListener() {
+            @Override
+            public String onAccess(long time) {
+                ToastUtil.showToast(ManageDeviceActivity.this, "验证成功");
+                captCha.setVisibility(View.GONE);
+                llModifyPassword.setVisibility(View.VISIBLE);
+                return "验证通过";
+            }
+
+            @Override
+            public String onFailed(int count) {
+                ToastUtil.showToast(ManageDeviceActivity.this, "验证失败,失败次数" + count);
+                return "验证失败";
+            }
+
+            @Override
+            public String onMaxFailed() {
+                ToastUtil.showToast(ManageDeviceActivity.this, "验证超过次数，你的帐号被封锁");
+                return "可以走了";
+            }
+
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.detachView();
     }
 
     @Override
@@ -97,6 +131,7 @@ public class ManageDeviceActivity extends AppCompatActivity implements View.OnCl
         LoginBean.UserBean userBean = UserUtil.getInstance().getUser();
         switch (view.getId()) {
             case R.id.ivBack:
+                setResult(RESULT_OK);
                 finish();
                 break;
             case R.id.btnBind:
@@ -147,12 +182,6 @@ public class ManageDeviceActivity extends AppCompatActivity implements View.OnCl
             default:
                 break;
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        presenter.detachView();
     }
 
     @Override

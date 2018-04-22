@@ -1,8 +1,10 @@
 package com.zhoukp.signer.module.crash;
 
 import android.annotation.SuppressLint;
-import android.app.ActivityManager;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -10,6 +12,7 @@ import android.os.Looper;
 import android.os.SystemClock;
 import android.util.Log;
 
+import com.zhoukp.signer.module.splash.LauncherActivity;
 import com.zhoukp.signer.utils.Constant;
 import com.zhoukp.signer.utils.TimeUtils;
 import com.zhoukp.signer.utils.ToastUtil;
@@ -25,9 +28,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
-
-import static android.content.Context.ACTIVITY_SERVICE;
-
 
 /**
  * @author zhoukp
@@ -114,17 +114,26 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
      */
     @Override
     public void uncaughtException(Thread thread, Throwable ex) {
-//        if (!handleException(ex) && defaultHandler != null) {
-//            // 如果用户没有处理则让系统默认的异常处理器来处理
-//            defaultHandler.uncaughtException(thread, ex);
-//        } else {
-//            SystemClock.sleep(3000);
-//            // 退出程序
-//            android.os.Process.killProcess(android.os.Process.myPid());
-//            System.exit(1);
-//        }
-        ActivityManager manager = (ActivityManager) context.getSystemService(ACTIVITY_SERVICE);
-        manager.killBackgroundProcesses(context.getPackageName());
+        if (!handleException(ex) && defaultHandler != null) {
+            // 如果用户没有处理则让系统默认的异常处理器来处理
+            defaultHandler.uncaughtException(thread, ex);
+        } else {
+            SystemClock.sleep(3000);
+            // 退出程序
+//            AlarmManager mgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+//
+//            Intent intent = new Intent(context, LauncherActivity.class);
+//            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            intent.putExtra("crash", true);
+//            PendingIntent restartIntent =
+//                    PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+//            //1秒钟后重启应用
+//            mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 1000, restartIntent);
+
+            android.os.Process.killProcess(android.os.Process.myPid());
+            System.exit(1);
+            System.gc();
+        }
     }
 
     /**
@@ -142,7 +151,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
                 @Override
                 public void run() {
                     Looper.prepare();
-                    ToastUtil.showToast(context, "很抱歉,程序出现异常,即将重启.");
+                    ToastUtil.showToast(context, "很抱歉,程序出现异常。");
                     Looper.loop();
                 }
             }.start();

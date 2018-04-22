@@ -21,11 +21,11 @@ import com.zhoukp.signer.module.functions.ascq.record.MutualRecordFragment;
 import com.zhoukp.signer.module.functions.ascq.update.UpdateASCQFragment;
 import com.zhoukp.signer.module.functions.ascq.upload.UploadASCQFragment;
 import com.zhoukp.signer.utils.WindowUtils;
-import com.zhoukp.signer.view.CommonDialog;
+import com.zhoukp.signer.view.dialog.CommonDialog;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -36,11 +36,11 @@ import butterknife.ButterKnife;
  */
 public class ASCQFragmentManager extends AppCompatActivity implements View.OnClickListener {
 
-    @Bind(R.id.tvContent)
+    @BindView(R.id.tvContent)
     TextView tvContent;
-    @Bind(R.id.ivBack)
+    @BindView(R.id.ivBack)
     ImageView ivBack;
-    @Bind(R.id.rlTitle)
+    @BindView(R.id.rlTitle)
     RelativeLayout rlTitle;
 
     private int actionIndex;

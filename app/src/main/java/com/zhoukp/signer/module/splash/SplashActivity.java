@@ -69,7 +69,6 @@ public class SplashActivity extends WelcomeActivity {
         if (!TextUtils.isEmpty(isSplash)) {
             startActivity(new Intent(this, MainActivity.class));
             finish();
-            return;
         }
     }
 }

@@ -39,7 +39,7 @@ public class DownloadManager {
     /**
      * 是否提示用户 "当前已是最新版本"
      */
-    private boolean showNewerToast = false;
+    private boolean showNewerToast = true;
     /**
      * 通知栏的图标 资源路径
      */

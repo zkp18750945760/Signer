@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.zhoukp.signer.R;
-import com.zhoukp.signer.module.functions.ledgers.scanxls.ProgressDialog;
+import com.zhoukp.signer.view.dialog.ProgressDialog;
 import com.zhoukp.signer.module.login.LoginBean;
 import com.zhoukp.signer.module.login.UserUtil;
 import com.zhoukp.signer.utils.ToastUtil;
@@ -22,7 +22,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -33,9 +33,9 @@ import butterknife.ButterKnife;
  */
 public class SignRecordActivity extends AppCompatActivity implements View.OnClickListener, SignRecordView {
 
-    @Bind(R.id.ivBack)
+    @BindView(R.id.ivBack)
     ImageView ivBack;
-    @Bind(R.id.listView)
+    @BindView(R.id.listView)
     SearchListView listView;
 
     private SignRecordPresenter presenter;

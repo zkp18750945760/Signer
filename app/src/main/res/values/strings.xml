@@ -1,7 +1,5 @@
 <resources>
     <string name="app_name">我在</string>
-    <item name="visible" type="id" />
-    <item name="masked" type="id" />
 
     <string name="wel_skip">跳过</string>
     <string name="wel_done">立即试用</string>
@@ -80,5 +78,9 @@
     <string name="team8">（8）同一项目在当学年按最高项计分一次。学生干部在各项活动中只作为组织者的，只按担任学生干部情况记分。担任学院以外的学生组织学生干部的需提供任职证明。担任学生干部不满一年但满一届且满一学期的，所获加分为上述加分的50％。担任学生干部的学生组织及职务请在相应得分栏的空白处注明。</string>
 
     <string name="extra">主要测评学生<font color='#ff0000'><b>为学校取得重大荣誉</b></font>的情况，取得附加分必须是在以上各项测评中没有规定的，加分时应提供相关证明或证书</string>
+
+
+    <string name="vertify_access">验证通过,耗时%d毫秒</string>
+    <string name="vertify_failed">验证失败,还剩%d次机会</string>
 
 </resources>

@@ -8,7 +8,8 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.zhoukp.signer.R;
-import com.zhoukp.signer.module.functions.ledgers.scanxls.ProgressDialog;
+import com.zhoukp.signer.activity.TestActivity;
+import com.zhoukp.signer.view.dialog.ProgressDialog;
 import com.zhoukp.signer.module.main.UpdateBean;
 import com.zhoukp.signer.module.update.ApkUtil;
 import com.zhoukp.signer.module.update.DownloadManager;
@@ -17,7 +18,7 @@ import com.zhoukp.signer.utils.ToastUtil;
 import com.zhoukp.signer.utils.WindowUtils;
 import com.zhoukp.signer.view.LSettingItem;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -28,15 +29,15 @@ import butterknife.ButterKnife;
  */
 public class AboutActivity extends AppCompatActivity implements View.OnClickListener, AboutMeView {
 
-    @Bind(R.id.ivBack)
+    @BindView(R.id.ivBack)
     ImageView ivBack;
-    @Bind(R.id.itemVersion)
+    @BindView(R.id.itemVersion)
     LSettingItem itemVersion;
-    @Bind(R.id.itemUpdate)
+    @BindView(R.id.itemUpdate)
     LSettingItem itemUpdate;
-    @Bind(R.id.itemCopyright)
+    @BindView(R.id.itemCopyright)
     LSettingItem itemCopyright;
-    @Bind(R.id.itemAbout)
+    @BindView(R.id.itemAbout)
     LSettingItem itemAbout;
 
     private ProgressDialog dialog;
@@ -77,6 +78,13 @@ public class AboutActivity extends AppCompatActivity implements View.OnClickList
                 }
             }
         });
+
+        itemCopyright.setmOnLSettingItemClick(new LSettingItem.OnLSettingItemClick() {
+            @Override
+            public void click(boolean isChecked) {
+                startActivity(new Intent(AboutActivity.this, TestActivity.class));
+            }
+        });
     }
 
     @Override
@@ -84,6 +92,7 @@ public class AboutActivity extends AppCompatActivity implements View.OnClickList
         switch (v.getId()) {
             case R.id.ivBack:
                 //关闭当前页面
+                setResult(RESULT_OK);
                 finish();
                 break;
         }

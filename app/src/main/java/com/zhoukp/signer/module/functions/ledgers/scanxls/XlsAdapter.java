@@ -1,9 +1,12 @@
 package com.zhoukp.signer.module.functions.ledgers.scanxls;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zhoukp.signer.R;
@@ -22,10 +25,14 @@ public class XlsAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<XlsBean> datas;
 
+    private Bitmap excel, word, pdf;
+
     public XlsAdapter(Context context, ArrayList<XlsBean> datas) {
         this.context = context;
         this.datas = datas;
-        System.out.println(datas.size());
+        excel = BitmapFactory.decodeResource(context.getResources(), R.drawable.icon_xls);
+        word = BitmapFactory.decodeResource(context.getResources(), R.drawable.icon_word);
+        pdf = BitmapFactory.decodeResource(context.getResources(), R.drawable.icon_pdf);
     }
 
     @Override
@@ -49,6 +56,7 @@ public class XlsAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = View.inflate(context, R.layout.xls_item, null);
             viewHolder = new ViewHolder();
+            viewHolder.ivHead = convertView.findViewById(R.id.ivHead);
             viewHolder.tvName = convertView.findViewById(R.id.tvName);
             viewHolder.tvSize = convertView.findViewById(R.id.tvSize);
 
@@ -59,12 +67,15 @@ public class XlsAdapter extends BaseAdapter {
 
         viewHolder.tvName.setText(getItem(position).getName());
         viewHolder.tvSize.setText(getSize(Long.parseLong(getItem(position).getSize())));
+        if (getItem(position).getName().contains("xls")) {
+            viewHolder.ivHead.setImageBitmap(excel);
+        } else if (getItem(position).getName().contains("pdf")) {
+            viewHolder.ivHead.setImageBitmap(pdf);
+        } else {
+            viewHolder.ivHead.setImageBitmap(word);
+        }
 
         return convertView;
-    }
-
-    class ViewHolder {
-        TextView tvName, tvSize;
     }
 
     public static String getSize(long size) {
@@ -94,5 +105,10 @@ public class XlsAdapter extends BaseAdapter {
             return String.valueOf((size / 100)) + "."
                     + String.valueOf((size % 100)) + "GB";
         }
+    }
+
+    class ViewHolder {
+        TextView tvName, tvSize;
+        ImageView ivHead;
     }
 }

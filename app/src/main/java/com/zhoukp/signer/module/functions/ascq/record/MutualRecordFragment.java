@@ -14,13 +14,14 @@ import android.widget.TextView;
 
 import com.zhoukp.signer.R;
 import com.zhoukp.signer.fragment.BaseFragment;
+import com.zhoukp.signer.module.functions.ascq.mutual.IsMutualMemberBean;
 import com.zhoukp.signer.module.functions.ascq.mutual.MutualTaskBean;
-import com.zhoukp.signer.module.functions.ledgers.scanxls.ProgressDialog;
+import com.zhoukp.signer.view.dialog.ProgressDialog;
 import com.zhoukp.signer.module.login.LoginBean;
 import com.zhoukp.signer.module.login.UserUtil;
 import com.zhoukp.signer.utils.ToastUtil;
-import com.zhoukp.signer.view.CommonDialog;
-import com.zhoukp.signer.view.SelectSchoolYearDialog;
+import com.zhoukp.signer.view.dialog.CommonDialog;
+import com.zhoukp.signer.view.dialog.SelectSchoolYearDialog;
 import com.zhoukp.signer.view.linearLayout.ExpandableLinearLayout;
 import com.zhoukp.signer.viewpager.CommonViewPager2;
 import com.zhoukp.signer.viewpager.ViewPagerHolder;
@@ -31,7 +32,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -42,29 +43,29 @@ import butterknife.ButterKnife;
  */
 public class MutualRecordFragment extends BaseFragment implements MutualRecordView, View.OnClickListener {
 
-    @Bind(R.id.rlNotMember)
+    @BindView(R.id.rlNotMember)
     RelativeLayout rlNotMember;
-    @Bind(R.id.tvMutualFinish)
+    @BindView(R.id.tvMutualFinish)
     TextView tvMutualFinish;
-    @Bind(R.id.rlMutualFinish)
+    @BindView(R.id.rlMutualFinish)
     RelativeLayout rlMutualFinish;
-    @Bind(R.id.tvDivide)
+    @BindView(R.id.tvDivide)
     TextView tvDivide;
-    @Bind(R.id.tvCurrentPage)
+    @BindView(R.id.tvCurrentPage)
     TextView tvCurrentPage;
-    @Bind(R.id.tvTotalPage)
+    @BindView(R.id.tvTotalPage)
     TextView tvTotalPage;
-    @Bind(R.id.btnPageUp)
+    @BindView(R.id.btnPageUp)
     Button btnPageUp;
-    @Bind(R.id.btnPageDown)
+    @BindView(R.id.btnPageDown)
     Button btnPageDown;
-    @Bind(R.id.rlTitle)
+    @BindView(R.id.rlTitle)
     RelativeLayout rlTitle;
-    @Bind(R.id.commonViewPager)
+    @BindView(R.id.commonViewPager)
     CommonViewPager2 commonViewPager;
-    @Bind(R.id.rlMutual)
+    @BindView(R.id.rlMutual)
     LinearLayout rlMutual;
-    @Bind(R.id.rlMember)
+    @BindView(R.id.rlMember)
     RelativeLayout rlMember;
 
     private ProgressDialog dialog;
@@ -94,23 +95,13 @@ public class MutualRecordFragment extends BaseFragment implements MutualRecordVi
 
         userBean = UserUtil.getInstance().getUser();
 
-        new SelectSchoolYearDialog(context, "请选择学年", R.style.dialog, new SelectSchoolYearDialog.OnCloseListener() {
-            @Override
-            public void onClick(Dialog dialog, boolean confirm, String data) {
-                if (confirm) {
-                    schoolYear = data;
-                    //加载对应学年的综测成绩
-                    presenter.getMutualRecord(userBean.getUserId(), schoolYear);
-                }
-                dialog.dismiss();
-            }
-        }).show();
+        presenter.isMutualMembers(userBean.getUserId(), userBean.getUserGrade(),
+                userBean.getUserMajor(), userBean.getUserClass());
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
     }
 
     @Override
@@ -129,6 +120,44 @@ public class MutualRecordFragment extends BaseFragment implements MutualRecordVi
             dialog.showMessage("加载中...");
         }
         dialog.dismiss();
+    }
+
+    @Override
+    public void isMemberSuccess(IsMutualMemberBean bean) {
+        if (bean.isIsMember()) {
+            //是互评小组成员
+            rlNotMember.setVisibility(View.GONE);
+            rlMember.setVisibility(View.VISIBLE);
+
+            new SelectSchoolYearDialog(context, "请选择学年", R.style.dialog, new SelectSchoolYearDialog.OnCloseListener() {
+                @Override
+                public void onClick(Dialog dialog, boolean confirm, String data) {
+                    if (confirm) {
+                        schoolYear = data;
+                        //加载对应学年的综测成绩
+                        presenter.getMutualRecord(userBean.getUserId(), schoolYear);
+                    }
+                    dialog.dismiss();
+                }
+            }).show();
+
+        } else {
+            //不是互评小组成员
+            rlNotMember.setVisibility(View.VISIBLE);
+            rlMember.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void isMemberError(int status) {
+        switch (status) {
+            case 100:
+                ToastUtil.showToast(context, "判断是否为互评小组成员失败");
+                break;
+            case 101:
+                ToastUtil.showToast(context, "数据库IO错误");
+                break;
+        }
     }
 
     @Override
@@ -230,103 +259,103 @@ public class MutualRecordFragment extends BaseFragment implements MutualRecordVi
 
     class ViewHolder implements ViewPagerHolder<MutualRecordBean.DataBean>, View.OnClickListener {
 
-        @Bind(R.id.tvYearString)
+        @BindView(R.id.tvYearString)
         TextView tvYearString;
-        @Bind(R.id.tvYear)
+        @BindView(R.id.tvYear)
         TextView tvYear;
-        @Bind(R.id.tvStudentIDString)
+        @BindView(R.id.tvStudentIDString)
         TextView tvStudentIDString;
-        @Bind(R.id.tvStudentID)
+        @BindView(R.id.tvStudentID)
         TextView tvStudentID;
-        @Bind(R.id.tvMoral1)
+        @BindView(R.id.tvMoral1)
         TextView tvMoral1;
-        @Bind(R.id.tvMoral2)
+        @BindView(R.id.tvMoral2)
         TextView tvMoral2;
-        @Bind(R.id.tvMoral3)
+        @BindView(R.id.tvMoral3)
         TextView tvMoral3;
-        @Bind(R.id.tvMoral4)
+        @BindView(R.id.tvMoral4)
         TextView tvMoral4;
-        @Bind(R.id.tvMoral5)
+        @BindView(R.id.tvMoral5)
         TextView tvMoral5;
-        @Bind(R.id.tvMoral6)
+        @BindView(R.id.tvMoral6)
         TextView tvMoral6;
-        @Bind(R.id.llMoral)
+        @BindView(R.id.llMoral)
         ExpandableLinearLayout llMoral;
-        @Bind(R.id.tvWit)
+        @BindView(R.id.tvWit)
         TextView tvWit;
-        @Bind(R.id.llWit)
+        @BindView(R.id.llWit)
         ExpandableLinearLayout llWit;
-        @Bind(R.id.tvSport)
+        @BindView(R.id.tvSport)
         TextView tvSport;
-        @Bind(R.id.llSports)
+        @BindView(R.id.llSports)
         ExpandableLinearLayout llSports;
-        @Bind(R.id.practiceBasic1)
+        @BindView(R.id.practiceBasic1)
         CheckBox practiceBasic1;
-        @Bind(R.id.practiceBasic2)
+        @BindView(R.id.practiceBasic2)
         CheckBox practiceBasic2;
-        @Bind(R.id.practiceBasic3)
+        @BindView(R.id.practiceBasic3)
         CheckBox practiceBasic3;
-        @Bind(R.id.tvPractice1)
+        @BindView(R.id.tvPractice1)
         TextView tvPractice1;
-        @Bind(R.id.tvPractice2)
+        @BindView(R.id.tvPractice2)
         TextView tvPractice2;
-        @Bind(R.id.tvPractice3)
+        @BindView(R.id.tvPractice3)
         TextView tvPractice3;
-        @Bind(R.id.tvPractice4)
+        @BindView(R.id.tvPractice4)
         TextView tvPractice4;
-        @Bind(R.id.tvPractice5)
+        @BindView(R.id.tvPractice5)
         TextView tvPractice5;
-        @Bind(R.id.tvPractice6)
+        @BindView(R.id.tvPractice6)
         TextView tvPractice6;
-        @Bind(R.id.tvPractice7)
+        @BindView(R.id.tvPractice7)
         TextView tvPractice7;
-        @Bind(R.id.llPractice)
+        @BindView(R.id.llPractice)
         ExpandableLinearLayout llPractice;
-        @Bind(R.id.genresBasic1)
+        @BindView(R.id.genresBasic1)
         CheckBox genresBasic1;
-        @Bind(R.id.genresBasic2)
+        @BindView(R.id.genresBasic2)
         CheckBox genresBasic2;
-        @Bind(R.id.genresBasic3)
+        @BindView(R.id.genresBasic3)
         CheckBox genresBasic3;
-        @Bind(R.id.tvGenres1)
+        @BindView(R.id.tvGenres1)
         TextView tvGenres1;
-        @Bind(R.id.tvGenres2)
+        @BindView(R.id.tvGenres2)
         TextView tvGenres2;
-        @Bind(R.id.tvGenres3)
+        @BindView(R.id.tvGenres3)
         TextView tvGenres3;
-        @Bind(R.id.tvGenres4)
+        @BindView(R.id.tvGenres4)
         TextView tvGenres4;
-        @Bind(R.id.tvGenres5)
+        @BindView(R.id.tvGenres5)
         TextView tvGenres5;
-        @Bind(R.id.llGenres)
+        @BindView(R.id.llGenres)
         ExpandableLinearLayout llGenres;
-        @Bind(R.id.teamBasic1)
+        @BindView(R.id.teamBasic1)
         CheckBox teamBasic1;
-        @Bind(R.id.teamBasic2)
+        @BindView(R.id.teamBasic2)
         CheckBox teamBasic2;
-        @Bind(R.id.teamBasic3)
+        @BindView(R.id.teamBasic3)
         CheckBox teamBasic3;
-        @Bind(R.id.tvTeam1)
+        @BindView(R.id.tvTeam1)
         TextView tvTeam1;
-        @Bind(R.id.tvTeam2)
+        @BindView(R.id.tvTeam2)
         TextView tvTeam2;
-        @Bind(R.id.tvTeam3)
+        @BindView(R.id.tvTeam3)
         TextView tvTeam3;
-        @Bind(R.id.tvTeam4)
+        @BindView(R.id.tvTeam4)
         TextView tvTeam4;
-        @Bind(R.id.tvTeam5)
+        @BindView(R.id.tvTeam5)
         TextView tvTeam5;
-        @Bind(R.id.tvTeam6)
+        @BindView(R.id.tvTeam6)
         TextView tvTeam6;
-        @Bind(R.id.tvTeam7)
+        @BindView(R.id.tvTeam7)
         TextView tvTeam7;
-        @Bind(R.id.llTeam)
+        @BindView(R.id.llTeam)
         ExpandableLinearLayout llTeam;
-        @Bind(R.id.tvExtra)
+        @BindView(R.id.tvExtra)
         TextView tvExtra;
-        @Bind(R.id.llExtra)
+        @BindView(R.id.llExtra)
         ExpandableLinearLayout llExtra;
-        @Bind(R.id.btnHideAll)
+        @BindView(R.id.btnHideAll)
         Button btnHideAll;
 
 

@@ -1,5 +1,6 @@
 package com.zhoukp.signer.module.activity.activities;
 
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.ListView;
 
@@ -17,9 +18,10 @@ import com.zhoukp.signer.view.ThreePointLoadingView;
  * @function 文体活动页面
  */
 
-public class ActivityFragment extends BaseFragment implements ActivityFragmentView {
+public class ActivityFragment extends BaseFragment implements ActivityFragmentView, SwipeRefreshLayout.OnRefreshListener {
 
     private ListView listView;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private ThreePointLoadingView threePointLoadingView;
 
     private ActivityListViewAdapter adapter;
@@ -29,6 +31,11 @@ public class ActivityFragment extends BaseFragment implements ActivityFragmentVi
     public View initView() {
         View view = View.inflate(context, R.layout.fragment_sports_activity, null);
         listView = view.findViewById(R.id.listView);
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
+        //设置颜色
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorBtnPressed);
+
+
         threePointLoadingView = view.findViewById(R.id.threePointLoadingView);
         return view;
     }
@@ -36,6 +43,9 @@ public class ActivityFragment extends BaseFragment implements ActivityFragmentVi
     @Override
     public void initData() {
         super.initData();
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setRefreshing(true);
+
         presenter = new ActivityFragmentPresenter();
         presenter.attachView(this);
         presenter.getActivities(UserUtil.getInstance().getUser().getUserId());
@@ -60,6 +70,7 @@ public class ActivityFragment extends BaseFragment implements ActivityFragmentVi
     @Override
     public void getActivitiesSuccess() {
         ToastUtil.showToast(context, "加载数据成功");
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -71,6 +82,7 @@ public class ActivityFragment extends BaseFragment implements ActivityFragmentVi
     @Override
     public void getActivitiesError() {
         ToastUtil.showToast(context, "加载数据失败");
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -97,5 +109,10 @@ public class ActivityFragment extends BaseFragment implements ActivityFragmentVi
     public void setData(ActivityBean data) {
         adapter.setBean(data);
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onRefresh() {
+        presenter.getActivities(UserUtil.getInstance().getUser().getUserId());
     }
 }

@@ -1,7 +1,5 @@
 package com.zhoukp.signer.module.functions.meetings;
 
-import com.zhoukp.signer.module.managedevice.DeviceBean;
-
 import io.reactivex.Observable;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
@@ -15,14 +13,24 @@ import retrofit2.http.Query;
 public interface IMeetApi {
 
     /**
-     * 获取支书会议记录
+     * 获取支书会议列表
      *
-     * @param userId 用户ID
-     * @return 200->成功
+     * @param userId     用户ID
+     * @param userGrade  年级
+     * @param userMajor  专业
+     * @param userClazz  班级
+     * @param schoolYear 学年
+     * @param term       学期
+     * @return 200->成功 101->还没有支书会议记录 102->数据库IO错误
      */
     @POST("GetDiscussion?")
     Observable<MeetBean> getDiscussion(
-            @Query("userId") String userId
+            @Query("userId") String userId,
+            @Query("userGrade") String userGrade,
+            @Query("userMajor") String userMajor,
+            @Query("userClazz") String userClazz,
+            @Query("schoolYear") String schoolYear,
+            @Query("term") String term
     );
 
     /**

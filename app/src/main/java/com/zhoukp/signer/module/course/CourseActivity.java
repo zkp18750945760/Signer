@@ -14,7 +14,7 @@ import com.zhoukp.signer.module.course.view.OnSubjectItemClickListener;
 import com.zhoukp.signer.module.course.view.OnSubjectItemLongClickListener;
 import com.zhoukp.signer.module.course.view.SubjectBean;
 import com.zhoukp.signer.module.course.view.TimetableView;
-import com.zhoukp.signer.module.functions.ledgers.scanxls.ProgressDialog;
+import com.zhoukp.signer.view.dialog.ProgressDialog;
 import com.zhoukp.signer.module.login.LoginBean;
 import com.zhoukp.signer.module.login.UserUtil;
 import com.zhoukp.signer.utils.ToastUtil;
@@ -65,39 +65,6 @@ public class CourseActivity extends Activity implements OnSubjectItemClickListen
     }
 
     /**
-     * 自定义转换规则,将自己的课程对象转换为所需要的对象集合
-     *
-     * @param mySubjects
-     * @return
-     */
-    public List<SubjectBean> transform(List<Subject> mySubjects) {
-        //待返回的集合
-        List<SubjectBean> subjectBeans = new ArrayList<>();
-
-        //保存课程名、颜色的对应关系
-        Map<String, Integer> colorMap = new HashMap<>();
-        int colorCount = 1;
-
-        //开始转换
-        for (int i = 0; i < mySubjects.size(); i++) {
-            Subject mySubject = mySubjects.get(i);
-            //计算课程颜色
-            int color;
-            if (colorMap.containsKey(mySubject.getName())) {
-                color = colorMap.get(mySubject.getName());
-            } else {
-                colorMap.put(mySubject.getName(), colorCount);
-                color = colorCount;
-                colorCount++;
-            }
-            //转换
-            subjectBeans.add(new SubjectBean(mySubject.getName(), mySubject.getRoom(), mySubject.getTeacher(), mySubject.getWeekList(),
-                    mySubject.getStart(), mySubject.getStep(), mySubject.getDay(), color, mySubject.getTime()));
-        }
-        return subjectBeans;
-    }
-
-    /**
      * Item点击处理
      *
      * @param subjectList 该Item处的课程集合
@@ -125,6 +92,7 @@ public class CourseActivity extends Activity implements OnSubjectItemClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.id_back:
+                setResult(RESULT_OK);
                 finish();
                 break;
             default:
@@ -193,6 +161,39 @@ public class CourseActivity extends Activity implements OnSubjectItemClickListen
         //第二个参数为true时在改变课表布局的同时也会将第一个参数设置为当前周
         //第二个参数为false时只改变课表布局
         mTimetableView.changeWeek(curWeek, true);
+    }
+
+    /**
+     * 自定义转换规则,将自己的课程对象转换为所需要的对象集合
+     *
+     * @param mySubjects
+     * @return
+     */
+    public List<SubjectBean> transform(List<Subject> mySubjects) {
+        //待返回的集合
+        List<SubjectBean> subjectBeans = new ArrayList<>();
+
+        //保存课程名、颜色的对应关系
+        Map<String, Integer> colorMap = new HashMap<>();
+        int colorCount = 1;
+
+        //开始转换
+        for (int i = 0; i < mySubjects.size(); i++) {
+            Subject mySubject = mySubjects.get(i);
+            //计算课程颜色
+            int color;
+            if (colorMap.containsKey(mySubject.getName())) {
+                color = colorMap.get(mySubject.getName());
+            } else {
+                colorMap.put(mySubject.getName(), colorCount);
+                color = colorCount;
+                colorCount++;
+            }
+            //转换
+            subjectBeans.add(new SubjectBean(mySubject.getName(), mySubject.getRoom(), mySubject.getTeacher(), mySubject.getWeekList(),
+                    mySubject.getStart(), mySubject.getStep(), mySubject.getDay(), color, mySubject.getTime()));
+        }
+        return subjectBeans;
     }
 
     @Override

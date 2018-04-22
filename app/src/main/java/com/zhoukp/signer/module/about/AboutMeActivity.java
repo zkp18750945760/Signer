@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import com.zhoukp.signer.R;
 import com.zhoukp.signer.utils.WindowUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -20,7 +20,7 @@ import butterknife.ButterKnife;
  */
 public class AboutMeActivity extends AppCompatActivity implements View.OnClickListener {
 
-    @Bind(R.id.ivBack)
+    @BindView(R.id.ivBack)
     ImageView ivBack;
 
     @Override

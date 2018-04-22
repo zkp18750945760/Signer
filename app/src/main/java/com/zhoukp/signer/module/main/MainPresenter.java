@@ -121,8 +121,8 @@ public class MainPresenter {
         mainView.showLoadingView();
 
         RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                .addFormDataPart("logcat", file.getName(),
-                        RequestBody.create(MediaType.parse("application/otcet-stream"), file))
+                .addFormDataPart("uploadFile", file.getName(),
+                        RequestBody.create(MediaType.parse("multipart/form-data"), file))
                 .build();
         //将错误日志上传到服务器
         BaseApi.request(BaseApi.createApi(IMainApi.class).uploadCrashLogcat(requestBody),

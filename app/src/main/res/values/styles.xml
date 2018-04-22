@@ -210,6 +210,7 @@
         <item name="android:text">@string/wel_log_in</item>
     </style>
     |
+
     <style name="WelcomeScreenButton.SignUp" parent="WelcomeScreenButton.Borderless">
         <item name="android:text">@string/wel_sign_up</item>
     </style>
@@ -276,6 +277,31 @@
         <item name="background">@color/wel_transparent</item>
         <item name="android:windowBackground">@color/wel_transparent</item>
         <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <style name="Animation_top_left">
+        <item name="android:windowEnterAnimation">@anim/open_top_left</item>
+        <item name="android:windowExitAnimation">@anim/close_top_left</item>
+    </style>
+
+    <style name="Animation_bottom_left">
+        <item name="android:windowEnterAnimation">@anim/open_bottom_left</item>
+        <item name="android:windowExitAnimation">@anim/close_bottom_left</item>
+    </style>
+
+    <style name="Animation_bottom_right">
+        <item name="android:windowEnterAnimation">@anim/open_bottom_right</item>
+        <item name="android:windowExitAnimation">@anim/close_bottom_right</item>
+    </style>
+
+    <style name="Animation_top_right">
+        <item name="android:windowEnterAnimation">@anim/open_top_right</item>
+        <item name="android:windowExitAnimation">@anim/close_top_right</item>
+    </style>
+
+    <style name="MySeekbarSytle" parent="Base.Widget.AppCompat.SeekBar">
+        <item name="android:thumb">@drawable/thumb</item>
+        <item name="android:progressDrawable">@drawable/po_seekbar</item>
     </style>
 
 </resources>

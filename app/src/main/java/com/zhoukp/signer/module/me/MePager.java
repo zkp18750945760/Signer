@@ -3,13 +3,12 @@ package com.zhoukp.signer.module.me;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -28,6 +27,8 @@ import com.zhoukp.signer.utils.lrucache.RxImageLoader;
 import com.zhoukp.signer.view.LSettingItem;
 import com.zhoukp.signer.view.ThreePointLoadingView;
 
+import static android.app.Activity.RESULT_OK;
+
 
 /**
  * @author zhoukp
@@ -36,7 +37,7 @@ import com.zhoukp.signer.view.ThreePointLoadingView;
  * @function 我的页面
  */
 
-public class MePager extends BaseFragment implements View.OnClickListener, MePagerView {
+public class MePager extends BaseFragment implements View.OnClickListener, MePagerView, SwipeRefreshLayout.OnRefreshListener {
 
     /**
      * 请求图片成功
@@ -46,26 +47,28 @@ public class MePager extends BaseFragment implements View.OnClickListener, MePag
      * 图片请求失败
      */
     public static final int FAIL = 2;
-
+    public MePagerPresenter presenter;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private RoundedImageView ivHead;
     private TextView tvName, tvDuty;
     private Button btnExit;
     private TextView tvGoLogin;
     private LinearLayout llPersonInfo;
     private ThreePointLoadingView threePointLoadingView;
-
     private LSettingItem itemID;
     private LSettingItem itemClass;
     private LSettingItem itemCourse;
     private LSettingItem itemSetting;
     private LSettingItem itemAbout;
-
-    public MePagerPresenter presenter;
     private String path;
 
     @Override
     public View initView() {
         View view = View.inflate(context, R.layout.fragment_me, null);
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
+        //设置颜色
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorBtnPressed);
+
         ivHead = view.findViewById(R.id.ivHead);
         tvName = view.findViewById(R.id.tvName);
         tvDuty = view.findViewById(R.id.tvDuty);
@@ -88,21 +91,11 @@ public class MePager extends BaseFragment implements View.OnClickListener, MePag
     }
 
     @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (hidden) {
-            //不可见
-
-        } else {
-            //可见
-
-        }
-        refreshUI();
-    }
-
-    @Override
     public void initData() {
         super.initData();
+
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setRefreshing(true);
 
         presenter = new MePagerPresenter();
         presenter.attachView(this);
@@ -110,32 +103,6 @@ public class MePager extends BaseFragment implements View.OnClickListener, MePag
         refreshUI();
 
         initEvent();
-    }
-
-    private void initEvent() {
-        btnExit.setOnClickListener(this);
-        tvGoLogin.setOnClickListener(this);
-        ivHead.setOnClickListener(this);
-    }
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.btnExit:
-                ToastUtil.showToast(context, "退出");
-                UserUtil.getInstance().removeUser();
-                refreshUI();
-                break;
-            case R.id.tvGoLogin:
-                context.startActivityForResult(new Intent(context, LoginActivity.class), Constant.Login);
-                break;
-            case R.id.ivHead:
-                //修改头像
-                presenter.selectPicture(context);
-                break;
-            default:
-                break;
-        }
     }
 
     /**
@@ -149,7 +116,6 @@ public class MePager extends BaseFragment implements View.OnClickListener, MePag
         } else {
             llPersonInfo.setVisibility(View.VISIBLE);
             tvGoLogin.setVisibility(View.GONE);
-            ivHead.setImageBitmap(BitmapFactory.decodeResource(context.getResources(), R.drawable.icon_head));
             tvName.setText(userBean.getUserName());
             tvDuty.setText(userBean.getUserDuty());
 
@@ -165,7 +131,7 @@ public class MePager extends BaseFragment implements View.OnClickListener, MePag
                 @Override
                 public void click(boolean isChecked) {
                     //跳转到我的课表页面
-                    context.startActivity(new Intent(context, CourseActivity.class));
+                    startActivityForResult(new Intent(context, CourseActivity.class), 1);
                 }
             });
 
@@ -174,7 +140,7 @@ public class MePager extends BaseFragment implements View.OnClickListener, MePag
                 @Override
                 public void click(boolean isChecked) {
                     //跳转到设备管理页面
-                    context.startActivityForResult(new Intent(context, ManageDeviceActivity.class), Constant.EditData);
+                    startActivityForResult(new Intent(context, ManageDeviceActivity.class), Constant.EditData);
                 }
             });
 
@@ -183,23 +149,27 @@ public class MePager extends BaseFragment implements View.OnClickListener, MePag
                 @Override
                 public void click(boolean isChecked) {
                     //跳转到关于页面
-                    context.startActivity(new Intent(context, AboutActivity.class));
+                    startActivityForResult(new Intent(getContext(), AboutActivity.class), 1);
                 }
             });
         }
     }
 
-    /**
-     * 刷新头像
-     *
-     * @param path 裁剪并压缩后的path
-     */
+    private void initEvent() {
+        btnExit.setOnClickListener(this);
+        tvGoLogin.setOnClickListener(this);
+        ivHead.setOnClickListener(this);
+    }
+
     @Override
-    public void refreshHeadIcon(String path) {
-        Log.e("zkp", path);
-        this.path = path;
-        if (PermissionUtils.isGrantExternalRW(context, 1)) {
-            RxImageLoader.with(context).load(path).into(ivHead);
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case Constant.Login:
+                    refreshUI();
+                    break;
+            }
         }
     }
 
@@ -218,6 +188,50 @@ public class MePager extends BaseFragment implements View.OnClickListener, MePag
     }
 
     @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btnExit:
+                ToastUtil.showToast(context, "退出");
+                UserUtil.getInstance().removeUser();
+                refreshUI();
+                break;
+            case R.id.tvGoLogin:
+                startActivityForResult(new Intent(getContext(), LoginActivity.class), Constant.Login);
+                break;
+            case R.id.ivHead:
+                //修改头像
+                presenter.selectPicture(context);
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void showLoadingView() {
+        threePointLoadingView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideLoadingView() {
+        threePointLoadingView.setVisibility(View.GONE);
+    }
+
+    /**
+     * 刷新头像
+     *
+     * @param path 裁剪并压缩后的path
+     */
+    @Override
+    public void refreshHeadIcon(String path) {
+        Log.e("zkp", path);
+        this.path = path;
+        if (PermissionUtils.isGrantExternalRW(context, 1)) {
+            RxImageLoader.with(context).load(path).into(ivHead);
+        }
+    }
+
+    @Override
     public void uploadHeadIconSuccess(UploadHeadIconBean data) {
         ToastUtil.showToast(context, "上传头像成功");
         this.path = Constant.BaseUrl + data.getHeadIconUrl();
@@ -233,20 +247,17 @@ public class MePager extends BaseFragment implements View.OnClickListener, MePag
     public void getHeadIconSuccess(UploadHeadIconBean data) {
         this.path = Constant.BaseUrl + data.getHeadIconUrl();
         RxImageLoader.with(context).load(Constant.BaseUrl + data.getHeadIconUrl()).into(ivHead);
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
     public void getHeadIconError(int status) {
         ToastUtil.showToast(context, "获取头像失败");
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
-    public void showLoadingView() {
-        threePointLoadingView.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void hideLoadingView() {
-        threePointLoadingView.setVisibility(View.GONE);
+    public void onRefresh() {
+        presenter.getHeadIcon(UserUtil.getInstance().getUser().getUserId());
     }
 }

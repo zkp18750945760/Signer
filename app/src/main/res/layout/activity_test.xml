@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#21293A"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@drawable/titlebar_bg">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="5dp"
+            android:text="测试"
+            android:textColor="@android:color/white"
+            android:textSize="22sp" />
+
+        <ImageView
+            android:id="@+id/ivBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="16dp"
+            android:background="@drawable/icon_back" />
+
+    </RelativeLayout>
+
+    <com.zhoukp.signer.view.bezier.BezierViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:overScrollMode="never" />
+
+
+    <com.zhoukp.signer.view.bezier.BezierRoundView
+        android:id="@+id/bezRound"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:color_bez="@color/colorBezier"
+        app:color_stroke="@color/colorGray"
+        app:color_touch="@color/colorWhite"
+        app:radius="20dp" />
+
+
+</LinearLayout>
