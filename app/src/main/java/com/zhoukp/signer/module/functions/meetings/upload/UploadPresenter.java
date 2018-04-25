@@ -36,7 +36,8 @@ public class UploadPresenter {
         File file = new File(filePath);
 
         RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                .addFormDataPart("uploadFile", file.getName(), RequestBody.create(MediaType.parse("multipart/form-data"), file))
+                .addFormDataPart("uploadFile", file.getName(),
+                        RequestBody.create(MediaType.parse("multipart/form-data"), file))
                 .build();
 
         BaseApi.request(BaseApi.createApi(IUploadApi.class).uploadDiscussion(requestBody, userId, schoolYear,

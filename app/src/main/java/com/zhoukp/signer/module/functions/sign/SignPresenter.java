@@ -1,9 +1,11 @@
 package com.zhoukp.signer.module.functions.sign;
 
 
+import android.content.Context;
 import android.util.Log;
 
 import com.zhoukp.signer.utils.BaseApi;
+import com.zhoukp.signer.utils.DeviceUuidFactory;
 
 /**
  * @author zhoukp
@@ -135,14 +137,15 @@ public class SignPresenter {
      * @param content   事项主题
      * @param longitude 经度
      * @param latitude  纬度
+     * @param stuSerialNo  设备序列号
      */
     public void sign(String userId, String grade, String major, String clazz, int type,
-                     String time, String content, double longitude, double latitude, float radius) {
+                     String time, String content, double longitude, double latitude, float radius, String stuSerialNo) {
 
         signView.showLoadingView();
 
         BaseApi.request(BaseApi.createApi(ISignApi.class).sign(userId, grade, major, clazz, type, time,
-                content, longitude, latitude, radius), new BaseApi.IResponseListener<SponsorSignBean>() {
+                content, longitude, latitude, radius, stuSerialNo), new BaseApi.IResponseListener<SponsorSignBean>() {
             @Override
             public void onSuccess(SponsorSignBean data) {
                 Log.e("zkp", data.getStatus() + "");
@@ -160,6 +163,15 @@ public class SignPresenter {
                 signView.hideLoadingView();
             }
         });
+    }
+
+    /**
+     * 获取设备序列号
+     *
+     * @return 序列号
+     */
+    public String getSerialNo(Context context) {
+        return DeviceUuidFactory.getUDID(context);
     }
 
     /**

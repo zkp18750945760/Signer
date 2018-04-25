@@ -10,7 +10,6 @@ import android.os.Environment;
  */
 
 public class Constant {
-    //public static final String BaseUrl = "http://120.79.157.43/";
 //    public static final String BaseUrl = "http://192.168.191.1:8080";
     public static final String BaseUrl = "http://120.79.157.43:80/SignerZKP/";
     public static final String appPath = Environment.getExternalStorageDirectory() + "/我在/img/";

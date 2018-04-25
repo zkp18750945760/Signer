@@ -120,7 +120,8 @@ public class SignActivity extends AppCompatActivity implements View.OnClickListe
                             dataBean.getContent(),
                             locationUtils.getLongitude(),
                             locationUtils.getLatitude(),
-                            locationUtils.getRadius());
+                            locationUtils.getRadius(),
+                            presenter.getSerialNo(SignActivity.this));
                     handler.removeMessages(flag);
                     break;
             }
@@ -219,23 +220,6 @@ public class SignActivity extends AppCompatActivity implements View.OnClickListe
                 flag = 2;
                 handler.sendEmptyMessageDelayed(flag, 2000);
                 break;
-        }
-    }
-
-    public class KpLocationListener extends BDAbstractLocationListener {
-        @Override
-        public void onReceiveLocation(BDLocation location) {
-            //此处的BDLocation为定位结果信息类，通过它的各种get方法可获取定位相关的全部结果
-            //以下只列举部分获取经纬度相关（常用）的结果信息
-            //更多结果信息获取说明，请参照类参考中BDLocation类中的说明
-
-            //获取纬度信息
-            locationUtils.setLatitude(location.getLatitude());
-            //获取经度信息
-            locationUtils.setLongitude(location.getLongitude());
-
-            //获取定位精度，默认值为0.0f
-            locationUtils.setRadius(location.getRadius());
         }
     }
 
@@ -373,6 +357,9 @@ public class SignActivity extends AppCompatActivity implements View.OnClickListe
                 ToastUtil.showToast(this, "数据库IO错误");
                 break;
             case 105:
+                ToastUtil.showToast(this, "同学，不要帮签到哦");
+                break;
+            case 106:
                 ToastUtil.showToast(this, "服务器无响应");
                 break;
         }
@@ -400,6 +387,23 @@ public class SignActivity extends AppCompatActivity implements View.OnClickListe
             case 103:
                 ToastUtil.showToast(this, "服务器无响应");
                 break;
+        }
+    }
+
+    public class KpLocationListener extends BDAbstractLocationListener {
+        @Override
+        public void onReceiveLocation(BDLocation location) {
+            //此处的BDLocation为定位结果信息类，通过它的各种get方法可获取定位相关的全部结果
+            //以下只列举部分获取经纬度相关（常用）的结果信息
+            //更多结果信息获取说明，请参照类参考中BDLocation类中的说明
+
+            //获取纬度信息
+            locationUtils.setLatitude(location.getLatitude());
+            //获取经度信息
+            locationUtils.setLongitude(location.getLongitude());
+
+            //获取定位精度，默认值为0.0f
+            locationUtils.setRadius(location.getRadius());
         }
     }
 
@@ -432,9 +436,7 @@ public class SignActivity extends AppCompatActivity implements View.OnClickListe
             } else if (data.getType() == 2) {
                 //会议签到
                 tvTime.setText(data.getTime().substring(11));
-
             }
-
 
             countdownView.setOnCountdownEndListener(new CountdownView.OnCountdownEndListener() {
                 @Override

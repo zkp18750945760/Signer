@@ -171,7 +171,7 @@ public class UploadASCQFragment extends BaseFragment implements View.OnClickList
     private float practiceSelf;
 
     //文体艺术与身心发展
-    private float GenresMax = 7.0f;
+    private float GenresMax = 7.5f;
     private float GenresSelf;
 
     //团体活动与社会工作
@@ -277,6 +277,12 @@ public class UploadASCQFragment extends BaseFragment implements View.OnClickList
      * 提交填写的数据到服务器
      */
     private void submit() {
+        moralSelf = 0f;
+        practiceSelf = 0f;
+        GenresSelf = 0f;
+        teamSelf = 0f;
+        extraSelf = 0f;
+
         hashMap = new HashMap<>();
         //德育素质
         map = new HashMap<>();
@@ -436,7 +442,7 @@ public class UploadASCQFragment extends BaseFragment implements View.OnClickList
             }
         }
 
-        if (GenresSelf > GenresMax) {
+        if (GenresSelf > GenresMax - 0.5f) {
             ToastUtil.showToast(context, "文体艺术与身心发展加分太多了哦");
             return;
         } else {

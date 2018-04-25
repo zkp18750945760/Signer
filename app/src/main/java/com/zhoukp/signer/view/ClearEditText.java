@@ -19,7 +19,7 @@ import com.zhoukp.signer.R;
  * @email 275557625@qq.com
  * @function
  */
-public class ClearEditText extends RelativeLayout {
+public class ClearEditText extends RelativeLayout implements View.OnClickListener {
 
     public ImageButton ibDelete, ibHideKeyboard;
     public EditText etText;
@@ -73,6 +73,8 @@ public class ClearEditText extends RelativeLayout {
         ibDelete = findViewById(R.id.ibDelete);
         ibHideKeyboard = findViewById(R.id.ibHideKeyboard);
         etText = findViewById(R.id.etText);
+
+        ibDelete.setOnClickListener(this);
     }
 
     //隐藏键盘
@@ -93,5 +95,10 @@ public class ClearEditText extends RelativeLayout {
         if (!ibDelete.isShown()) {
             ibDelete.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public void onClick(View view) {
+        etText.setText("");
     }
 }

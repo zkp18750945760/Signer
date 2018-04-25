@@ -33,11 +33,17 @@
 
     </RelativeLayout>
 
-    <com.github.barteksc.pdfviewer.PDFView
-        android:id="@+id/pdfView"
+    <!--<com.github.barteksc.pdfviewer.PDFView-->
+    <!--android:id="@+id/pdfView"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_below="@id/title" />-->
+
+    <FrameLayout
+        android:id="@+id/webView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/title" />
+        android:layout_below="@id/title"/>
 
     <include
         android:id="@+id/ll_loading"

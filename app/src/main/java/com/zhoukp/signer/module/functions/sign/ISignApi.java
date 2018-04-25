@@ -55,7 +55,8 @@ public interface ISignApi {
             @Query("content") String content,
             @Query("longitude") double longitude,
             @Query("latitude") double latitude,
-            @Query("radius") float radius
+            @Query("radius") float radius,
+            @Query("stuSerialNo") String stuSerialNo
     );
 
     /**

@@ -496,7 +496,7 @@ public class MutualASCQFragment extends BaseFragment implements MutualASCQView, 
         private float practiceMutual;
 
         //文体艺术与身心发展
-        private float GenresMax = 7.0f;
+        private float GenresMax = 7.5f;
         private float GenresSelf;
         private float GenresMutual;
 
@@ -667,6 +667,13 @@ public class MutualASCQFragment extends BaseFragment implements MutualASCQView, 
          * @param data MutualTaskBean.DataBean
          */
         private void submit(MutualTaskBean.DataBean data) {
+
+            moralSelf = 0f;
+            practiceSelf = 0f;
+            GenresSelf = 0f;
+            teamSelf = 0f;
+            extraSelf = 0f;
+
             hashMap = new HashMap<>();
             //德育素质
             map = new HashMap<>();
@@ -880,7 +887,7 @@ public class MutualASCQFragment extends BaseFragment implements MutualASCQView, 
                 }
             }
 
-            if (teamMutual > teamMax) {
+            if (teamMutual > teamMax - 0.5f) {
                 ToastUtil.showToast(context, "团体活动与社会工作加分太多了哦");
                 return;
             } else {

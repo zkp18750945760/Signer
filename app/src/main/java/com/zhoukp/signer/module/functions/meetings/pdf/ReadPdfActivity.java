@@ -10,13 +10,14 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
+import com.tencent.smtt.sdk.TbsReaderView;
 import com.zhoukp.signer.R;
 import com.zhoukp.signer.utils.Constant;
 import com.zhoukp.signer.utils.ToastUtil;
@@ -34,7 +35,7 @@ import butterknife.ButterKnife;
  * @email 275557625@qq.com
  * @function
  */
-public class ReadPdfActivity extends AppCompatActivity implements View.OnClickListener, ReadPdfView {
+public class ReadPdfActivity extends AppCompatActivity implements View.OnClickListener, ReadPdfView, TbsReaderView.ReaderCallback {
 
     /**
      * 显示网络速度
@@ -45,14 +46,19 @@ public class ReadPdfActivity extends AppCompatActivity implements View.OnClickLi
     ImageView ivBack;
     @BindView(R.id.tvContent)
     TextView tvContent;
-    @BindView(R.id.pdfView)
-    PDFView pdfView;
+//    @BindView(R.id.pdfView)
+//    PDFView pdfView;
     @BindView(R.id.ll_loading)
     RelativeLayout loading;
     @BindView(R.id.rl_speed)
     LinearLayout rlSpeed;
     @BindView(R.id.tvNetspeed)
     TextView tvNetspeed;
+    @BindView(R.id.webView)
+    FrameLayout webView;
+
+    private TbsReaderView tbsReaderView;
+    private boolean result;
 
 
     private String pdfUrl;
@@ -141,14 +147,35 @@ public class ReadPdfActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void openPdf(File file) {
-        pdfView.fromFile(file)
-                .enableSwipe(true)
-                .swipeHorizontal(false)
-                .enableDoubletap(true)
-                .defaultPage(0)
-                .enableAnnotationRendering(true)
-                .scrollHandle(new DefaultScrollHandle(this))
-                .load();
+//        pdfView.fromFile(file)
+//                .enableSwipe(true)
+//                .swipeHorizontal(false)
+//                .enableDoubletap(true)
+//                .defaultPage(0)
+//                .enableAnnotationRendering(true)
+//                .scrollHandle(new DefaultScrollHandle(this))
+//                .load();
+        tbsReaderView = new TbsReaderView(this, this);
+        webView.addView(tbsReaderView);
+
+        Bundle bundle = new Bundle();
+        bundle.putString("filePath", file.getPath());
+        bundle.putString("tempPath", Constant.appFilePath);
+        result = tbsReaderView.preOpen(parseFormat(file.getName()), false);
+        if (result) {
+            tbsReaderView.openFile(bundle);
+        }
+    }
+
+    private String parseFormat(String fileName) {
+        return fileName.substring(fileName.lastIndexOf(".") + 1);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        tbsReaderView.onStop();
+        presenter.detachView();
     }
 
     @Override
@@ -179,5 +206,10 @@ public class ReadPdfActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void downloadError() {
         ToastUtil.showToast(this, "下载文件失败");
+    }
+
+    @Override
+    public void onCallBackAction(Integer integer, Object o, Object o1) {
+
     }
 }
