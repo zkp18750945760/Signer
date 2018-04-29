@@ -20,7 +20,7 @@ import com.zhoukp.signer.utils.ToastUtil;
  * @author zhoukp
  * @time 2018/2/4 17:56
  * @email 275557625@qq.com
- * @function 第一台账页面
+ * @function 第二台账页面
  */
 
 public class SecondLedgerFragemnt extends BaseFragment implements View.OnClickListener, SecondLedgerView, SwipeRefreshLayout.OnRefreshListener {
@@ -82,19 +82,6 @@ public class SecondLedgerFragemnt extends BaseFragment implements View.OnClickLi
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        presenter.getSecondLedger(UserUtil.getInstance().getUser().getUserId(),
-                Integer.parseInt(tvYear.getText().toString().replace("年", "")));
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        presenter.detachView();
-    }
-
-    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK && data != null) {
@@ -111,6 +98,19 @@ public class SecondLedgerFragemnt extends BaseFragment implements View.OnClickLi
                     break;
             }
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        presenter.getSecondLedger(UserUtil.getInstance().getUser().getUserId(),
+                Integer.parseInt(tvYear.getText().toString().replace("年", "")));
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        presenter.detachView();
     }
 
     @Override

@@ -3,11 +3,14 @@ package com.zhoukp.signer.view.dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.zhoukp.signer.R;
+
+import static android.view.KeyEvent.KEYCODE_BACK;
 
 /**
  * @author zhoukp
@@ -58,6 +61,14 @@ public class CommonDialog extends Dialog implements View.OnClickListener {
         setContentView(R.layout.dialog_common);
         setCanceledOnTouchOutside(false);
         initView();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KEYCODE_BACK) {
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     private void initView() {

@@ -63,6 +63,12 @@ public class SignRecordActivity extends AppCompatActivity implements View.OnClic
         initEvents();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.detachView();
+    }
+
     private void initEvents() {
         ivBack.setOnClickListener(this);
     }

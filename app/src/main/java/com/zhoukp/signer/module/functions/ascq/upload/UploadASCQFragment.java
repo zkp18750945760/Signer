@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.design.widget.TextInputLayout;
 import android.text.TextUtils;
+import android.util.ArrayMap;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -24,7 +25,6 @@ import com.zhoukp.signer.utils.TimeUtils;
 import com.zhoukp.signer.utils.ToastUtil;
 import com.zhoukp.signer.view.linearLayout.ExpandableLinearLayout;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -144,9 +144,9 @@ public class UploadASCQFragment extends BaseFragment implements View.OnClickList
     /**
      * 用于生成json的哈希表
      */
-    private HashMap<String, Object> hashMap;
-    private HashMap<String, Object> map;
-    private HashMap<String, Object> base;
+    private ArrayMap<String, Object> hashMap;
+    private ArrayMap<String, Object> map;
+    private ArrayMap<String, Object> base;
     private Iterator<Map.Entry<String, Object>> iter;
 
     //学年
@@ -283,9 +283,9 @@ public class UploadASCQFragment extends BaseFragment implements View.OnClickList
         teamSelf = 0f;
         extraSelf = 0f;
 
-        hashMap = new HashMap<>();
+        hashMap = new ArrayMap<>();
         //德育素质
-        map = new HashMap<>();
+        map = new ArrayMap<>();
         map.put("moral1", TextUtils.isEmpty(etMoral1.getEditText().getText().toString()) ?
                 0.0f : Float.parseFloat(etMoral1.getEditText().getText().toString()));
         map.put("moral2", TextUtils.isEmpty(etMoral2.getEditText().getText().toString()) ?
@@ -302,9 +302,8 @@ public class UploadASCQFragment extends BaseFragment implements View.OnClickList
         iter = map.entrySet().iterator();
 
         while (iter.hasNext()) {
-            System.out.println("i==" + i);
             i++;
-            HashMap.Entry entry = iter.next();
+            ArrayMap.Entry entry = iter.next();
             moralSelf += (float) entry.getValue();
         }
 
@@ -320,7 +319,7 @@ public class UploadASCQFragment extends BaseFragment implements View.OnClickList
         }
 
         //智育素质
-        map = new HashMap<>();
+        map = new ArrayMap<>();
         map.put("GPA", TextUtils.isEmpty(etWit.getEditText().getText().toString()) ?
                 0.0f : Float.parseFloat(etWit.getEditText().getText().toString()));
 
@@ -335,7 +334,7 @@ public class UploadASCQFragment extends BaseFragment implements View.OnClickList
         }
 
         //体育素质
-        map = new HashMap<>();
+        map = new ArrayMap<>();
         if (TextUtils.isEmpty(level)) {
             //没有选择体测等级
             ToastUtil.showToast(context, "请选择体测等级");
@@ -349,8 +348,8 @@ public class UploadASCQFragment extends BaseFragment implements View.OnClickList
         }
 
         //科技创新与社会实践
-        map = new HashMap<>();
-        base = new HashMap<>();
+        map = new ArrayMap<>();
+        base = new ArrayMap<>();
 
         map.put("practice1", TextUtils.isEmpty(etPractice1.getEditText().getText().toString()) ?
                 0.0f : Float.parseFloat(etPractice1.getEditText().getText().toString()));
@@ -370,9 +369,8 @@ public class UploadASCQFragment extends BaseFragment implements View.OnClickList
         iter = map.entrySet().iterator();
         i = 0;
         while (iter.hasNext()) {
-            System.out.println("i==" + i);
             i++;
-            HashMap.Entry entry = iter.next();
+            ArrayMap.Entry entry = iter.next();
             practiceSelf += (float) entry.getValue();
         }
 
@@ -384,7 +382,6 @@ public class UploadASCQFragment extends BaseFragment implements View.OnClickList
         iter = base.entrySet().iterator();
         i = 0;
         while (iter.hasNext()) {
-            System.out.println("i==" + i);
             i++;
             if ((boolean) (iter.next()).getValue()) {
                 practiceSelf += 6.0f;
@@ -403,8 +400,8 @@ public class UploadASCQFragment extends BaseFragment implements View.OnClickList
         }
 
         //文体艺术与身心发展
-        map = new HashMap<>();
-        base = new HashMap<>();
+        map = new ArrayMap<>();
+        base = new ArrayMap<>();
 
         map.put("Genres1", TextUtils.isEmpty(etGenres1.getEditText().getText().toString()) ?
                 0.0f : Float.parseFloat(etGenres1.getEditText().getText().toString()));
@@ -420,9 +417,8 @@ public class UploadASCQFragment extends BaseFragment implements View.OnClickList
         iter = map.entrySet().iterator();
         i = 0;
         while (iter.hasNext()) {
-            System.out.println("i==" + i);
             i++;
-            HashMap.Entry entry = iter.next();
+            ArrayMap.Entry entry = iter.next();
             GenresSelf += (float) entry.getValue();
         }
 
@@ -434,7 +430,6 @@ public class UploadASCQFragment extends BaseFragment implements View.OnClickList
         iter = base.entrySet().iterator();
         i = 0;
         while (iter.hasNext()) {
-            System.out.println("i==" + i);
             i++;
             if ((boolean) (iter.next()).getValue()) {
                 GenresSelf += 3.0f;
@@ -453,8 +448,8 @@ public class UploadASCQFragment extends BaseFragment implements View.OnClickList
         }
 
         //团体活动与社会工作
-        map = new HashMap<>();
-        base = new HashMap<>();
+        map = new ArrayMap<>();
+        base = new ArrayMap<>();
 
         map.put("team1", TextUtils.isEmpty(etTeam1.getEditText().getText().toString()) ?
                 0.0f : Float.parseFloat(etTeam1.getEditText().getText().toString()));
@@ -474,9 +469,8 @@ public class UploadASCQFragment extends BaseFragment implements View.OnClickList
         iter = map.entrySet().iterator();
         i = 0;
         while (iter.hasNext()) {
-            System.out.println("i==" + i);
             i++;
-            HashMap.Entry entry = iter.next();
+            ArrayMap.Entry entry = iter.next();
             teamSelf += (float) entry.getValue();
         }
 
@@ -488,7 +482,6 @@ public class UploadASCQFragment extends BaseFragment implements View.OnClickList
         iter = base.entrySet().iterator();
         i = 0;
         while (iter.hasNext()) {
-            System.out.println("i==" + i);
             i++;
             if ((boolean) (iter.next()).getValue()) {
                 teamSelf += 3.0f;
@@ -507,7 +500,7 @@ public class UploadASCQFragment extends BaseFragment implements View.OnClickList
         }
 
         //附加分
-        map = new HashMap<>();
+        map = new ArrayMap<>();
         map.put("extraSelf", TextUtils.isEmpty(etExtra.getEditText().getText().toString()) ?
                 0.0f : Float.parseFloat(etExtra.getEditText().getText().toString()));
 
@@ -595,6 +588,7 @@ public class UploadASCQFragment extends BaseFragment implements View.OnClickList
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        presenter.detachView();
     }
 
     @Override

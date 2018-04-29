@@ -31,25 +31,31 @@ public class MutualASCQPresnter {
      */
     public void isMutualMembers(String userId, String userGrade, String userMajor, String userClazz) {
 
-        mutualASCQView.showLoadingView();
+        if (mutualASCQView != null){
+            mutualASCQView.showLoadingView();
+        }
 
         BaseApi.request(BaseApi.createApi(IMutualASCQApi.class).isMutualMembers(userId, userGrade, userMajor, userClazz),
                 new BaseApi.IResponseListener<IsMutualMemberBean>() {
                     @Override
                     public void onSuccess(IsMutualMemberBean data) {
                         Log.e("zkp", "isMutualMembers==" + data.getStatus());
-                        if (data.getStatus() == 200) {
-                            mutualASCQView.isMemberSuccess(data);
-                        } else {
-                            mutualASCQView.isMemberError(data.getStatus());
+                        if (mutualASCQView != null) {
+                            if (data.getStatus() == 200) {
+                                mutualASCQView.isMemberSuccess(data);
+                            } else {
+                                mutualASCQView.isMemberError(data.getStatus());
+                            }
+                            mutualASCQView.hideLoadingView();
                         }
-                        mutualASCQView.hideLoadingView();
                     }
 
                     @Override
                     public void onFail() {
-                        mutualASCQView.isMemberError(100);
-                        mutualASCQView.hideLoadingView();
+                        if (mutualASCQView != null){
+                            mutualASCQView.isMemberError(100);
+                            mutualASCQView.hideLoadingView();
+                        }
                     }
                 });
 
@@ -65,25 +71,31 @@ public class MutualASCQPresnter {
      */
     public void isMutualFinish(String userId, String userGrade, String userMajor, String userClazz) {
 
-        mutualASCQView.showLoadingView();
+        if (mutualASCQView != null){
+            mutualASCQView.showLoadingView();
+        }
 
         BaseApi.request(BaseApi.createApi(IMutualASCQApi.class).isMutualFinish(userId, userGrade, userMajor, userClazz),
                 new BaseApi.IResponseListener<IsMutualFinishBean>() {
                     @Override
                     public void onSuccess(IsMutualFinishBean data) {
                         Log.e("zkp", "isMutualFinish==" + data.getStatus());
-                        if (data.getStatus() == 200) {
-                            mutualASCQView.isFinishSuccess(data);
-                        } else {
-                            mutualASCQView.isFinishError(data.getStatus());
+                        if (mutualASCQView != null){
+                            if (data.getStatus() == 200) {
+                                mutualASCQView.isFinishSuccess(data);
+                            } else {
+                                mutualASCQView.isFinishError(data.getStatus());
+                            }
+                            mutualASCQView.hideLoadingView();
                         }
-                        mutualASCQView.hideLoadingView();
                     }
 
                     @Override
                     public void onFail() {
-                        mutualASCQView.isFinishError(100);
-                        mutualASCQView.hideLoadingView();
+                        if (mutualASCQView != null){
+                            mutualASCQView.isFinishError(100);
+                            mutualASCQView.hideLoadingView();
+                        }
                     }
                 });
 
@@ -100,28 +112,33 @@ public class MutualASCQPresnter {
      */
     public void getMutualTask(String userId, String userGrade, String userMajor, String userClazz) {
 
-        mutualASCQView.showLoadingView();
+        if (mutualASCQView != null){
+            mutualASCQView.showLoadingView();
+        }
 
         BaseApi.request(BaseApi.createApi(IMutualASCQApi.class).getMutualTask(userId, userGrade, userMajor, userClazz),
                 new BaseApi.IResponseListener<MutualTaskBean>() {
                     @Override
                     public void onSuccess(MutualTaskBean data) {
                         Log.e("zkp", "getMutualTask==" + data.getStatus());
-
-                        if (data.getStatus() == 200) {
-                            mutualASCQView.getTaskSuccess(data);
-                        } else if (data.getStatus() == 102) {
-                            mutualASCQView.ASQCNotExist();
-                        } else {
-                            mutualASCQView.getTaskError(data.getStatus());
+                        if (mutualASCQView != null){
+                            if (data.getStatus() == 200) {
+                                mutualASCQView.getTaskSuccess(data);
+                            } else if (data.getStatus() == 102) {
+                                mutualASCQView.ASQCNotExist();
+                            } else {
+                                mutualASCQView.getTaskError(data.getStatus());
+                            }
+                            mutualASCQView.hideLoadingView();
                         }
-                        mutualASCQView.hideLoadingView();
                     }
 
                     @Override
                     public void onFail() {
-                        mutualASCQView.getTaskError(100);
-                        mutualASCQView.hideLoadingView();
+                        if (mutualASCQView != null){
+                            mutualASCQView.getTaskError(100);
+                            mutualASCQView.hideLoadingView();
+                        }
                     }
                 });
 
@@ -138,32 +155,38 @@ public class MutualASCQPresnter {
      */
     public void uploadMutual(String ASCQ, String userId, String userGrade, String userMajor, String userClazz) {
 
-        mutualASCQView.showLoadingView();
+        if (mutualASCQView != null){
+            mutualASCQView.showLoadingView();
+        }
 
         BaseApi.request(BaseApi.createApi(IMutualASCQApi.class).uploadMutual(ASCQ, userId, userGrade, userMajor, userClazz),
                 new BaseApi.IResponseListener<DeviceBean>() {
                     @Override
                     public void onSuccess(DeviceBean data) {
                         Log.e("zkp", "uploadMutual==" + data.getStatus());
-                        if (data.getStatus() == 200) {
-                            mutualASCQView.uploadSuccess();
-                        } else {
-                            mutualASCQView.uploadError(data.getStatus());
+                        if (mutualASCQView != null){
+                            if (data.getStatus() == 200) {
+                                mutualASCQView.uploadSuccess();
+                            } else {
+                                mutualASCQView.uploadError(data.getStatus());
+                            }
+                            mutualASCQView.hideLoadingView();
                         }
-                        mutualASCQView.hideLoadingView();
                     }
 
                     @Override
                     public void onFail() {
-                        mutualASCQView.uploadError(100);
-                        mutualASCQView.hideLoadingView();
+                        if (mutualASCQView != null){
+                            mutualASCQView.uploadError(100);
+                            mutualASCQView.hideLoadingView();
+                        }
                     }
                 });
 
     }
 
     public void detachView() {
-        if (mutualASCQView != null) {
+        if (this.mutualASCQView != null) {
             this.mutualASCQView = null;
         }
     }

@@ -15,7 +15,9 @@ public class FirstLedgerPresenter {
     private FirstLedgerView firstLedgerView;
 
     public void attachView(FirstLedgerView firstLedgerView) {
-        this.firstLedgerView = firstLedgerView;
+        if (this.firstLedgerView == null) {
+            this.firstLedgerView = firstLedgerView;
+        }
     }
 
 
@@ -29,7 +31,9 @@ public class FirstLedgerPresenter {
      */
     public void getFirstLedger(String userId, String grade, String major, String clazz, String schoolYear, String term) {
 
-        firstLedgerView.showLoadingView();
+        if (firstLedgerView != null){
+            firstLedgerView.showLoadingView();
+        }
 
         System.out.println("schoolYear==" + schoolYear + ", term==" + term);
 
@@ -38,25 +42,29 @@ public class FirstLedgerPresenter {
                     @Override
                     public void onSuccess(FirstLedgerBean data) {
                         Log.e("zkp", "getFirstLedger==" + data.getStatus());
-                        if (data.getStatus() == 200) {
-                            firstLedgerView.getFirstLedgerSuccess(data);
-                        } else {
-                            firstLedgerView.getFirstLedgerError(data.getStatus());
+                        if (firstLedgerView != null) {
+                            if (data.getStatus() == 200) {
+                                firstLedgerView.getFirstLedgerSuccess(data);
+                            } else {
+                                firstLedgerView.getFirstLedgerError(data.getStatus());
+                            }
+                            firstLedgerView.hideLoadingView();
                         }
-                        firstLedgerView.hideLoadingView();
                     }
 
                     @Override
                     public void onFail() {
-                        firstLedgerView.getFirstLedgerError(100);
-                        firstLedgerView.hideLoadingView();
+                        if (firstLedgerView != null) {
+                            firstLedgerView.getFirstLedgerError(100);
+                            firstLedgerView.hideLoadingView();
+                        }
                     }
                 });
 
     }
 
     public void detachView() {
-        if (firstLedgerView != null) {
+        if (this.firstLedgerView != null) {
             this.firstLedgerView = null;
         }
     }

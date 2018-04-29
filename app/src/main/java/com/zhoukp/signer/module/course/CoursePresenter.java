@@ -15,7 +15,9 @@ public class CoursePresenter {
     private CourseView courseView;
 
     public void attachView(CourseView courseView) {
-        this.courseView = courseView;
+        if (this.courseView == null) {
+            this.courseView = courseView;
+        }
     }
 
     /**
@@ -28,31 +30,39 @@ public class CoursePresenter {
      */
     public void getCourse(String userId, String userGrade, String userMajor, String userClazz) {
 
-        courseView.showLoadingView();
+        if (courseView != null){
+            courseView.showLoadingView();
+        }
 
         BaseApi.request(BaseApi.createApi(ICourseApi.class).getCourse(userId, userGrade, userMajor, userClazz),
                 new BaseApi.IResponseListener<CourseBean>() {
                     @Override
                     public void onSuccess(CourseBean data) {
                         Log.e("zkp", "getCourse==" + data.getStatus());
-                        if (data.getStatus() == 200) {
-                            courseView.getCourseSuccess(data);
-                        } else {
-                            courseView.getCourseError(data.getStatus());
+                        if (courseView != null) {
+                            if (data.getStatus() == 200) {
+                                courseView.getCourseSuccess(data);
+                            } else {
+                                courseView.getCourseError(data.getStatus());
+                            }
+                            courseView.hideLoadingView();
                         }
-                        courseView.hideLoadingView();
                     }
 
                     @Override
                     public void onFail() {
-                        courseView.getCourseError(100);
-                        courseView.hideLoadingView();
+                        if (courseView != null) {
+                            courseView.getCourseError(100);
+                            courseView.hideLoadingView();
+                        }
                     }
                 });
 
     }
 
     public void detachView() {
-        this.courseView = null;
+        if (this.courseView != null) {
+            this.courseView = null;
+        }
     }
 }

@@ -35,7 +35,6 @@ public class NetworkConnectChangedReceiver extends BroadcastReceiver {
                     SignApplication.getInstance().setEnableWifi(false);
                     break;
                 case WifiManager.WIFI_STATE_DISABLING:
-
                     break;
                 case WifiManager.WIFI_STATE_ENABLING:
                     break;
@@ -46,8 +45,6 @@ public class NetworkConnectChangedReceiver extends BroadcastReceiver {
                     break;
                 default:
                     break;
-
-
             }
         }
 
@@ -67,7 +64,7 @@ public class NetworkConnectChangedReceiver extends BroadcastReceiver {
                     SignApplication.getInstance().setWifi(true);
                 } else {
                     SignApplication.getInstance().setWifi(false);
-                    OpenNetHelper.showWifiDlg(context);
+//                    OpenNetHelper.showWifiDlg(context);
                 }
             }
         }

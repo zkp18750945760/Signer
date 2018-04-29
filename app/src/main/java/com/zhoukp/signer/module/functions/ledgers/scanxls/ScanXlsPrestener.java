@@ -36,7 +36,9 @@ public class ScanXlsPrestener {
      * @param scanXlsView scanXlsView
      */
     public void attachView(ScanXlsView scanXlsView) {
-        this.scanXlsView = scanXlsView;
+        if (this.scanXlsView == null) {
+            this.scanXlsView = scanXlsView;
+        }
     }
 
     /**
@@ -45,52 +47,62 @@ public class ScanXlsPrestener {
      * @param suffix 后缀名
      */
     public void queryFiles(Context context, String[] suffix) {
+        if (scanXlsView != null) {
+            scanXlsView.showDialog();
+        }
 
-        scanXlsView.showDialog();
-
-        String[] projection = new String[]{MediaStore.Files.FileColumns._ID,
+        String[] projection = new String[]{
+                MediaStore.Files.FileColumns._ID,
                 MediaStore.Files.FileColumns.DATA,
                 MediaStore.Files.FileColumns.SIZE
         };
-        Cursor cursor = context.getContentResolver().query(
-                Uri.parse("content://media/external/file"),
-                projection,
-                MediaStore.Files.FileColumns.DATA + " like ?",
-                suffix,
-                null);
 
         ArrayList<XlsBean> xlsBeanList = new ArrayList<>();
 
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-                int idindex = cursor.getColumnIndex(MediaStore.Files.FileColumns._ID);
-                int dataindex = cursor.getColumnIndex(MediaStore.Files.FileColumns.DATA);
-                int sizeindex = cursor.getColumnIndex(MediaStore.Files.FileColumns.SIZE);
-                do {
-                    String id = cursor.getString(idindex);
-                    String path = cursor.getString(dataindex);
-                    String size = cursor.getString(sizeindex);
-                    int dot = path.lastIndexOf("/");
-                    String name = path.substring(dot + 1);
+        for (int i = 0; i < suffix.length; i++) {
+            Cursor cursor = context.getContentResolver().query(
+                    Uri.parse("content://media/external/file"),
+                    projection,
+                    MediaStore.Files.FileColumns.DATA + " like ? ",
+                    new String[]{suffix[i]},
+                    null);
 
-                    XlsBean xlsBean = new XlsBean();
-                    xlsBean.setId(id);
-                    xlsBean.setPath(path);
-                    xlsBean.setSize(size);
-                    xlsBean.setName(name);
+            if (cursor != null) {
+                if (cursor.moveToFirst()) {
+                    int idindex = cursor.getColumnIndex(MediaStore.Files.FileColumns._ID);
+                    int dataindex = cursor.getColumnIndex(MediaStore.Files.FileColumns.DATA);
+                    int sizeindex = cursor.getColumnIndex(MediaStore.Files.FileColumns.SIZE);
+                    do {
+                        String id = cursor.getString(idindex);
+                        String path = cursor.getString(dataindex);
+                        String size = cursor.getString(sizeindex);
+                        int dot = path.lastIndexOf("/");
+                        String name = path.substring(dot + 1);
 
-                    xlsBeanList.add(xlsBean);
-                    Log.e("test", name);
-                } while (cursor.moveToNext());
+                        XlsBean xlsBean = new XlsBean();
+                        xlsBean.setId(id);
+                        xlsBean.setPath(path);
+                        xlsBean.setSize(size);
+                        xlsBean.setName(name);
+
+                        xlsBeanList.add(xlsBean);
+                        Log.e("test", name + "," + path);
+                    } while (cursor.moveToNext());
+                }
+                cursor.close();
+            } else {
+                if (scanXlsView != null) {
+                    scanXlsView.scanXlsError();
+                    scanXlsView.hideDialog();
+                }
+                return;
             }
-            cursor.close();
+        }
+
+        if (scanXlsView != null) {
             scanXlsView.scanXlsSuccess(xlsBeanList);
             scanXlsView.hideDialog();
-            return;
         }
-        scanXlsView.scanXlsError();
-        scanXlsView.hideDialog();
-        return;
     }
 
     /**
@@ -100,36 +112,47 @@ public class ScanXlsPrestener {
      * @param Extension   扩展名
      * @param IsIterative 是否进入子文件夹
      */
-    public void GetFiles(String Path, String Extension, boolean IsIterative) {
-        scanXlsView.showDialog();
+    public void GetFiles(String Path, String[] Extension, boolean IsIterative) {
+        if (scanXlsView != null) {
+            scanXlsView.hideDialog();
+        }
         ArrayList<XlsBean> lstFile = new ArrayList<>();
         File[] files = new File(Path).listFiles();
         if (files == null) {
-            scanXlsView.scanXlsInQQError();
-            scanXlsView.hideDialog();
+            if (scanXlsView != null) {
+                scanXlsView.scanXlsInQQError();
+                scanXlsView.hideDialog();
+            }
             return;
         }
         for (File f : files) {
             if (f.isFile()) {
                 //判断扩展名
-                if (f.getPath().substring(f.getPath().length() - Extension.length()).equals(Extension)) {
-                    XlsBean bean = new XlsBean();
-                    bean.setPath(f.getPath());
-                    bean.setName(f.getName());
-                    bean.setSize(f.length() + "");
-                    lstFile.add(bean);
+                for (int i = 0; i < Extension.length; i++) {
+                    if (f.getPath().substring(f.getPath().length() - Extension[i].length()).equals(Extension)) {
+                        XlsBean bean = new XlsBean();
+                        bean.setPath(f.getPath());
+                        bean.setName(f.getName());
+                        bean.setSize(f.length() + "");
+                        lstFile.add(bean);
+                    }
                 }
                 if (!IsIterative)
                     break;
-            } else if (f.isDirectory() && f.getPath().indexOf("/.") == -1) //忽略点文件（隐藏文件/文件夹）
+
+            } else if (f.isDirectory() && !f.getPath().contains("/.")) //忽略点文件（隐藏文件/文件夹）
                 GetFiles(f.getPath(), Extension, IsIterative);
         }
         if (lstFile.size() > 0) {
-            scanXlsView.scanXlsInQQSucccess(lstFile);
-            scanXlsView.hideDialog();
+            if (scanXlsView != null) {
+                scanXlsView.scanXlsInQQSucccess(lstFile);
+                scanXlsView.hideDialog();
+            }
         } else {
-            scanXlsView.scanXlsInQQError();
-            scanXlsView.hideDialog();
+            if (scanXlsView != null) {
+                scanXlsView.scanXlsInQQError();
+                scanXlsView.hideDialog();
+            }
         }
     }
 
@@ -140,7 +163,10 @@ public class ScanXlsPrestener {
      * @param xls   xls文件路径
      */
     public void uploadLedger(int month, String xls) {
-        scanXlsView.showDialog();
+        if (scanXlsView != null) {
+            scanXlsView.showDialog();
+        }
+
         File file = new File(xls);
         RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
                 .addFormDataPart("uploadFile", file.getName(), RequestBody.create(MediaType.parse("multipart/form-data"), file))
@@ -151,20 +177,23 @@ public class ScanXlsPrestener {
                     @Override
                     public void onSuccess(SponsorSignBean data) {
                         Log.e("zkp", "uploadLedger==" + data.getStatus());
-
-                        if (data.getStatus() == 200) {
-                            //上传文件成功
-                            scanXlsView.uploadSuccess();
-                        } else {
-                            scanXlsView.uploadError(data.getStatus());
+                        if (scanXlsView != null) {
+                            if (data.getStatus() == 200) {
+                                //上传文件成功
+                                scanXlsView.uploadSuccess();
+                            } else {
+                                scanXlsView.uploadError(data.getStatus());
+                            }
+                            scanXlsView.hideDialog();
                         }
-                        scanXlsView.hideDialog();
                     }
 
                     @Override
                     public void onFail() {
-                        scanXlsView.uploadError(100);
-                        scanXlsView.hideDialog();
+                        if (scanXlsView != null) {
+                            scanXlsView.uploadError(100);
+                            scanXlsView.hideDialog();
+                        }
                     }
                 });
     }
@@ -173,6 +202,8 @@ public class ScanXlsPrestener {
      * 解绑视图
      */
     public void detachView() {
-        this.scanXlsView = null;
+        if (this.scanXlsView != null) {
+            this.scanXlsView = null;
+        }
     }
 }

@@ -21,7 +21,9 @@ public class SecondLedgerPresenter {
      * @param secondLedgerView secondLedgerView
      */
     public void attachView(SecondLedgerView secondLedgerView) {
-        this.secondLedgerView = secondLedgerView;
+        if (this.secondLedgerView == null){
+            this.secondLedgerView = secondLedgerView;
+        }
     }
 
     /**
@@ -31,25 +33,31 @@ public class SecondLedgerPresenter {
      * @param year   年份
      */
     public void getSecondLedger(String userId, int year) {
-        secondLedgerView.showLoadingView();
+        if (secondLedgerView != null){
+            secondLedgerView.showLoadingView();
+        }
 
         BaseApi.request(BaseApi.createApi(ISecondLedgerApi.class).getSecondLedger(userId, year),
                 new BaseApi.IResponseListener<SecondLedgerBean>() {
                     @Override
                     public void onSuccess(SecondLedgerBean data) {
                         Log.e("zkp", "getSecondLedger==" + data.getStatus());
-                        if (data.getStatus() == 200) {
-                            secondLedgerView.getLedgerSuccess(data);
-                        } else {
-                            secondLedgerView.getLedgerError(data.getStatus());
+                        if (secondLedgerView != null){
+                            if (data.getStatus() == 200) {
+                                secondLedgerView.getLedgerSuccess(data);
+                            } else {
+                                secondLedgerView.getLedgerError(data.getStatus());
+                            }
+                            secondLedgerView.hideLoadingView();
                         }
-                        secondLedgerView.hideLoadingView();
                     }
 
                     @Override
                     public void onFail() {
-                        secondLedgerView.getLedgerError(100);
-                        secondLedgerView.hideLoadingView();
+                        if (secondLedgerView != null){
+                            secondLedgerView.getLedgerError(100);
+                            secondLedgerView.hideLoadingView();
+                        }
                     }
                 });
     }
@@ -58,6 +66,8 @@ public class SecondLedgerPresenter {
      * 解绑视图
      */
     public void detachView() {
-        this.secondLedgerView = null;
+        if (this.secondLedgerView != null){
+            this.secondLedgerView = null;
+        }
     }
 }

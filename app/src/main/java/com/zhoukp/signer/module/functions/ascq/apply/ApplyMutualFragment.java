@@ -1,6 +1,7 @@
 package com.zhoukp.signer.module.functions.ascq.apply;
 
 import android.app.Dialog;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -20,11 +21,12 @@ import com.zhoukp.signer.view.dialog.CommonDialog;
  * @email 275557625@qq.com
  * @function 邀请同学进入互评小组Fragment
  */
-public class ApplyMutualFragment extends BaseFragment implements ApplyMutualView, View.OnClickListener {
+public class ApplyMutualFragment extends BaseFragment implements ApplyMutualView, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     private RelativeLayout rlGroupFinish, rlGroup;
     private ListView listView;
     private Button btnGroup;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     private ProgressDialog dialog;
     private ApplyMutualPresenter presenter;
@@ -36,6 +38,7 @@ public class ApplyMutualFragment extends BaseFragment implements ApplyMutualView
     public View initView() {
         View view = View.inflate(context, R.layout.fragment_apply_mutual, null);
         listView = view.findViewById(R.id.listView);
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         btnGroup = view.findViewById(R.id.btnGroup);
         rlGroup = view.findViewById(R.id.rlGroup);
         rlGroupFinish = view.findViewById(R.id.rlGroupFinish);
@@ -52,11 +55,17 @@ public class ApplyMutualFragment extends BaseFragment implements ApplyMutualView
     }
 
     private void initVariates() {
+
+
         presenter = new ApplyMutualPresenter();
         presenter.attachView(this);
         user = UserUtil.getInstance().getUser();
 
-        presenter.getGroupMutualStatus(user.getUserId(), user.getUserGrade(), user.getUserMajor(), user.getUserClass());
+        swipeRefreshLayout.setRefreshing(true);
+        swipeRefreshLayout.setOnRefreshListener(this);
+
+        presenter.getGroupMutualStatus(user.getUserId(), user.getUserGrade(),
+                user.getUserMajor(), user.getUserClass());
     }
 
     private void initEvents() {
@@ -89,12 +98,14 @@ public class ApplyMutualFragment extends BaseFragment implements ApplyMutualView
 
     @Override
     public void getClazzStudentsSuccess(ClazzStudentsBean bean) {
+        swipeRefreshLayout.setRefreshing(false);
         adapter = new ApplyMutualAdapter(context, bean, presenter);
         listView.setAdapter(adapter);
     }
 
     @Override
     public void getClazzStudentsError(int status) {
+        swipeRefreshLayout.setRefreshing(false);
         switch (status) {
             case 100:
                 ToastUtil.showToast(context, "获取学生名单失败");
@@ -164,13 +175,15 @@ public class ApplyMutualFragment extends BaseFragment implements ApplyMutualView
                 public void onClick(Dialog dialog, boolean confirm) {
                     if (confirm) {
                         //分配综测表给互评小组
-                        presenter.groupMutual(user.getUserId(), user.getUserGrade(), user.getUserMajor(), user.getUserClass());
+                        presenter.groupMutual(user.getUserId(), user.getUserGrade(),
+                                user.getUserMajor(), user.getUserClass());
                     }
                     dialog.dismiss();
                 }
             }).show();
         } else {
-            presenter.groupMutual(user.getUserId(), user.getUserGrade(), user.getUserMajor(), user.getUserClass());
+            presenter.groupMutual(user.getUserId(), user.getUserGrade(),
+                    user.getUserMajor(), user.getUserClass());
         }
     }
 
@@ -215,18 +228,21 @@ public class ApplyMutualFragment extends BaseFragment implements ApplyMutualView
     @Override
     public void getGroupMutualStatusSuccess(GroupStatusBean bean) {
         if (bean.getIsGroup().equals("true")) {
+            swipeRefreshLayout.setRefreshing(false);
             ToastUtil.showToast(context, "分配过了");
             rlGroupFinish.setVisibility(View.VISIBLE);
             rlGroup.setVisibility(View.GONE);
         } else {
             rlGroupFinish.setVisibility(View.GONE);
             rlGroup.setVisibility(View.VISIBLE);
-            presenter.getClazzStudents(user.getUserId(), user.getUserGrade(), user.getUserMajor(), user.getUserClass());
+            presenter.getClazzStudents(user.getUserId(), user.getUserGrade(),
+                    user.getUserMajor(), user.getUserClass());
         }
     }
 
     @Override
     public void getGroupMutualStatusError(int status) {
+        swipeRefreshLayout.setRefreshing(false);
         switch (status) {
             case 100:
                 ToastUtil.showToast(context, "获取分组记录失败");
@@ -245,5 +261,12 @@ public class ApplyMutualFragment extends BaseFragment implements ApplyMutualView
                 presenter.getMutualNum(user.getUserId(), user.getUserGrade(), user.getUserMajor(), user.getUserClass());
                 break;
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        swipeRefreshLayout.setRefreshing(true);
+        presenter.getGroupMutualStatus(user.getUserId(), user.getUserGrade(),
+                user.getUserMajor(), user.getUserClass());
     }
 }

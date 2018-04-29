@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.support.design.widget.TextInputLayout;
 import android.text.TextUtils;
+import android.util.ArrayMap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -32,7 +33,6 @@ import com.zhoukp.signer.viewpager.ViewPagerHolder;
 import com.zhoukp.signer.viewpager.ViewPagerHolderCreator;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -88,6 +88,12 @@ public class UpdateASCQFragment extends BaseFragment implements UpdateASCQView {
 
         presenter.isMutualMembers(userBean.getUserId(), userBean.getUserGrade(),
                 userBean.getUserMajor(), userBean.getUserClass());
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        presenter.detachView();
     }
 
     @Override
@@ -264,11 +270,6 @@ public class UpdateASCQFragment extends BaseFragment implements UpdateASCQView {
         }
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-    }
-
     class ViewHolder implements ViewPagerHolder<UpdateASCQBean.DataBean>, View.OnClickListener {
 
         @BindView(R.id.tvYear)
@@ -429,9 +430,9 @@ public class UpdateASCQFragment extends BaseFragment implements UpdateASCQView {
         /**
          * 用于生成json的哈希表
          */
-        private HashMap<String, Object> hashMap;
-        private HashMap<String, Object> map;
-        private HashMap<String, Object> base;
+        private ArrayMap<String, Object> hashMap;
+        private ArrayMap<String, Object> map;
+        private ArrayMap<String, Object> base;
         private Iterator<Map.Entry<String, Object>> iter;
 
         //学年
@@ -631,9 +632,9 @@ public class UpdateASCQFragment extends BaseFragment implements UpdateASCQView {
          * @param data MutualTaskBean.DataBean
          */
         private void submit(UpdateASCQBean.DataBean data) {
-            hashMap = new HashMap<>();
+            hashMap = new ArrayMap<>();
             //德育素质
-            map = new HashMap<>();
+            map = new ArrayMap<>();
             map.put("moral1", TextUtils.isEmpty(etMoral1.getEditText().getText().toString()) ?
                     0.0f : Float.parseFloat(etMoral1.getEditText().getText().toString()));
             map.put("moral2", TextUtils.isEmpty(etMoral2.getEditText().getText().toString()) ?
@@ -652,7 +653,7 @@ public class UpdateASCQFragment extends BaseFragment implements UpdateASCQView {
             while (iter.hasNext()) {
                 System.out.println("i==" + i);
                 i++;
-                HashMap.Entry entry = iter.next();
+                ArrayMap.Entry entry = iter.next();
                 moralMutual += (float) entry.getValue();
             }
 
@@ -668,7 +669,7 @@ public class UpdateASCQFragment extends BaseFragment implements UpdateASCQView {
             }
 
             //智育素质
-            map = new HashMap<>();
+            map = new ArrayMap<>();
             map.put("GPA", TextUtils.isEmpty(etWit.getEditText().getText().toString()) ?
                     0.0f : Float.parseFloat(etWit.getEditText().getText().toString()));
 
@@ -683,7 +684,7 @@ public class UpdateASCQFragment extends BaseFragment implements UpdateASCQView {
             }
 
             //体育素质
-            map = new HashMap<>();
+            map = new ArrayMap<>();
             if (TextUtils.isEmpty(level)) {
                 //没有选择体测等级
                 ToastUtil.showToast(context, "请选择体测等级");
@@ -697,8 +698,8 @@ public class UpdateASCQFragment extends BaseFragment implements UpdateASCQView {
             }
 
             //科技创新与社会实践
-            map = new HashMap<>();
-            base = new HashMap<>();
+            map = new ArrayMap<>();
+            base = new ArrayMap<>();
 
             map.put("practice1", TextUtils.isEmpty(etPractice1.getEditText().getText().toString()) ?
                     0.0f : Float.parseFloat(etPractice1.getEditText().getText().toString()));
@@ -720,7 +721,7 @@ public class UpdateASCQFragment extends BaseFragment implements UpdateASCQView {
             while (iter.hasNext()) {
                 System.out.println("i==" + i);
                 i++;
-                HashMap.Entry entry = iter.next();
+                ArrayMap.Entry entry = iter.next();
                 practiceMutual += (float) entry.getValue();
             }
 
@@ -751,8 +752,8 @@ public class UpdateASCQFragment extends BaseFragment implements UpdateASCQView {
             }
 
             //文体艺术与身心发展
-            map = new HashMap<>();
-            base = new HashMap<>();
+            map = new ArrayMap<>();
+            base = new ArrayMap<>();
 
             map.put("Genres1", TextUtils.isEmpty(etGenres1.getEditText().getText().toString()) ?
                     0.0f : Float.parseFloat(etGenres1.getEditText().getText().toString()));
@@ -770,7 +771,7 @@ public class UpdateASCQFragment extends BaseFragment implements UpdateASCQView {
             while (iter.hasNext()) {
                 System.out.println("i==" + i);
                 i++;
-                HashMap.Entry entry = iter.next();
+                ArrayMap.Entry entry = iter.next();
                 GenresMutual += (float) entry.getValue();
             }
 
@@ -801,8 +802,8 @@ public class UpdateASCQFragment extends BaseFragment implements UpdateASCQView {
             }
 
             //团体活动与社会工作
-            map = new HashMap<>();
-            base = new HashMap<>();
+            map = new ArrayMap<>();
+            base = new ArrayMap<>();
 
             map.put("team1", TextUtils.isEmpty(etTeam1.getEditText().getText().toString()) ?
                     0.0f : Float.parseFloat(etTeam1.getEditText().getText().toString()));
@@ -824,7 +825,7 @@ public class UpdateASCQFragment extends BaseFragment implements UpdateASCQView {
             while (iter.hasNext()) {
                 System.out.println("i==" + i);
                 i++;
-                HashMap.Entry entry = iter.next();
+                ArrayMap.Entry entry = iter.next();
                 teamMutual += (float) entry.getValue();
             }
 
@@ -855,7 +856,7 @@ public class UpdateASCQFragment extends BaseFragment implements UpdateASCQView {
             }
 
             //附加分
-            map = new HashMap<>();
+            map = new ArrayMap<>();
             map.put("extraMutual", TextUtils.isEmpty(etExtra.getEditText().getText().toString()) ?
                     0.0f : Float.parseFloat(etExtra.getEditText().getText().toString()));
 
@@ -874,8 +875,8 @@ public class UpdateASCQFragment extends BaseFragment implements UpdateASCQView {
             hashMap.put("schoolYear", data.getSchoolYear());
             hashMap.put("time", data.getTime());
 
-            ArrayList<HashMap> jsonObjects = new ArrayList<>();
-            HashMap<String, Object> itemMap = new HashMap<>();
+            ArrayList<ArrayMap> jsonObjects = new ArrayList<>();
+            ArrayMap<String, Object> itemMap = new ArrayMap<>();
             jsonObjects.add(hashMap);
             itemMap.put("data", jsonObjects);
             itemMap.put("time", TimeUtils.getCurrentTime());

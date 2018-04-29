@@ -24,7 +24,9 @@ public class LoginPresenter {
      * @param loginView LoginView
      */
     public void attachView(LoginView loginView) {
-        this.loginView = loginView;
+        if (this.loginView == null) {
+            this.loginView = loginView;
+        }
     }
 
     /**
@@ -34,10 +36,16 @@ public class LoginPresenter {
      * @param userPassword 密码
      */
     public void login(String userId, String userPassword, String serialNo) {
-        loginView.showLoadingView();
+
+        if (loginView != null) {
+            loginView.showLoadingView();
+        }
+
         if (TextUtils.isEmpty(userId) || TextUtils.isEmpty(userPassword)) {
-            loginView.nullNameOrPsd();
-            loginView.hideLoadingView();
+            if (loginView != null){
+                loginView.nullNameOrPsd();
+                loginView.hideLoadingView();
+            }
             return;
         }
 
@@ -45,19 +53,23 @@ public class LoginPresenter {
             @Override
             public void onSuccess(LoginBean loginBean) {
                 Log.e("zkp", loginBean.getStatus() + "");
-                if (loginBean.getStatus() == 200) {
-                    UserUtil.getInstance().setUser(loginBean.getUser());
-                    loginView.loginSuccess(loginBean);
-                } else {
-                    loginView.loginError();
+                if (loginView != null){
+                    if (loginBean.getStatus() == 200) {
+                        UserUtil.getInstance().setUser(loginBean.getUser());
+                        loginView.loginSuccess(loginBean);
+                    } else {
+                        loginView.loginError();
+                    }
+                    loginView.hideLoadingView();
                 }
-                loginView.hideLoadingView();
             }
 
             @Override
             public void onFail() {
-                loginView.loginError();
-                loginView.hideLoadingView();
+                if (loginView != null){
+                    loginView.loginError();
+                    loginView.hideLoadingView();
+                }
             }
         });
     }
@@ -75,6 +87,8 @@ public class LoginPresenter {
      * 解绑视图
      */
     public void detachView() {
-        this.loginView = null;
+        if (this.loginView != null) {
+            this.loginView = null;
+        }
     }
 }

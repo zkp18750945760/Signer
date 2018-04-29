@@ -115,9 +115,8 @@ public class MainActivity extends AppCompatActivity implements RadioGroup.OnChec
             baseFragments.add(new ActivityPager());
             baseFragments.add(new MePager());
         }
-        position = CacheUtils.getInteger(MainActivity.this, "homePosition", 0);
-        CacheUtils.putInteger(MainActivity.this, "homePosition", position);
-        content = baseFragments.get(position);
+        position = 0;
+        content = baseFragments.get(0);
         //2.开启事务
         FragmentTransaction ft = manager.beginTransaction();
         ft.add(R.id.flMainContent, content).commit();

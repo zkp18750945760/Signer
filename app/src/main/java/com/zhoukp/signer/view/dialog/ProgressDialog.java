@@ -4,10 +4,13 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 
 import com.zhoukp.signer.R;
+
+import static android.view.KeyEvent.KEYCODE_BACK;
 
 /**
  * @author zhoukp
@@ -28,6 +31,14 @@ public class ProgressDialog extends Dialog {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.process_dialog);
         mMesssageTV = findViewById(R.id.messagetv);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KEYCODE_BACK) {
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     public void showMessage(String message) {

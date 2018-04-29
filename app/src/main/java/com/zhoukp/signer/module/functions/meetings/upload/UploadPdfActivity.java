@@ -128,7 +128,7 @@ public class UploadPdfActivity extends AppCompatActivity implements UploadPdfVie
     @Override
     public void scanError() {
         swipeRefreshLayout.setRefreshing(false);
-        ToastUtil.showToast(this, "扫描失败");
+//        ToastUtil.showToast(this, "扫描失败");
         presenter.GetFiles("/storage/emulated/0/tencent/QQfile_recv/",
                 new String[]{"%.pdf", "%.doc", "%.docx"}, true);
     }

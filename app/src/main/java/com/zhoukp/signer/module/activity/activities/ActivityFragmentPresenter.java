@@ -18,7 +18,9 @@ public class ActivityFragmentPresenter {
     private ActivityFragmentView activityFragmentView;
 
     public void attachView(ActivityFragmentView activityFragmentView) {
-        this.activityFragmentView = activityFragmentView;
+        if (this.activityFragmentView == null) {
+            this.activityFragmentView = activityFragmentView;
+        }
     }
 
     /**
@@ -27,28 +29,36 @@ public class ActivityFragmentPresenter {
      * @param userId 用户ID
      */
     public void getActivities(String userId) {
-        activityFragmentView.showLoadingView();
+
+        if (activityFragmentView != null){
+            activityFragmentView.showLoadingView();
+        }
+
         BaseApi.request(BaseApi.createApi(IActivityApi.class).getActivities(userId),
                 new BaseApi.IResponseListener<ActivityBean>() {
 
                     @Override
                     public void onSuccess(ActivityBean data) {
                         Log.e("zkp", data.getStatus() + "");
-                        if (data.getStatus() == 200) {
-                            //成功
-                            activityFragmentView.getActivitiesSuccess();
-                        } else {
-                            //失败
-                            activityFragmentView.getActivitiesError();
+                        if (activityFragmentView != null) {
+                            if (data.getStatus() == 200) {
+                                //成功
+                                activityFragmentView.getActivitiesSuccess();
+                            } else {
+                                //失败
+                                activityFragmentView.getActivitiesError();
+                            }
+                            activityFragmentView.getData(data);
+                            activityFragmentView.hideLoadingView();
                         }
-                        activityFragmentView.getData(data);
-                        activityFragmentView.hideLoadingView();
                     }
 
                     @Override
                     public void onFail() {
-                        activityFragmentView.getActivitiesError();
-                        activityFragmentView.hideLoadingView();
+                        if (activityFragmentView != null) {
+                            activityFragmentView.getActivitiesError();
+                            activityFragmentView.hideLoadingView();
+                        }
                     }
                 });
     }
@@ -61,27 +71,35 @@ public class ActivityFragmentPresenter {
      * @param actTime 活动时间
      */
     public void applyActivities(String userId, String actName, String actTime) {
-        activityFragmentView.showLoadingView();
+
+        if (activityFragmentView != null){
+            activityFragmentView.showLoadingView();
+        }
+
         BaseApi.request(BaseApi.createApi(IActivityApi.class).applyActivities(userId, actName, actTime),
                 new BaseApi.IResponseListener<ActivityBean>() {
                     @Override
                     public void onSuccess(ActivityBean data) {
                         Log.e("zkp", data.getStatus() + "");
-                        if (data.getStatus() == 200) {
-                            //成功
-                            activityFragmentView.applyActivitiesSuccess();
-                        } else {
-                            //失败
-                            activityFragmentView.applyActivitiesError();
+                        if (activityFragmentView != null) {
+                            if (data.getStatus() == 200) {
+                                //成功
+                                activityFragmentView.applyActivitiesSuccess();
+                            } else {
+                                //失败
+                                activityFragmentView.applyActivitiesError();
+                            }
+                            activityFragmentView.setData(data);
+                            activityFragmentView.hideLoadingView();
                         }
-                        activityFragmentView.setData(data);
-                        activityFragmentView.hideLoadingView();
                     }
 
                     @Override
                     public void onFail() {
-                        activityFragmentView.applyActivitiesError();
-                        activityFragmentView.hideLoadingView();
+                        if (activityFragmentView != null) {
+                            activityFragmentView.applyActivitiesError();
+                            activityFragmentView.hideLoadingView();
+                        }
                     }
                 });
     }
@@ -94,32 +112,42 @@ public class ActivityFragmentPresenter {
      * @param actTime 活动时间
      */
     public void cancelApplyActivities(String userId, String actName, String actTime) {
-        activityFragmentView.showLoadingView();
+
+        if (activityFragmentView != null){
+            activityFragmentView.showLoadingView();
+        }
+
         BaseApi.request(BaseApi.createApi(IActivityApi.class).cancelApplyActivities(userId, actName, actTime),
                 new BaseApi.IResponseListener<ActivityBean>() {
-            @Override
-            public void onSuccess(ActivityBean data) {
-                Log.e("zkp", data.getStatus() + "");
-                if (data.getStatus() == 200) {
-                    //成功
-                    activityFragmentView.cancelApplySuccess();
-                } else {
-                    //失败
-                    activityFragmentView.cancelApplyError();
-                }
-                activityFragmentView.setData(data);
-                activityFragmentView.hideLoadingView();
-            }
+                    @Override
+                    public void onSuccess(ActivityBean data) {
+                        Log.e("zkp", data.getStatus() + "");
+                        if (activityFragmentView != null) {
+                            if (data.getStatus() == 200) {
+                                //成功
+                                activityFragmentView.cancelApplySuccess();
+                            } else {
+                                //失败
+                                activityFragmentView.cancelApplyError();
+                            }
+                            activityFragmentView.setData(data);
+                            activityFragmentView.hideLoadingView();
+                        }
+                    }
 
-            @Override
-            public void onFail() {
-                activityFragmentView.cancelApplyError();
-                activityFragmentView.hideLoadingView();
-            }
-        });
+                    @Override
+                    public void onFail() {
+                        if (activityFragmentView != null) {
+                            activityFragmentView.cancelApplyError();
+                            activityFragmentView.hideLoadingView();
+                        }
+                    }
+                });
     }
 
     public void detachView() {
-        this.activityFragmentView = null;
+        if (this.activityFragmentView != null) {
+            this.activityFragmentView = null;
+        }
     }
 }

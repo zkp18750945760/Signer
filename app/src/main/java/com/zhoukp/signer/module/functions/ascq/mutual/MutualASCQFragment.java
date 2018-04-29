@@ -6,6 +6,7 @@ import android.content.Context;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.util.ArrayMap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -28,7 +29,6 @@ import com.zhoukp.signer.viewpager.CommonViewPager2;
 import com.zhoukp.signer.viewpager.ViewPagerHolder;
 import com.zhoukp.signer.viewpager.ViewPagerHolderCreator;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -90,6 +90,12 @@ public class MutualASCQFragment extends BaseFragment implements MutualASCQView, 
 
         presnter.isMutualMembers(userBean.getUserId(), userBean.getUserGrade(),
                 userBean.getUserMajor(), userBean.getUserClass());
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        presnter.detachView();
     }
 
     @Override
@@ -465,9 +471,9 @@ public class MutualASCQFragment extends BaseFragment implements MutualASCQView, 
         /**
          * 用于生成json的哈希表
          */
-        private HashMap<String, Object> hashMap;
-        private HashMap<String, Object> map;
-        private HashMap<String, Object> base;
+        private ArrayMap<String, Object> hashMap;
+        private ArrayMap<String, Object> map;
+        private ArrayMap<String, Object> base;
         private Iterator<Map.Entry<String, Object>> iter;
 
         //学年
@@ -674,9 +680,9 @@ public class MutualASCQFragment extends BaseFragment implements MutualASCQView, 
             teamSelf = 0f;
             extraSelf = 0f;
 
-            hashMap = new HashMap<>();
+            hashMap = new ArrayMap<>();
             //德育素质
-            map = new HashMap<>();
+            map = new ArrayMap<>();
             map.put("moral1", TextUtils.isEmpty(etMoral1.getEditText().getText().toString()) ?
                     0.0f : Float.parseFloat(etMoral1.getEditText().getText().toString()));
             map.put("moral2", TextUtils.isEmpty(etMoral2.getEditText().getText().toString()) ?
@@ -695,7 +701,7 @@ public class MutualASCQFragment extends BaseFragment implements MutualASCQView, 
             while (iter.hasNext()) {
                 System.out.println("i==" + i);
                 i++;
-                HashMap.Entry entry = iter.next();
+                ArrayMap.Entry entry = iter.next();
                 moralMutual += (float) entry.getValue();
             }
 
@@ -711,7 +717,7 @@ public class MutualASCQFragment extends BaseFragment implements MutualASCQView, 
             }
 
             //智育素质
-            map = new HashMap<>();
+            map = new ArrayMap<>();
             map.put("GPA", TextUtils.isEmpty(etWit.getEditText().getText().toString()) ?
                     0.0f : Float.parseFloat(etWit.getEditText().getText().toString()));
 
@@ -726,7 +732,7 @@ public class MutualASCQFragment extends BaseFragment implements MutualASCQView, 
             }
 
             //体育素质
-            map = new HashMap<>();
+            map = new ArrayMap<>();
             if (TextUtils.isEmpty(level)) {
                 //没有选择体测等级
                 ToastUtil.showToast(context, "请选择体测等级");
@@ -740,8 +746,8 @@ public class MutualASCQFragment extends BaseFragment implements MutualASCQView, 
             }
 
             //科技创新与社会实践
-            map = new HashMap<>();
-            base = new HashMap<>();
+            map = new ArrayMap<>();
+            base = new ArrayMap<>();
 
             map.put("practice1", TextUtils.isEmpty(etPractice1.getEditText().getText().toString()) ?
                     0.0f : Float.parseFloat(etPractice1.getEditText().getText().toString()));
@@ -763,7 +769,7 @@ public class MutualASCQFragment extends BaseFragment implements MutualASCQView, 
             while (iter.hasNext()) {
                 System.out.println("i==" + i);
                 i++;
-                HashMap.Entry entry = iter.next();
+                ArrayMap.Entry entry = iter.next();
                 practiceMutual += (float) entry.getValue();
             }
 
@@ -794,8 +800,8 @@ public class MutualASCQFragment extends BaseFragment implements MutualASCQView, 
             }
 
             //文体艺术与身心发展
-            map = new HashMap<>();
-            base = new HashMap<>();
+            map = new ArrayMap<>();
+            base = new ArrayMap<>();
 
             map.put("Genres1", TextUtils.isEmpty(etGenres1.getEditText().getText().toString()) ?
                     0.0f : Float.parseFloat(etGenres1.getEditText().getText().toString()));
@@ -813,7 +819,7 @@ public class MutualASCQFragment extends BaseFragment implements MutualASCQView, 
             while (iter.hasNext()) {
                 System.out.println("i==" + i);
                 i++;
-                HashMap.Entry entry = iter.next();
+                ArrayMap.Entry entry = iter.next();
                 GenresMutual += (float) entry.getValue();
             }
 
@@ -844,8 +850,8 @@ public class MutualASCQFragment extends BaseFragment implements MutualASCQView, 
             }
 
             //团体活动与社会工作
-            map = new HashMap<>();
-            base = new HashMap<>();
+            map = new ArrayMap<>();
+            base = new ArrayMap<>();
 
             map.put("team1", TextUtils.isEmpty(etTeam1.getEditText().getText().toString()) ?
                     0.0f : Float.parseFloat(etTeam1.getEditText().getText().toString()));
@@ -867,7 +873,7 @@ public class MutualASCQFragment extends BaseFragment implements MutualASCQView, 
             while (iter.hasNext()) {
                 System.out.println("i==" + i);
                 i++;
-                HashMap.Entry entry = iter.next();
+                ArrayMap.Entry entry = iter.next();
                 teamMutual += (float) entry.getValue();
             }
 
@@ -898,7 +904,7 @@ public class MutualASCQFragment extends BaseFragment implements MutualASCQView, 
             }
 
             //附加分
-            map = new HashMap<>();
+            map = new ArrayMap<>();
             map.put("extraMutual", TextUtils.isEmpty(etExtra.getEditText().getText().toString()) ?
                     0.0f : Float.parseFloat(etExtra.getEditText().getText().toString()));
 

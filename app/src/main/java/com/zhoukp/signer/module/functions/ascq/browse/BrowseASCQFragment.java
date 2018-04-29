@@ -2,7 +2,11 @@ package com.zhoukp.signer.module.functions.ascq.browse;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -11,14 +15,15 @@ import android.widget.TextView;
 
 import com.zhoukp.signer.R;
 import com.zhoukp.signer.fragment.BaseFragment;
-import com.zhoukp.signer.view.dialog.ProgressDialog;
 import com.zhoukp.signer.module.login.LoginBean;
 import com.zhoukp.signer.module.login.UserUtil;
 import com.zhoukp.signer.utils.ToastUtil;
+import com.zhoukp.signer.view.dialog.ProgressDialog;
 import com.zhoukp.signer.view.dialog.SelectSchoolYearDialog;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * @author zhoukp
@@ -26,7 +31,7 @@ import butterknife.ButterKnife;
  * @email 275557625@qq.com
  * @function
  */
-public class BrowseASCQFragment extends BaseFragment implements BrowseASCQView, View.OnClickListener {
+public class BrowseASCQFragment extends BaseFragment implements BrowseASCQView, View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     @BindView(R.id.ivBack)
     ImageView ivBack;
@@ -142,6 +147,9 @@ public class BrowseASCQFragment extends BaseFragment implements BrowseASCQView, 
     LinearLayout llContent;
     @BindView(R.id.llUploadTime)
     LinearLayout llUploadTime;
+    @BindView(R.id.swipeRefreshLayout)
+    SwipeRefreshLayout swipeRefreshLayout;
+    Unbinder unbinder;
 
     private ProgressDialog dialog;
 
@@ -152,7 +160,7 @@ public class BrowseASCQFragment extends BaseFragment implements BrowseASCQView, 
     @Override
     public View initView() {
         View view = View.inflate(context, R.layout.fragment_browse_ascq, null);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         return view;
     }
 
@@ -175,6 +183,8 @@ public class BrowseASCQFragment extends BaseFragment implements BrowseASCQView, 
             public void onClick(Dialog dialog, boolean confirm, String data) {
                 if (confirm) {
                     schoolYear = data;
+                    swipeRefreshLayout.setRefreshing(true);
+                    swipeRefreshLayout.setOnRefreshListener(BrowseASCQFragment.this);
                     //加载对应学年的综测成绩
                     presenter.getASCQScore(userBean.getUserId(), schoolYear,
                             userBean.getUserGrade(), userBean.getUserMajor(), userBean.getUserClass());
@@ -193,6 +203,7 @@ public class BrowseASCQFragment extends BaseFragment implements BrowseASCQView, 
     public void onDestroyView() {
         super.onDestroyView();
         presenter.detachView();
+        unbinder.unbind();
     }
 
     @Override
@@ -216,6 +227,7 @@ public class BrowseASCQFragment extends BaseFragment implements BrowseASCQView, 
     @SuppressLint("SetTextI18n")
     @Override
     public void getASCQSuccess(ASCQScoreBean bean) {
+        swipeRefreshLayout.setRefreshing(false);
         llContent.setVisibility(View.VISIBLE);
         if (bean.getData().isConfirm()) {
             btnSubmit.setVisibility(View.GONE);
@@ -257,6 +269,7 @@ public class BrowseASCQFragment extends BaseFragment implements BrowseASCQView, 
     @SuppressLint("SetTextI18n")
     @Override
     public void getASCQUnChecked(ASCQScoreBean bean) {
+        swipeRefreshLayout.setRefreshing(false);
         llContent.setVisibility(View.VISIBLE);
         //该分数是用户自己上报的分数
         btnSubmit.setVisibility(View.GONE);
@@ -292,6 +305,7 @@ public class BrowseASCQFragment extends BaseFragment implements BrowseASCQView, 
 
     @Override
     public void getASCQError(int status) {
+        swipeRefreshLayout.setRefreshing(false);
         switch (status) {
             case 100:
                 ToastUtil.showToast(context, "获取" + schoolYear + "学年综测成绩失败");
@@ -308,6 +322,7 @@ public class BrowseASCQFragment extends BaseFragment implements BrowseASCQView, 
                         if (confirm) {
                             schoolYear = data;
                             //加载对应学年的综测成绩
+                            swipeRefreshLayout.setRefreshing(true);
                             presenter.getASCQScore(userBean.getUserId(), schoolYear,
                                     userBean.getUserGrade(), userBean.getUserMajor(), userBean.getUserClass());
                         }
@@ -385,5 +400,13 @@ public class BrowseASCQFragment extends BaseFragment implements BrowseASCQView, 
                 context.finish();
                 break;
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        swipeRefreshLayout.setRefreshing(true);
+        //加载对应学年的综测成绩
+        presenter.getASCQScore(userBean.getUserId(), schoolYear,
+                userBean.getUserGrade(), userBean.getUserMajor(), userBean.getUserClass());
     }
 }

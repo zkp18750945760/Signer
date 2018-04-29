@@ -16,7 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
 import com.tencent.smtt.sdk.TbsReaderView;
 import com.zhoukp.signer.R;
 import com.zhoukp.signer.utils.Constant;
@@ -46,8 +45,6 @@ public class ReadPdfActivity extends AppCompatActivity implements View.OnClickLi
     ImageView ivBack;
     @BindView(R.id.tvContent)
     TextView tvContent;
-//    @BindView(R.id.pdfView)
-//    PDFView pdfView;
     @BindView(R.id.ll_loading)
     RelativeLayout loading;
     @BindView(R.id.rl_speed)
@@ -133,7 +130,7 @@ public class ReadPdfActivity extends AppCompatActivity implements View.OnClickLi
         if (!file.exists()) {
             //开始更新网络速度
             handler.sendEmptyMessage(SHOW_SPEED);
-            presenter.downloadPdf(Constant.BaseUrl + pdfUrl, file);
+            presenter.downloadPdf(Constant.PDFUrl + pdfUrl, file);
             Log.e("zkp", "1");
         } else {
             Log.e("zkp", "2");
@@ -174,7 +171,9 @@ public class ReadPdfActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        tbsReaderView.onStop();
+        if (tbsReaderView != null){
+            tbsReaderView.onStop();
+        }
         presenter.detachView();
     }
 

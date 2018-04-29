@@ -12,8 +12,6 @@ import com.zhoukp.signer.utils.Constant;
 import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -35,7 +33,9 @@ public class MainPresenter {
      * @param mainView MainView
      */
     public void attachView(MainView mainView) {
-        this.mainView = mainView;
+        if (this.mainView == null) {
+            this.mainView = mainView;
+        }
     }
 
     /**
@@ -44,11 +44,13 @@ public class MainPresenter {
     public void getUpdateInfo() {
         if (mainView != null) {
             mainView.showLoadingView();
-            BaseApi.request(BaseApi.createApi(IMainApi.class).getUpdateInfo(),
-                    new BaseApi.IResponseListener<UpdateBean>() {
-                        @Override
-                        public void onSuccess(UpdateBean data) {
-                            Log.e("zkp", "getUpdateInfo==" + data.getStatus());
+        }
+        BaseApi.request(BaseApi.createApi(IMainApi.class).getUpdateInfo(),
+                new BaseApi.IResponseListener<UpdateBean>() {
+                    @Override
+                    public void onSuccess(UpdateBean data) {
+                        Log.e("zkp", "getUpdateInfo==" + data.getStatus());
+                        if (mainView != null) {
                             if (data.getStatus() == 200) {
                                 mainView.getUpdateInfoSuccess(data);
                             } else {
@@ -57,14 +59,16 @@ public class MainPresenter {
 
                             mainView.hideLoadingView();
                         }
+                    }
 
-                        @Override
-                        public void onFail() {
+                    @Override
+                    public void onFail() {
+                        if (mainView != null) {
                             mainView.getUpdateInfoError(100);
                             mainView.hideLoadingView();
                         }
-                    });
-        }
+                    }
+                });
     }
 
     /**
@@ -105,20 +109,26 @@ public class MainPresenter {
                 getCrashFile(f.getPath(), Extension, IsIterative);
         }
         if (!TextUtils.isEmpty(lstFile.getName())) {
-            mainView.getCrashLogcatSuccess(lstFile);
-            mainView.hideLoadingView();
+            if (mainView != null) {
+                mainView.getCrashLogcatSuccess(lstFile);
+                mainView.hideLoadingView();
+            }
         } else {
-            mainView.getCrashLogcatError();
-            mainView.hideLoadingView();
+            if (mainView != null) {
+                mainView.getCrashLogcatError();
+                mainView.hideLoadingView();
+            }
         }
     }
 
     /**
-     * @param file
+     * @param file File
      */
     public void uploadCrashLogcat(File file) {
 
-        mainView.showLoadingView();
+        if (mainView != null) {
+            mainView.showLoadingView();
+        }
 
         RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
                 .addFormDataPart("uploadFile", file.getName(),
@@ -130,22 +140,26 @@ public class MainPresenter {
                     @Override
                     public void onSuccess(SponsorSignBean data) {
                         Log.e("zkp", "uploadCrashLogcat==" + data.getStatus());
-                        if (data.getStatus() == 200) {
-                            //上传错误日志成功
-                            Log.e("zkp", "错误日志上传成功");
-                            mainView.uploadCrashSuccess();
-                            deleteFile(new File(Constant.appCrashPath));
-                        } else {
-                            mainView.uploadCrashError();
+                        if (mainView != null) {
+                            if (data.getStatus() == 200) {
+                                //上传错误日志成功
+                                Log.e("zkp", "错误日志上传成功");
+                                mainView.uploadCrashSuccess();
+                                deleteFile(new File(Constant.appCrashPath));
+                            } else {
+                                mainView.uploadCrashError();
+                            }
+                            mainView.hideLoadingView();
                         }
-                        mainView.hideLoadingView();
                     }
 
                     @Override
                     public void onFail() {
-                        Log.e("zkp", "错误日志上传失败");
-                        mainView.uploadCrashError();
-                        mainView.hideLoadingView();
+                        if (mainView != null) {
+                            Log.e("zkp", "错误日志上传失败");
+                            mainView.uploadCrashError();
+                            mainView.hideLoadingView();
+                        }
                     }
                 });
     }
@@ -153,7 +167,7 @@ public class MainPresenter {
     /**
      * 清空文件夹
      *
-     * @param file
+     * @param file File
      */
     private void deleteFile(File file) {
         if (file.isDirectory()) {
@@ -161,7 +175,7 @@ public class MainPresenter {
             for (File f : files) {
                 deleteFile(f);
             }
-            //珊瑚文件夹
+            //删除文件夹
 //            file.delete();
         } else if (file.exists()) {
             file.delete();
@@ -172,7 +186,7 @@ public class MainPresenter {
      * 文件大小的转换
      *
      * @param size long
-     * @return
+     * @return String
      */
     public String getSize(long size) {
         //如果字节数少于1024，则直接以B为单位，否则先除于1024，后3位因太少无意义
@@ -207,6 +221,8 @@ public class MainPresenter {
      * 解绑视图
      */
     public void detachView() {
-        this.mainView = null;
+        if (this.mainView != null) {
+            this.mainView = null;
+        }
     }
 }

@@ -94,9 +94,6 @@ public class MePager extends BaseFragment implements View.OnClickListener, MePag
     public void initData() {
         super.initData();
 
-        swipeRefreshLayout.setOnRefreshListener(this);
-        swipeRefreshLayout.setRefreshing(true);
-
         presenter = new MePagerPresenter();
         presenter.attachView(this);
 
@@ -114,6 +111,10 @@ public class MePager extends BaseFragment implements View.OnClickListener, MePag
             llPersonInfo.setVisibility(View.GONE);
             tvGoLogin.setVisibility(View.VISIBLE);
         } else {
+
+            swipeRefreshLayout.setOnRefreshListener(this);
+            swipeRefreshLayout.setRefreshing(true);
+
             llPersonInfo.setVisibility(View.VISIBLE);
             tvGoLogin.setVisibility(View.GONE);
             tvName.setText(userBean.getUserName());
@@ -185,6 +186,12 @@ public class MePager extends BaseFragment implements View.OnClickListener, MePag
                 break;
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        presenter.detachView();
     }
 
     @Override

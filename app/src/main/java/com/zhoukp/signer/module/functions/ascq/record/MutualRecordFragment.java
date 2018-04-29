@@ -27,10 +27,7 @@ import com.zhoukp.signer.viewpager.CommonViewPager2;
 import com.zhoukp.signer.viewpager.ViewPagerHolder;
 import com.zhoukp.signer.viewpager.ViewPagerHolderCreator;
 
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -102,6 +99,7 @@ public class MutualRecordFragment extends BaseFragment implements MutualRecordVi
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        presenter.detachView();
     }
 
     @Override
@@ -358,16 +356,7 @@ public class MutualRecordFragment extends BaseFragment implements MutualRecordVi
         @BindView(R.id.btnHideAll)
         Button btnHideAll;
 
-
         private Context context;
-
-        /**
-         * 用于生成json的哈希表
-         */
-        private HashMap<String, Object> hashMap;
-        private HashMap<String, Object> map;
-        private HashMap<String, Object> base;
-        private Iterator<Map.Entry<String, Object>> iter;
 
         //学年
         private String schoolYear;

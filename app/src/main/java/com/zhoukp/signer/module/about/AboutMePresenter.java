@@ -16,29 +16,38 @@ public class AboutMePresenter {
     private AboutMeView aboutMeView;
 
     public void attachView(AboutMeView aboutMeView) {
-        this.aboutMeView = aboutMeView;
+        if (this.aboutMeView == null) {
+            this.aboutMeView = aboutMeView;
+        }
     }
 
     public void getUpdateInfo() {
-        aboutMeView.showLoadingView();
+
+        if (aboutMeView != null){
+            aboutMeView.showLoadingView();
+        }
 
         BaseApi.request(BaseApi.createApi(IAboutMeApi.class).getUpdateInfo(),
                 new BaseApi.IResponseListener<UpdateBean>() {
                     @Override
                     public void onSuccess(UpdateBean data) {
                         Log.e("zkp", "getUpdateInfo==" + data.getStatus());
-                        if (data.getStatus() == 200) {
-                            aboutMeView.getUpdateInfoSuccess(data);
-                        } else {
-                            aboutMeView.getUpdateInfoError(data.getStatus());
+                        if (aboutMeView != null) {
+                            if (data.getStatus() == 200) {
+                                aboutMeView.getUpdateInfoSuccess(data);
+                            } else {
+                                aboutMeView.getUpdateInfoError(data.getStatus());
+                            }
+                            aboutMeView.hideLoadingView();
                         }
-                        aboutMeView.hideLoadingView();
                     }
 
                     @Override
                     public void onFail() {
-                        aboutMeView.getUpdateInfoError(100);
-                        aboutMeView.hideLoadingView();
+                        if (aboutMeView != null) {
+                            aboutMeView.getUpdateInfoError(100);
+                            aboutMeView.hideLoadingView();
+                        }
                     }
                 });
 
@@ -48,7 +57,7 @@ public class AboutMePresenter {
      * 文件大小的转换
      *
      * @param size long
-     * @return
+     * @return String
      */
     public String getSize(long size) {
         //如果字节数少于1024，则直接以B为单位，否则先除于1024，后3位因太少无意义
@@ -80,6 +89,8 @@ public class AboutMePresenter {
     }
 
     public void detachView() {
-        this.aboutMeView = null;
+        if (this.aboutMeView != null) {
+            this.aboutMeView = null;
+        }
     }
 }

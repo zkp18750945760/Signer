@@ -22,12 +22,16 @@ public class ReadPdfPresenter {
     private ReadPdfView readPdfView;
 
     public void attachView(ReadPdfView readPdfView) {
-        this.readPdfView = readPdfView;
+        if (this.readPdfView == null){
+            this.readPdfView = readPdfView;
+        }
     }
 
 
     public void downloadPdf(String url, final File file) {
-        readPdfView.showLoadingView();
+        if (readPdfView != null){
+            readPdfView.showLoadingView();
+        }
         Log.e("zkp", url + "  \n" + file.getPath());
 
         BaseApi.request(BaseApi.createApi(IPdfApi.class).downloadPicFromNet(url),
@@ -35,6 +39,10 @@ public class ReadPdfPresenter {
                     @Override
                     public void onSuccess(ResponseBody data) {
                         InputStream inputStream = data.byteStream();
+
+                        if (!file.exists()){
+                            file.getParentFile().mkdirs();
+                        }
 
                         try {
                             byte[] buf = new byte[128];
@@ -47,8 +55,10 @@ public class ReadPdfPresenter {
                             fileOutputStream.close();
                             inputStream.close();
 
-                            readPdfView.downloadSuccess(file);
-                            readPdfView.hideLoadingView();
+                            if (readPdfView != null){
+                                readPdfView.downloadSuccess(file);
+                                readPdfView.hideLoadingView();
+                            }
 
                         } catch (FileNotFoundException e) {
                             e.printStackTrace();
@@ -59,8 +69,10 @@ public class ReadPdfPresenter {
 
                     @Override
                     public void onFail() {
-                        readPdfView.downloadError();
-                        readPdfView.hideLoadingView();
+                        if (readPdfView != null){
+                            readPdfView.downloadError();
+                            readPdfView.hideLoadingView();
+                        }
                     }
                 });
     }

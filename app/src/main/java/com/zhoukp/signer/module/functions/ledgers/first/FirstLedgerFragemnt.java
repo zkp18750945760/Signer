@@ -181,6 +181,12 @@ public class FirstLedgerFragemnt extends BaseFragment implements View.OnClickLis
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        presenter.detachView();
+    }
+
+    @Override
     public void showLoadingView() {
         if (dialog == null) {
             dialog = new ProgressDialog(context);
@@ -201,9 +207,9 @@ public class FirstLedgerFragemnt extends BaseFragment implements View.OnClickLis
     @Override
     public void getFirstLedgerSuccess(FirstLedgerBean bean) {
 
-        if (groups == null){
+        if (groups == null) {
             groups = new ArrayList<>();
-        }else {
+        } else {
             groups.clear();
         }
 
@@ -326,7 +332,7 @@ public class FirstLedgerFragemnt extends BaseFragment implements View.OnClickLis
                 ToastUtil.showToast(context, "数据库IO错误");
                 break;
         }
-        if (adapter != null){
+        if (adapter != null) {
             groups.clear();
             decoration = null;
             adapter.notifyDataSetChanged();

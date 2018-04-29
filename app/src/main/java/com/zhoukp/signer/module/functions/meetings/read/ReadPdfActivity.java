@@ -74,7 +74,9 @@ public class ReadPdfActivity extends AppCompatActivity implements TbsReaderView.
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        tbsReaderView.onStop();
+        if (tbsReaderView != null) {
+            tbsReaderView.onStop();
+        }
     }
 
     @Override

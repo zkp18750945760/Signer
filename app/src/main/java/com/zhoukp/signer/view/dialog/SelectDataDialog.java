@@ -3,6 +3,7 @@ package com.zhoukp.signer.view.dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -12,6 +13,8 @@ import com.zhoukp.signer.view.picker.PickerScrollView;
 import com.zhoukp.signer.view.picker.Pickers;
 
 import java.util.ArrayList;
+
+import static android.view.KeyEvent.KEYCODE_BACK;
 
 /**
  * @author zhoukp
@@ -100,6 +103,14 @@ public class SelectDataDialog extends Dialog implements View.OnClickListener, Pi
         tvCancel.setOnClickListener(this);
         tvSubmit.setOnClickListener(this);
         pickerScrollView.setOnSelectListener(this);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KEYCODE_BACK) {
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override

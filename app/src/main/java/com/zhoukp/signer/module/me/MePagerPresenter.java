@@ -42,7 +42,9 @@ public class MePagerPresenter {
      * @param mePagerView MePagerView
      */
     public void attachView(MePagerView mePagerView) {
-        this.mePagerView = mePagerView;
+        if (this.mePagerView == null) {
+            this.mePagerView = mePagerView;
+        }
     }
 
     /**
@@ -101,7 +103,10 @@ public class MePagerPresenter {
     }
 
     public void upLoadHeadIcon(String compressPath) {
-        mePagerView.showLoadingView();
+        if (mePagerView != null) {
+            mePagerView.showLoadingView();
+        }
+
         final LoginBean.UserBean userBean = UserUtil.getInstance().getUser();
         File file = new File(compressPath);
         String fileName = TimeUtils.getCurrenTimeMillis() + ".jpg";
@@ -114,16 +119,20 @@ public class MePagerPresenter {
                 new BaseApi.IResponseListener<UploadHeadIconBean>() {
                     @Override
                     public void onSuccess(final UploadHeadIconBean data) {
-                        mePagerView.refreshHeadIcon(Constant.BaseUrl + data.getHeadIconUrl());
+                        if (mePagerView != null) {
+                            mePagerView.refreshHeadIcon(Constant.BaseUrl + data.getHeadIconUrl());
 
-                        mePagerView.uploadHeadIconSuccess(data);
-                        mePagerView.hideLoadingView();
+                            mePagerView.uploadHeadIconSuccess(data);
+                            mePagerView.hideLoadingView();
+                        }
                     }
 
                     @Override
                     public void onFail() {
-                        mePagerView.uploadHeadIconError();
-                        mePagerView.hideLoadingView();
+                        if (mePagerView != null) {
+                            mePagerView.uploadHeadIconError();
+                            mePagerView.hideLoadingView();
+                        }
                     }
                 });
     }
@@ -131,9 +140,8 @@ public class MePagerPresenter {
     /**
      * 将URL转化成bitmap形式
      *
-     * @param context
+     * @param context context
      * @param url     图片链接
-     * @return bitmap type
      */
     public void saveHeadIcon(final Context context, final String url) {
         BaseApi.request(BaseApi.createApi(IMePagerApi.class).downloadHeadIcon(url),
@@ -161,7 +169,6 @@ public class MePagerPresenter {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-
                         CacheUtils.putString(context, "headIcon", file.getAbsolutePath());
                     }
 
@@ -178,25 +185,32 @@ public class MePagerPresenter {
      * @param userId 用户ID
      */
     public void getHeadIcon(String userId) {
-        mePagerView.showLoadingView();
+
+        if (mePagerView != null) {
+            mePagerView.showLoadingView();
+        }
 
         BaseApi.request(BaseApi.createApi(IMePagerApi.class).getHeadIcon(userId),
                 new BaseApi.IResponseListener<UploadHeadIconBean>() {
                     @Override
                     public void onSuccess(UploadHeadIconBean data) {
                         Log.e("zkp", "getHeadIcon==" + data.getStatus());
-                        if (data.getStatus() == 200) {
-                            mePagerView.getHeadIconSuccess(data);
-                        } else {
-                            mePagerView.getHeadIconError(data.getStatus());
+                        if (mePagerView != null) {
+                            if (data.getStatus() == 200) {
+                                mePagerView.getHeadIconSuccess(data);
+                            } else {
+                                mePagerView.getHeadIconError(data.getStatus());
+                            }
+                            mePagerView.hideLoadingView();
                         }
-                        mePagerView.hideLoadingView();
                     }
 
                     @Override
                     public void onFail() {
-                        mePagerView.getHeadIconError(100);
-                        mePagerView.hideLoadingView();
+                        if (mePagerView != null) {
+                            mePagerView.getHeadIconError(100);
+                            mePagerView.hideLoadingView();
+                        }
                     }
                 });
     }
@@ -206,6 +220,8 @@ public class MePagerPresenter {
      */
 
     public void detachView() {
-        this.mePagerView = null;
+        if (this.mePagerView != null) {
+            this.mePagerView = null;
+        }
     }
 }

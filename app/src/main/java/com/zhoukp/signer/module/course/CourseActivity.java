@@ -64,6 +64,12 @@ public class CourseActivity extends Activity implements OnSubjectItemClickListen
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.detachView();
+    }
+
     /**
      * Item点击处理
      *

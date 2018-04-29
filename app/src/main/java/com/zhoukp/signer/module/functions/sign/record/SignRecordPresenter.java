@@ -15,7 +15,9 @@ public class SignRecordPresenter {
     private SignRecordView signRecordView;
 
     public void attachView(SignRecordView signRecordView) {
-        this.signRecordView = signRecordView;
+        if (this.signRecordView == null) {
+            this.signRecordView = signRecordView;
+        }
     }
 
     /**
@@ -27,30 +29,39 @@ public class SignRecordPresenter {
      * @param userClazz 班级
      */
     public void getSignRecord(String userId, String usetGrade, String userMajor, String userClazz) {
-        signRecordView.showLoadingView();
+
+        if (signRecordView != null) {
+            signRecordView.showLoadingView();
+        }
 
         BaseApi.request(BaseApi.createApi(ISignRecordApi.class).getSignRecord(userId, usetGrade, userMajor, userClazz),
                 new BaseApi.IResponseListener<SignRecordBean>() {
                     @Override
                     public void onSuccess(SignRecordBean data) {
                         Log.e("zkp", "getSignRecord==" + data.getStatus());
-                        if (data.getStatus() == 200) {
-                            signRecordView.getRecordSuccess(data);
-                        } else {
-                            signRecordView.getRecordError(data.getStatus());
+                        if (signRecordView != null) {
+                            if (data.getStatus() == 200) {
+                                signRecordView.getRecordSuccess(data);
+                            } else {
+                                signRecordView.getRecordError(data.getStatus());
+                            }
+                            signRecordView.hideLoadingView();
                         }
-                        signRecordView.hideLoadingView();
                     }
 
                     @Override
                     public void onFail() {
-                        signRecordView.getRecordError(100);
-                        signRecordView.hideLoadingView();
+                        if (signRecordView != null) {
+                            signRecordView.getRecordError(100);
+                            signRecordView.hideLoadingView();
+                        }
                     }
                 });
     }
 
     public void detachView() {
-        this.signRecordView = null;
+        if (this.signRecordView != null) {
+            this.signRecordView = null;
+        }
     }
 }

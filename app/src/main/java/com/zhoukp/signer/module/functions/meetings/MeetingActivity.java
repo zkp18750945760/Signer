@@ -217,6 +217,12 @@ public class MeetingActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.detachView();
+    }
+
+    @Override
     public void showLoadingView() {
         if (dialog == null) {
             dialog = new ProgressDialog(this);

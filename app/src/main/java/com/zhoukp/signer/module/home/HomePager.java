@@ -62,6 +62,7 @@ public class HomePager extends BaseFragment implements HomePagerView, ViewPager.
     private HomePagerPresenter presenter;
 
     private List<String> banners;
+//    private ArrayList<PaletteImageView> imageViews;
     private ArrayList<PaletteImageView> imageViews;
     private ImageView[] indicators;
     private int currentViewPagerItem;
@@ -151,7 +152,7 @@ public class HomePager extends BaseFragment implements HomePagerView, ViewPager.
         } else {
             //可见
             isAutoPlay = true;
-            if (bannerHandler != null){
+            if (bannerHandler != null) {
                 bannerHandler.sendEmptyMessageDelayed(0, VIEW_PAGER_DELAY);
             }
         }
@@ -161,7 +162,7 @@ public class HomePager extends BaseFragment implements HomePagerView, ViewPager.
     public void onResume() {
         super.onResume();
         isAutoPlay = true;
-        if (bannerHandler != null){
+        if (bannerHandler != null) {
             bannerHandler.sendEmptyMessageDelayed(0, VIEW_PAGER_DELAY);
         }
     }
@@ -169,6 +170,7 @@ public class HomePager extends BaseFragment implements HomePagerView, ViewPager.
     @Override
     public void onDestroy() {
         super.onDestroy();
+        presenter.detach();
         isAutoPlay = false;
         if (bannerHandler != null) {
             bannerHandler.removeMessages(0);

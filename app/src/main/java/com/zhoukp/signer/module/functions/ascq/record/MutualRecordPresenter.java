@@ -32,25 +32,31 @@ public class MutualRecordPresenter {
      */
     public void isMutualMembers(String userId, String userGrade, String userMajor, String userClazz) {
 
-        mutualRecordView.showLoadingView();
+        if (mutualRecordView != null) {
+            mutualRecordView.showLoadingView();
+        }
 
         BaseApi.request(BaseApi.createApi(IMutualASCQApi.class).isMutualMembers(userId, userGrade, userMajor, userClazz),
                 new BaseApi.IResponseListener<IsMutualMemberBean>() {
                     @Override
                     public void onSuccess(IsMutualMemberBean data) {
                         Log.e("zkp", "isMutualMembers==" + data.getStatus());
-                        if (data.getStatus() == 200) {
-                            mutualRecordView.isMemberSuccess(data);
-                        } else {
-                            mutualRecordView.isMemberError(data.getStatus());
+                        if (mutualRecordView != null) {
+                            if (data.getStatus() == 200) {
+                                mutualRecordView.isMemberSuccess(data);
+                            } else {
+                                mutualRecordView.isMemberError(data.getStatus());
+                            }
+                            mutualRecordView.hideLoadingView();
                         }
-                        mutualRecordView.hideLoadingView();
                     }
 
                     @Override
                     public void onFail() {
-                        mutualRecordView.isMemberError(100);
-                        mutualRecordView.hideLoadingView();
+                        if (mutualRecordView != null) {
+                            mutualRecordView.isMemberError(100);
+                            mutualRecordView.hideLoadingView();
+                        }
                     }
                 });
 
@@ -64,27 +70,32 @@ public class MutualRecordPresenter {
      */
     public void getMutualRecord(String userId, String schoolYear) {
 
-        mutualRecordView.showLoadingView();
+        if (mutualRecordView != null) {
+            mutualRecordView.showLoadingView();
+        }
 
         BaseApi.request(BaseApi.createApi(IMutualRecordApi.class).getMutualRecord(userId, schoolYear),
                 new BaseApi.IResponseListener<MutualRecordBean>() {
                     @Override
                     public void onSuccess(MutualRecordBean data) {
                         Log.e("zkp", "getMutualRecord==" + data.getStatus());
+                        if (mutualRecordView != null) {
+                            if (data.getStatus() == 200) {
+                                mutualRecordView.getRecordSuccess(data);
+                            } else {
+                                mutualRecordView.getRecordError(data.getStatus());
+                            }
 
-                        if (data.getStatus() == 200) {
-                            mutualRecordView.getRecordSuccess(data);
-                        } else {
-                            mutualRecordView.getRecordError(data.getStatus());
+                            mutualRecordView.hideLoadingView();
                         }
-
-                        mutualRecordView.hideLoadingView();
                     }
 
                     @Override
                     public void onFail() {
-                        mutualRecordView.getRecordError(100);
-                        mutualRecordView.hideLoadingView();
+                        if (mutualRecordView != null) {
+                            mutualRecordView.getRecordError(100);
+                            mutualRecordView.hideLoadingView();
+                        }
                     }
                 });
 

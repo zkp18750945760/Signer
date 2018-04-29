@@ -21,7 +21,9 @@ public class ManagerDevicePresenter {
     private ManageDeviceView manageDeviceView;
 
     public void attachView(ManageDeviceView manageDeviceView) {
-        this.manageDeviceView = manageDeviceView;
+        if (this.manageDeviceView != null) {
+            this.manageDeviceView = manageDeviceView;
+        }
     }
 
     /**
@@ -30,26 +32,34 @@ public class ManagerDevicePresenter {
      * @param userId 用户ID
      */
     public void unBindDevice(String userId) {
-        manageDeviceView.showLoadingView();
+
+        if (manageDeviceView != null) {
+            manageDeviceView.showLoadingView();
+        }
+
         BaseApi.request(BaseApi.createApi(ManageDeviceApi.class).unBindDevice(userId),
                 new BaseApi.IResponseListener<DeviceBean>() {
                     @Override
                     public void onSuccess(DeviceBean data) {
                         Log.e("zkp", data.getStatus() + "");
-                        if (data.getStatus() == 200) {
-                            manageDeviceView.unBindSuccess();
-                        } else if (data.getStatus() == 101) {
-                            manageDeviceView.unBindLater();
-                        } else {
-                            manageDeviceView.unBindError();
+                        if (manageDeviceView != null) {
+                            if (data.getStatus() == 200) {
+                                manageDeviceView.unBindSuccess();
+                            } else if (data.getStatus() == 101) {
+                                manageDeviceView.unBindLater();
+                            } else {
+                                manageDeviceView.unBindError();
+                            }
+                            manageDeviceView.hideLoadingView();
                         }
-                        manageDeviceView.hideLoadingView();
                     }
 
                     @Override
                     public void onFail() {
-                        manageDeviceView.unBindError();
-                        manageDeviceView.hideLoadingView();
+                        if (manageDeviceView != null) {
+                            manageDeviceView.unBindError();
+                            manageDeviceView.hideLoadingView();
+                        }
                     }
                 });
     }
@@ -61,26 +71,33 @@ public class ManagerDevicePresenter {
      * @param UUID   UUID
      */
     public void bindDevice(String userId, String UUID) {
-        manageDeviceView.showLoadingView();
+        if (manageDeviceView != null) {
+            manageDeviceView.showLoadingView();
+        }
+
         BaseApi.request(BaseApi.createApi(ManageDeviceApi.class).bindDevice(userId, UUID),
                 new BaseApi.IResponseListener<DeviceBean>() {
                     @Override
                     public void onSuccess(DeviceBean data) {
                         Log.e("zkp", data.getStatus() + "");
-                        if (data.getStatus() == 200) {
-                            manageDeviceView.bindSuccess();
-                        } else if (data.getStatus() == 101) {
-                            manageDeviceView.unBindFirst();
-                        } else {
-                            manageDeviceView.bindError();
+                        if (manageDeviceView != null) {
+                            if (data.getStatus() == 200) {
+                                manageDeviceView.bindSuccess();
+                            } else if (data.getStatus() == 101) {
+                                manageDeviceView.unBindFirst();
+                            } else {
+                                manageDeviceView.bindError();
+                            }
+                            manageDeviceView.hideLoadingView();
                         }
-                        manageDeviceView.hideLoadingView();
                     }
 
                     @Override
                     public void onFail() {
-                        manageDeviceView.bindError();
-                        manageDeviceView.hideLoadingView();
+                        if (manageDeviceView != null) {
+                            manageDeviceView.bindError();
+                            manageDeviceView.hideLoadingView();
+                        }
                     }
                 });
     }
@@ -93,11 +110,16 @@ public class ManagerDevicePresenter {
      * @param newPassword 新密码
      */
     public void modifyPassword(String userId, String stuPassword, String newPassword) {
-        manageDeviceView.showLoadingView();
+        if (manageDeviceView != null) {
+            manageDeviceView.showLoadingView();
+        }
+
         if (TextUtils.isEmpty(stuPassword) || TextUtils.isEmpty(newPassword)) {
             //旧密码或者新密码为空
-            manageDeviceView.inputPassword();
-            manageDeviceView.hideLoadingView();
+            if (manageDeviceView != null) {
+                manageDeviceView.inputPassword();
+                manageDeviceView.hideLoadingView();
+            }
             return;
         }
         Log.e("zkp", stuPassword);
@@ -107,26 +129,30 @@ public class ManagerDevicePresenter {
                     @Override
                     public void onSuccess(LoginBean data) {
                         Log.e("zkp", data.getStatus() + "");
-                        if (data.getStatus() == 200) {
-                            //修改密码成功
-                            manageDeviceView.modifySuccess();
-                            //存储新的用户信息
-                            UserUtil.getInstance().removeUser();
-                            //提示用户重新登录
-                            manageDeviceView.reLogin();
-                        } else if (data.getStatus() == 101) {
-                            //旧密码错误
-                            manageDeviceView.passWordError();
-                        } else {
-                            manageDeviceView.modifyError();
+                        if (manageDeviceView != null) {
+                            if (data.getStatus() == 200) {
+                                //修改密码成功
+                                manageDeviceView.modifySuccess();
+                                //存储新的用户信息
+                                UserUtil.getInstance().removeUser();
+                                //提示用户重新登录
+                                manageDeviceView.reLogin();
+                            } else if (data.getStatus() == 101) {
+                                //旧密码错误
+                                manageDeviceView.passWordError();
+                            } else {
+                                manageDeviceView.modifyError();
+                            }
+                            manageDeviceView.hideLoadingView();
                         }
-                        manageDeviceView.hideLoadingView();
                     }
 
                     @Override
                     public void onFail() {
-                        manageDeviceView.modifyError();
-                        manageDeviceView.hideLoadingView();
+                        if (manageDeviceView != null) {
+                            manageDeviceView.modifyError();
+                            manageDeviceView.hideLoadingView();
+                        }
                     }
                 });
     }
@@ -141,6 +167,8 @@ public class ManagerDevicePresenter {
     }
 
     public void detachView() {
-        this.manageDeviceView = null;
+        if (this.manageDeviceView != null) {
+            this.manageDeviceView = null;
+        }
     }
 }

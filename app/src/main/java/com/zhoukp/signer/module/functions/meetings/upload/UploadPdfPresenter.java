@@ -33,7 +33,9 @@ public class UploadPdfPresenter {
      * @param suffix 后缀名
      */
     public void queryFiles(Context context, String[] suffix) {
-        uploadPdfView.showLoadingView();
+        if (uploadPdfView != null) {
+            uploadPdfView.showLoadingView();
+        }
 
         String[] projection = new String[]{
                 MediaStore.Files.FileColumns._ID,
@@ -75,14 +77,18 @@ public class UploadPdfPresenter {
                 }
                 cursor.close();
             } else {
-                uploadPdfView.scanError();
-                uploadPdfView.hideLoadingView();
+                if (uploadPdfView != null) {
+                    uploadPdfView.scanError();
+                    uploadPdfView.hideLoadingView();
+                }
                 return;
             }
         }
 
-        uploadPdfView.scanSuccess(xlsBeanList);
-        uploadPdfView.hideLoadingView();
+        if (uploadPdfView != null) {
+            uploadPdfView.scanSuccess(xlsBeanList);
+            uploadPdfView.hideLoadingView();
+        }
     }
 
     /**
@@ -93,12 +99,16 @@ public class UploadPdfPresenter {
      * @param IsIterative 是否进入子文件夹
      */
     public void GetFiles(String Path, String[] Extension, boolean IsIterative) {
-        uploadPdfView.showLoadingView();
+        if (uploadPdfView != null) {
+            uploadPdfView.showLoadingView();
+        }
         ArrayList<XlsBean> lstFile = new ArrayList<>();
         File[] files = new File(Path).listFiles();
         if (files == null) {
-            uploadPdfView.scanQQError();
-            uploadPdfView.hideLoadingView();
+            if (uploadPdfView != null) {
+                uploadPdfView.scanQQError();
+                uploadPdfView.hideLoadingView();
+            }
             return;
         }
         for (File f : files) {
@@ -120,11 +130,15 @@ public class UploadPdfPresenter {
                 GetFiles(f.getPath(), Extension, IsIterative);
         }
         if (lstFile.size() > 0) {
-            uploadPdfView.scanQQSuccess(lstFile);
-            uploadPdfView.hideLoadingView();
+            if (uploadPdfView != null) {
+                uploadPdfView.scanQQSuccess(lstFile);
+                uploadPdfView.hideLoadingView();
+            }
         } else {
-            uploadPdfView.scanQQError();
-            uploadPdfView.hideLoadingView();
+            if (uploadPdfView != null) {
+                uploadPdfView.scanQQError();
+                uploadPdfView.hideLoadingView();
+            }
         }
     }
 

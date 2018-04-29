@@ -32,26 +32,31 @@ public class UpdateASCQPresenter {
      */
     public void isMutualMembers(String userId, String userGrade, String userMajor, String userClazz) {
 
-        updateASCQView.showLoadingView();
+        if (updateASCQView != null) {
+            updateASCQView.showLoadingView();
+        }
 
         BaseApi.request(BaseApi.createApi(IUpdateASCQApi.class).isMutualMembers(userId, userGrade, userMajor, userClazz),
                 new BaseApi.IResponseListener<IsMutualMemberBean>() {
                     @Override
                     public void onSuccess(IsMutualMemberBean data) {
                         Log.e("zkp", "isMutualMembers==" + data.getStatus());
-
-                        if (data.getStatus() == 200) {
-                            updateASCQView.isMemberSuccess(data);
-                        } else {
-                            updateASCQView.isMemberError(data.getStatus());
+                        if (updateASCQView != null) {
+                            if (data.getStatus() == 200) {
+                                updateASCQView.isMemberSuccess(data);
+                            } else {
+                                updateASCQView.isMemberError(data.getStatus());
+                            }
+                            updateASCQView.hideLoadingView();
                         }
-                        updateASCQView.hideLoadingView();
                     }
 
                     @Override
                     public void onFail() {
-                        updateASCQView.isMemberError(100);
-                        updateASCQView.hideLoadingView();
+                        if (updateASCQView != null) {
+                            updateASCQView.isMemberError(100);
+                            updateASCQView.hideLoadingView();
+                        }
                     }
                 });
 
@@ -65,26 +70,31 @@ public class UpdateASCQPresenter {
      */
     public void getMutualIDs(String userId, String schoolYear) {
 
-        updateASCQView.showLoadingView();
+        if (updateASCQView != null) {
+            updateASCQView.showLoadingView();
+        }
 
         BaseApi.request(BaseApi.createApi(IUpdateASCQApi.class).getMutualIDs(userId, schoolYear),
                 new BaseApi.IResponseListener<MutualIDsBean>() {
                     @Override
                     public void onSuccess(MutualIDsBean data) {
                         Log.e("zkp", "getMutualIDs==" + data.getStatus());
-
-                        if (data.getStatus() == 200) {
-                            updateASCQView.getIdsSuccess(data);
-                        } else {
-                            updateASCQView.getIdsError(data.getStatus());
+                        if (updateASCQView != null) {
+                            if (data.getStatus() == 200) {
+                                updateASCQView.getIdsSuccess(data);
+                            } else {
+                                updateASCQView.getIdsError(data.getStatus());
+                            }
+                            updateASCQView.hideLoadingView();
                         }
-                        updateASCQView.hideLoadingView();
                     }
 
                     @Override
                     public void onFail() {
-                        updateASCQView.getIdsError(100);
-                        updateASCQView.hideLoadingView();
+                        if (updateASCQView != null) {
+                            updateASCQView.getIdsError(100);
+                            updateASCQView.hideLoadingView();
+                        }
                     }
                 });
 
@@ -98,26 +108,31 @@ public class UpdateASCQPresenter {
      */
     public void getModifyASCQ(String userId, String schoolYear) {
 
-        updateASCQView.showLoadingView();
+        if (updateASCQView != null) {
+            updateASCQView.showLoadingView();
+        }
 
         BaseApi.request(BaseApi.createApi(IUpdateASCQApi.class).getModifyASCQ(userId, schoolYear),
                 new BaseApi.IResponseListener<UpdateASCQBean>() {
                     @Override
                     public void onSuccess(UpdateASCQBean data) {
                         Log.e("zkp", "getModifyASCQ==" + data.getStatus());
-
-                        if (data.getStatus() == 200) {
-                            updateASCQView.getASCQSuccess(data);
-                        } else {
-                            updateASCQView.getASCQError(data.getStatus());
+                        if (updateASCQView != null) {
+                            if (data.getStatus() == 200) {
+                                updateASCQView.getASCQSuccess(data);
+                            } else {
+                                updateASCQView.getASCQError(data.getStatus());
+                            }
+                            updateASCQView.hideLoadingView();
                         }
-                        updateASCQView.hideLoadingView();
                     }
 
                     @Override
                     public void onFail() {
-                        updateASCQView.getASCQError(100);
-                        updateASCQView.hideLoadingView();
+                        if (updateASCQView != null) {
+                            updateASCQView.getASCQError(100);
+                            updateASCQView.hideLoadingView();
+                        }
                     }
                 });
 
@@ -130,26 +145,31 @@ public class UpdateASCQPresenter {
      */
     public void updateASCQ(String ASCQ) {
 
-        updateASCQView.showLoadingView();
+        if (updateASCQView != null) {
+            updateASCQView.showLoadingView();
+        }
 
         BaseApi.request(BaseApi.createApi(IUpdateASCQApi.class).updateASCQ(ASCQ),
                 new BaseApi.IResponseListener<DeviceBean>() {
                     @Override
                     public void onSuccess(DeviceBean data) {
                         Log.e("zkp", "updateASCQ==" + data.getStatus());
-
-                        if (data.getStatus() == 200) {
-                            updateASCQView.updateSuccess();
-                        } else {
-                            updateASCQView.updateError(data.getStatus());
+                        if (updateASCQView != null) {
+                            if (data.getStatus() == 200) {
+                                updateASCQView.updateSuccess();
+                            } else {
+                                updateASCQView.updateError(data.getStatus());
+                            }
+                            updateASCQView.hideLoadingView();
                         }
-                        updateASCQView.hideLoadingView();
                     }
 
                     @Override
                     public void onFail() {
-                        updateASCQView.updateError(100);
-                        updateASCQView.hideLoadingView();
+                        if (updateASCQView != null) {
+                            updateASCQView.updateError(100);
+                            updateASCQView.hideLoadingView();
+                        }
                     }
                 });
 
